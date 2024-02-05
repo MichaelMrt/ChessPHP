@@ -16,9 +16,9 @@ The next phase of development focuses on creating a user interface (UI) for the 
 To maintain a clear separation of concerns and ensure a smooth flow of data between the UI and the logic class, ChessPHP includes a controller component. The controller acts as an intermediary, receiving user inputs from the UI and passing them to the logic class for validation. 
 
 ## UML notation
+![Bildbeschreibung](docs/UML-notation.jpg)
 
 ## ToDo's
-
 
 ### Installing
 
