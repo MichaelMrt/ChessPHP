@@ -4,10 +4,10 @@ require_once("chesspieces/pawn.php");
 class Logic
 {
     function __construct()
-    {   
+    {
         $chessboard = $this->create_board();
         $this->print_board($chessboard);
-        $chessboard = $chessboard[2][2]->move($chessboard,2,3);
+        $chessboard = $chessboard[2][2]->move($chessboard, 2, 3);
         print_r($chessboard[1][1]);
         $this->print_board($chessboard);
     }
@@ -23,13 +23,13 @@ class Logic
         #place white pawns
         for ($x = 1; $x < 9; $x++) {
             $y = 7;
-            $chessboard[$x][$y] = new Pawn("white",$x,$y);
+            $chessboard[$x][$y] = new Pawn("white", $x, $y);
         }
 
         #place black pawns
         for ($x = 1; $x < 9; $x++) {
             $y = 2;
-            $chessboard[$x][$y] = new Pawn("black",$x,$y);
+            $chessboard[$x][$y] = new Pawn("black", $x, $y);
         }
 
         return $chessboard;
@@ -57,15 +57,17 @@ class Logic
         echo "</div>";
     }
 
-        #just for testing purpose
-        function debug_output_board($chessboard){
-            echo "<pre>";
-            print_r($chessboard);
-            echo "</pre>";
-        }
+    #just for testing purpose
+    function debug_output_board($chessboard)
+    {
+        echo "<pre>";
+        print_r($chessboard);
+        echo "</pre>";
+    }
 
-        function get_board(){
-            global $chessboard;
-            return $chessboard;
-        }
+    function get_board()
+    {
+        global $chessboard;
+        return $chessboard;
+    }
 }
