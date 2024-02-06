@@ -1,3 +1,3 @@
 <?php
-echo "<H1>ChessPHP<H1>";
+echo "<H1>ChessPHP</H1>";
 ?>
