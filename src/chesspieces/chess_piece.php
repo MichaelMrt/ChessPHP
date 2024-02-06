@@ -6,6 +6,6 @@ abstract class ChessPiece
     function __construct($color)
     {
         $this->$color = $color;
-        echo "<br>ChessPiece constructed";
+        echo "<br>ChessPiece constructed<br>";
     }
 }

@@ -7,9 +7,7 @@ class Logic
     {
         echo "Logic constructed";
         new Pawn("w");
-        echo "<pre>";
-        print_r($this->create_board());
-        echo "</pre>";
+        $this->print_board($this->create_board());
     }
 
     private function create_board()
@@ -21,5 +19,16 @@ class Logic
             }
         }
         return $chessboard;
+    }
+
+    private function print_board($chessboard){
+        for ($x = 1; $x < 9; $x++) {
+            echo "<br>";
+            for ($y = 0; $y < 9; $y++) {
+                if($chessboard[$x][$y] == ""){
+                    echo "[ ]";
+                }
+            }
+        }
     }
 }
