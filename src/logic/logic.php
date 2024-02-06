@@ -38,13 +38,13 @@ class Logic
         for ($y = 1; $y < 9; $y++) {
             for ($x = 1; $x < 9; $x++) {
                 if ($chessboard[$x][$y] == "") { #No piece in that square
-                    echo "<div class='square'>x</div>";
+                    echo "<div class='square'> </div>";
                 } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
                     if ($chessboard[$x][$y]->get_color() == "white") { # White Pawn
-                        echo "<div class='square'>w</div>";
+                        echo "<div class='square'>wp</div>";
                     }
                     if ($chessboard[$x][$y]->get_color() == "black") { # Black Pawn
-                        echo "<div class='square'>b</div>";
+                        echo "<div class='square'>bp</div>";
                     }
                 }
             }
