@@ -38,10 +38,13 @@ class Logic
     # prints the board by checking each array/square content, temporary output for working in logic
     # and setting up the structure
     private function print_board($chessboard)
-    {
+    {   $boardnumeration = 1;
         echo "<div class='square-container center'>";
+        
         for ($y = 1; $y < 9; $y++) {
+                
             for ($x = 1; $x < 9; $x++) {
+                
                 if ($chessboard[$x][$y] == "") { #No piece in that square
                     echo "<div class='square'> </div>";
                 } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
@@ -52,8 +55,20 @@ class Logic
                         echo "<div class='square'>bp</div>";
                     }
                 }
+                #... ToDo check for more pieces
+
+                # bordnumeration right side
+                if($x==8){
+                    echo "<div class='square'>$boardnumeration</div>";
+                    $boardnumeration++;
+                }
             }
         }
+
+         #boardnumeration on the bottom
+         for ($boardnumeration=1; $boardnumeration < 9; $boardnumeration++) { 
+            echo "<div class='square'>$boardnumeration</div>";
+           }
         echo "</div>";
     }
 
