@@ -29,4 +29,6 @@ abstract class ChessPiece
         $chessboard[$current_x][$current_y] = "";
         return $chessboard;
     }
+
+    abstract function check_move_legal();
 }
