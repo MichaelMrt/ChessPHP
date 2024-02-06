@@ -4,16 +4,19 @@ require_once("chesspieces/pawn.php");
 class Logic
 {
     function __construct()
-    {
-        echo "Logic constructed";
-        $this->print_board($this->create_board());
+    {   
+        $chessboard = $this->create_board();
+        $this->print_board($chessboard);
+        $chessboard = $chessboard[2][2]->move($chessboard);
+        print_r($chessboard[1][1]);
+        $this->print_board($chessboard);
     }
 
     private function create_board()
     {
         #Creates an 8x8 array
         for ($x = 1; $x < 9; $x++) {
-            for ($y = 0; $y < 9; $y++) {
+            for ($y = 1; $y < 9; $y++) {
                 $chessboard[$x][$y] = "";
             }
         }
@@ -32,6 +35,8 @@ class Logic
         return $chessboard;
     }
 
+    # prints the board by checking each array/square content, temporary output for working in logic
+    # and setting up the structure
     private function print_board($chessboard)
     {
         echo "<div class='square-container center'>";
@@ -51,4 +56,16 @@ class Logic
         }
         echo "</div>";
     }
+
+        #just for testing purpose
+        function debug_output_board($chessboard){
+            echo "<pre>";
+            print_r($chessboard);
+            echo "</pre>";
+        }
+
+        function get_board(){
+            global $chessboard;
+            return $chessboard;
+        }
 }
