@@ -6,7 +6,6 @@ class Logic
     function __construct()
     {
         echo "Logic constructed";
-        new Pawn("w");
         $this->print_board($this->create_board());
     }
 
@@ -18,17 +17,38 @@ class Logic
                 $chessboard[$x][$y] = "";
             }
         }
+        #place white pawns
+        for ($x = 1; $x < 9; $x++) {
+            $y = 7;
+            $chessboard[$x][$y] = new Pawn("white");
+        }
+
+        #place black pawns
+        for ($x = 1; $x < 9; $x++) {
+            $y = 2;
+            $chessboard[$x][$y] = new Pawn("black");
+        }
+
         return $chessboard;
     }
 
-    private function print_board($chessboard){
-        for ($x = 1; $x < 9; $x++) {
-            echo "<br>";
-            for ($y = 0; $y < 9; $y++) {
-                if($chessboard[$x][$y] == ""){
-                    echo "[ ]";
+    private function print_board($chessboard)
+    {
+        echo "<div class='square-container center'>";
+        for ($y = 1; $y < 9; $y++) {
+            for ($x = 1; $x < 9; $x++) {
+                if ($chessboard[$x][$y] == "") { #No piece in that square
+                    echo "<div class='square'>x</div>";
+                } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
+                    if ($chessboard[$x][$y]->get_color() == "white") { # White Pawn
+                        echo "<div class='square'>w</div>";
+                    }
+                    if ($chessboard[$x][$y]->get_color() == "black") { # Black Pawn
+                        echo "<div class='square'>b</div>";
+                    }
                 }
             }
         }
+        echo "</div>";
     }
 }

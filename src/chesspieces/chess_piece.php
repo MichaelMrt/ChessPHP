@@ -4,8 +4,12 @@ abstract class ChessPiece
     protected $color;
 
     function __construct($color)
-    {
-        $this->$color = $color;
-        echo "<br>ChessPiece constructed<br>";
+    {   
+        $this->color = $color;
+
+    }
+
+    function get_color(){
+        return  $this->color;
     }
 }
