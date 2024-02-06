@@ -7,7 +7,7 @@ class Logic
     {   
         $chessboard = $this->create_board();
         $this->print_board($chessboard);
-        $chessboard = $chessboard[2][2]->move($chessboard);
+        $chessboard = $chessboard[2][2]->move($chessboard,2,3);
         print_r($chessboard[1][1]);
         $this->print_board($chessboard);
     }
