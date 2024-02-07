@@ -7,9 +7,18 @@ class Logic
     {
         $chessboard = $this->create_board();
         $this->print_board($chessboard);
-        $chessboard = $chessboard[2][2]->move($chessboard, 2, 3);
-        print_r($chessboard[1][1]);
-        $this->print_board($chessboard);
+
+        if(isset($_POST['move'])){
+            print($_POST['move']);
+           $chessboard = $chessboard[$_POST['move']][$_POST['move']]->move($chessboard,2,3);
+            print_r($this->print_board($chessboard));
+        }
+
+        echo "<form method='post' action='controller.php'>
+                <input name='move' type='text'>
+                <input type='submit' value='Senden'>
+             </form>";
+
     }
 
     private function create_board()
@@ -38,13 +47,14 @@ class Logic
     # prints the board by checking each array/square content, temporary output for working in logic
     # and setting up the structure
     private function print_board($chessboard)
-    {   $boardnumeration = 1;
+    {
+        $boardnumeration = 1;
         echo "<div class='square-container center'>";
-        
+
         for ($y = 1; $y < 9; $y++) {
-                
+
             for ($x = 1; $x < 9; $x++) {
-                
+
                 if ($chessboard[$x][$y] == "") { #No piece in that square
                     echo "<div class='square'> </div>";
                 } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
@@ -58,17 +68,17 @@ class Logic
                 #... ToDo check for more pieces
 
                 # bordnumeration right side
-                if($x==8){
+                if ($x == 8) {
                     echo "<div class='square'>$boardnumeration</div>";
                     $boardnumeration++;
                 }
             }
         }
 
-         #boardnumeration on the bottom
-         for ($boardnumeration=1; $boardnumeration < 9; $boardnumeration++) { 
+        #boardnumeration on the bottom
+        for ($boardnumeration = 1; $boardnumeration < 9; $boardnumeration++) {
             echo "<div class='square'>$boardnumeration</div>";
-           }
+        }
         echo "</div>";
     }
 
