@@ -25,7 +25,7 @@ class Logic
                 <label>Move to y</label>
                 <input name='move_to_y' type='text'>
                 <br>
-                <input type='submit' value='Senden'>
+                <input type='submit' value='Submit move'>
              </form>";
     }
 
