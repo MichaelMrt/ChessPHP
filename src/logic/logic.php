@@ -5,16 +5,21 @@ class Logic
 {
     function __construct()
     {
-        $chessboard = $this->create_board();
-        print_r($_POST);
+        
+
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
+
+            #reconstruct chessboard from json
+           $chessboard = $this->reconstruct_chessboard_from_json($_POST['chessboard']);
+
             #move the piece
             $chessboard = $chessboard[$_POST['piece_x']][$_POST['piece_y']]->move($chessboard, $_POST['move_to_x'], $_POST['move_to_y']);
 
             #print out updated board
             print_r($this->print_board($chessboard));
         } else {
+            $chessboard = $this->create_board();
             $this->print_board($chessboard);
         }
 
@@ -29,7 +34,7 @@ class Logic
                 <label>Move to y</label>
                 <input name='move_to_y' type='text'>
                 <br>
-                <input name='chessboard' type='hidden' value='".htmlspecialchars(json_encode($chessboard))."'></input>
+                <input name='chessboard' type='hidden' value='".htmlspecialchars(json_encode($chessboard),JSON_PRETTY_PRINT)."'></input>
                 <input type='submit' value='Submit move'>
              </form>";
     }
@@ -111,5 +116,23 @@ class Logic
 
     function check_inputs_filled(){
         return !empty($_POST['piece_x']) && !empty($_POST['piece_y']) && !empty($_POST['move_to_x']) && !empty($_POST['move_to_y']);
+    }
+
+    private function reconstruct_chessboard_from_json($encoded_json){
+        $decoded_json = json_decode($encoded_json,true);
+
+        for ($x=1; $x < 9; $x++) {  
+            for ($y=1; $y < 9; $y++) { 
+                if($decoded_json[$x][$y]==""){
+                    # no pawn on that square
+                    $chessboard[$x][$y] = "";
+                   }else{
+                    # pawn on that square
+                    $chessboard[$x][$y] = new Pawn($decoded_json[$x][$y]['color'],$x,$y);
+                   }
+            }
+        }
+       
+        return $chessboard;
     }
 }
