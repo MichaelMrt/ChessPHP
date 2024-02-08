@@ -11,7 +11,7 @@ class Pawn extends ChessPiece implements JsonSerializable
     public function jsonSerialize() {
         return [
             'x' => $this->x,
-            'y' => $this->x,
+            'y' => $this->y,
             'color' => $this->color,
         ];
     }
