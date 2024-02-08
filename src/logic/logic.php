@@ -7,8 +7,12 @@ class Logic
     {
         $chessboard = $this->create_board();
 
+        #check if inputs were filled out
         if (isset($_POST['piece_x']) && isset($_POST['piece_y'])) {
+            #move the piece
             $chessboard = $chessboard[$_POST['piece_x']][$_POST['piece_y']]->move($chessboard, $_POST['move_to_x'], $_POST['move_to_y']);
+
+            #print out updated board
             print_r($this->print_board($chessboard));
         } else {
             $this->print_board($chessboard);
