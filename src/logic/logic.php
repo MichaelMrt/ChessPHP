@@ -29,6 +29,7 @@ class Logic
                 <label>Move to y</label>
                 <input name='move_to_y' type='text'>
                 <br>
+                <input name='chessboard' type='hidden' value='".htmlspecialchars(json_encode($chessboard))."'></input>
                 <input type='submit' value='Submit move'>
              </form>";
     }
