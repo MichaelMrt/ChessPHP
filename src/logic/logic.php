@@ -6,16 +6,25 @@ class Logic
     function __construct()
     {
         $chessboard = $this->create_board();
-        $this->print_board($chessboard);
-
-        if(isset($_POST['move'])){
-            print($_POST['move']);
-           $chessboard = $chessboard[$_POST['move']][$_POST['move']]->move($chessboard,2,3);
+        
+        if(isset($_POST['piece_x'])&&isset($_POST['piece_y'])){
+           $chessboard = $chessboard[$_POST['piece_x']][$_POST['piece_y']]->move($chessboard,$_POST['move_to_x'],$_POST['move_to_y']);
             print_r($this->print_board($chessboard));
+        }else{
+            $this->print_board($chessboard);
         }
 
         echo "<form method='post' action='controller.php'>
-                <input name='move' type='text'>
+                <label>Enter piece x coordinate</label>
+                <input name='piece_x' type='text'>
+                <label>Enter piece y coordinate</label>
+                <input name='piece_y' type='text'>
+                <br><br>
+                <label>Move to x coordinate</label>
+                <input name='move_to_x' type='text'>
+                <label>Move to y</label>
+                <input name='move_to_y' type='text'>
+                <br>
                 <input type='submit' value='Senden'>
              </form>";
 
