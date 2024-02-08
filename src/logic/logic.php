@@ -6,9 +6,9 @@ class Logic
     function __construct()
     {
         $chessboard = $this->create_board();
-
+        print_r($_POST);
         #check if inputs were filled out
-        if (isset($_POST['piece_x']) && isset($_POST['piece_y'])) {
+        if ($this->check_inputs_filled()) {
             #move the piece
             $chessboard = $chessboard[$_POST['piece_x']][$_POST['piece_y']]->move($chessboard, $_POST['move_to_x'], $_POST['move_to_y']);
 
@@ -106,5 +106,9 @@ class Logic
     {
         global $chessboard;
         return $chessboard;
+    }
+
+    function check_inputs_filled(){
+        return !empty($_POST['piece_x']) && !empty($_POST['piece_y']) && !empty($_POST['move_to_x']) && !empty($_POST['move_to_y']);
     }
 }
