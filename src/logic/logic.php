@@ -6,11 +6,11 @@ class Logic
     function __construct()
     {
         $chessboard = $this->create_board();
-        
-        if(isset($_POST['piece_x'])&&isset($_POST['piece_y'])){
-           $chessboard = $chessboard[$_POST['piece_x']][$_POST['piece_y']]->move($chessboard,$_POST['move_to_x'],$_POST['move_to_y']);
+
+        if (isset($_POST['piece_x']) && isset($_POST['piece_y'])) {
+            $chessboard = $chessboard[$_POST['piece_x']][$_POST['piece_y']]->move($chessboard, $_POST['move_to_x'], $_POST['move_to_y']);
             print_r($this->print_board($chessboard));
-        }else{
+        } else {
             $this->print_board($chessboard);
         }
 
@@ -27,7 +27,6 @@ class Logic
                 <br>
                 <input type='submit' value='Senden'>
              </form>";
-
     }
 
     private function create_board()
