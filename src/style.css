@@ -4,16 +4,15 @@ body {
 
 .center {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
-    height: 100vh;
 }
 
 .square-container {
-    padding-top: 20px;
+    padding-bottom: 40px;
     display: grid;
-    grid-template-columns: repeat(8, 20px);
-    grid-template-rows: repeat(8, 20px);
+    grid-template-columns: repeat(9, 20px);
+    grid-template-rows: repeat(9, 20px);
     gap: 2px;
 }
 
