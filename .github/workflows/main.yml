@@ -1,0 +1,33 @@
+name: phpstan tests
+
+on:
+  pull_request:
+    branches:
+      - main 
+      - dev 
+    paths:
+        - 'src/**'
+
+        
+jobs:
+  pest:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'  # Adjust PHP version if necessary
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Set execute permission for vendor/bin/phpstan
+      run: chmod +x vendor/bin/phpstan
+
+
+    - name: Run phpstan test
+      run: vendor/bin/phpstan analyse src --level 1
