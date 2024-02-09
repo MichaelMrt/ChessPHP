@@ -1,0 +1,17 @@
+{
+    "name": "chessphp/chess",
+    "description": "Coding Chess in PHP",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Chessphp\\Chess\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "yes"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
