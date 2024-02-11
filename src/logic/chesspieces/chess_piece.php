@@ -30,5 +30,5 @@ abstract class ChessPiece
         return $chessboard;
     }
 
-    abstract function check_move_legal();
+    abstract function check_move_legal($chessboard, $move_to_x, $move_to_y);
 }
