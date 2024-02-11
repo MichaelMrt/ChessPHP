@@ -1,22 +1,22 @@
 <?php
 abstract class ChessPiece
 {
-    protected $color;
-    protected $x;
-    protected $y;
-    function __construct($color, $x, $y)
+    protected String $color;
+    protected int $x;
+    protected int $y;
+    function __construct(String $color, int $x, int $y)
     {
         $this->color = $color;
         $this->x = $x;
         $this->y = $y;
     }
 
-    function get_color()
+    function get_color():String
     {
         return  $this->color;
     }
 
-    function move($chessboard, $move_to_x, $move_to_y)
+    function move(mixed $chessboard, int $move_to_x, int $move_to_y):mixed
     {
         # Coordinates from the current Piece position
         $current_x = $this->x;
@@ -30,5 +30,5 @@ abstract class ChessPiece
         return $chessboard;
     }
 
-    abstract function check_move_legal();
+    abstract function check_move_legal():bool;
 }
