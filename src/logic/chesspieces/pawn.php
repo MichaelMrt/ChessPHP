@@ -26,7 +26,6 @@ class Pawn extends ChessPiece implements JsonSerializable
         }else{
             return false;
         }
-        return false;
     }
 
     public function jsonSerialize():mixed {
