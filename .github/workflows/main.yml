@@ -8,9 +8,8 @@ on:
     paths:
         - 'src/**'
 
-        
 jobs:
-  phpstan:
+  phpstan_level_3:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +27,47 @@ jobs:
     - name: Set execute permission for vendor/bin/phpstan
       run: chmod +x vendor/bin/phpstan
 
+    - name: Run phpstan test level 3
+      run: vendor/bin/phpstan analyse src --level 3
 
-    - name: Run phpstan test
-      run: vendor/bin/phpstan analyse src --level 1
+  phpstan_level_4:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'  # Adjust PHP version if necessary
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Set execute permission for vendor/bin/phpstan
+      run: chmod +x vendor/bin/phpstan
+
+    - name: Run phpstan test level 4
+      run: vendor/bin/phpstan analyse src --level 4
+
+  phpstan_level_5:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'  # Adjust PHP version if necessary
+
+    - name: Install Composer dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Set execute permission for vendor/bin/phpstan
+      run: chmod +x vendor/bin/phpstan
+
+    - name: Run phpstan test level 5
+      run: vendor/bin/phpstan analyse src --level 5
