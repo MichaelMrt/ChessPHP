@@ -3,12 +3,12 @@ require_once("chess_piece.php");
 
 class Pawn extends ChessPiece implements JsonSerializable
 {
-    function check_move_legal()
+    function check_move_legal():bool
     {
-        
+        return true;
     }
 
-    public function jsonSerialize():array {
+    public function jsonSerialize():mixed {
         return [
             'x' => $this->x,
             'y' => $this->y,

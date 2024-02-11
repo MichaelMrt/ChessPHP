@@ -23,7 +23,7 @@ class Logic
             $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, $move_to_x, $move_to_y);
 
             #print out updated board
-            print_r($this->print_board($chessboard));
+            $this->print_board($chessboard);
         } else {
             $chessboard = $this->create_board();
             $this->print_board($chessboard);
@@ -31,6 +31,7 @@ class Logic
 
         echo "<h3>Format to pick piece is x,y</h3>";
 
+        $encoded_json = json_encode($chessboard);
         echo "<form method='post' action='controller.php'>
                 <label>Enter coordinates of the piece you want to move</label>
                 <input name='piece_coordinates' type='text'>
@@ -38,12 +39,13 @@ class Logic
                 <label>Move to coordinates</label>
                 <input name='move_to_coordinates' type='text'>
                 <br>
-                <input name='chessboard' type='hidden' value='".htmlspecialchars(json_encode($chessboard),JSON_PRETTY_PRINT)."'></input>
+                <input name='chessboard' type='hidden' value='".$encoded_json."'></input>
                 <input type='submit' value='Submit move'>
              </form>";
     }
 
-    private function create_board()
+     /** @return array<int, array<int, Pawn|string>>*/ 
+    private function create_board():mixed
     {
         #Creates an 8x8 array
         for ($x = 1; $x < 9; $x++) {
@@ -68,7 +70,7 @@ class Logic
 
     # prints the board by checking each array/square content, temporary output for working in logic
     # and setting up the structure
-    private function print_board($chessboard)
+    private function print_board(mixed $chessboard):void
     {
         $boardnumeration = 1;
         echo "<div class='square-container center'>";
@@ -110,24 +112,26 @@ class Logic
     }
 
     #just for testing purpose
-    function debug_output_board($chessboard)
+    function debug_output_board(mixed $chessboard):void
     {
         echo "<pre>";
         print_r($chessboard);
         echo "</pre>";
     }
 
-    function get_board()
+    function get_board():mixed
     {
         global $chessboard;
         return $chessboard;
     }
 
-    function check_inputs_filled(){
+    function check_inputs_filled():bool
+    {
         return !empty($_POST['piece_coordinates']) && !empty($_POST['move_to_coordinates']);
     }
 
-    private function reconstruct_chessboard_from_json($encoded_json){
+    private function reconstruct_chessboard_from_json(String $encoded_json):mixed
+        {
         $decoded_json = json_decode($encoded_json,true);
 
         for ($x=1; $x < 9; $x++) {  
