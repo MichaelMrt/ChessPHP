@@ -3,7 +3,7 @@ require_once("chess_piece.php");
 
 class Pawn extends ChessPiece implements JsonSerializable
 {
-    function check_move_legal($chessboard, $move_to_x, $move_to_y)
+    function check_move_legal($chessboard, $move_to_x, $move_to_y):bool
     {
         # Coordinates from the current Piece position
         $current_x = $this->x;
@@ -26,9 +26,10 @@ class Pawn extends ChessPiece implements JsonSerializable
         }else{
             return false;
         }
+        return false;
     }
 
-    public function jsonSerialize():array {
+    public function jsonSerialize():mixed {
         return [
             'x' => $this->x,
             'y' => $this->y,
