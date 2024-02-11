@@ -16,9 +16,11 @@ abstract class ChessPiece
         return  $this->color;
     }
 
+    abstract function check_move_legal($chessboard, $move_to_x, $move_to_y);
+
     function move($chessboard, $move_to_x, $move_to_y)
     {
-        if(check_move_legal($chessboard, $move_to_x, $move_to_y)){
+        if($this->check_move_legal($chessboard, $move_to_x, $move_to_y)){
             # Coordinates from the current Piece position
             $current_x = $this->x;
             $current_y = $this->y;
@@ -31,6 +33,4 @@ abstract class ChessPiece
             return $chessboard;
         }
     }
-
-    abstract function check_move_legal($chessboard, $move_to_x, $move_to_y);
 }
