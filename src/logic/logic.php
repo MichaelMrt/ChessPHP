@@ -50,13 +50,13 @@ class Logic
         #place white pawns
         for ($x = 1; $x < 9; $x++) {
             $y = 7;
-            $chessboard[$x][$y] = new Pawn("white", $x, $y);
+            $chessboard[$x][$y] = new Pawn("black", $x, $y);
         }
 
         #place black pawns
         for ($x = 1; $x < 9; $x++) {
             $y = 2;
-            $chessboard[$x][$y] = new Pawn("black", $x, $y);
+            $chessboard[$x][$y] = new Pawn("white", $x, $y);
         }
 
         return $chessboard;
