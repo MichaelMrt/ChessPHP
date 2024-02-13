@@ -72,7 +72,7 @@ class Logic
     # and setting up the structure
     private function print_board(mixed $chessboard):void
     {
-        $boardnumeration = 1;
+        $boardnumeration = 8;
         echo "<div class='square-container center'>";
 
         for ($y = 8; $y > 0; $y--) {
@@ -99,7 +99,7 @@ class Logic
                 # bordnumeration right side
                 if ($x == 1) {
                     echo "<div class='square'>$boardnumeration</div>";
-                    $boardnumeration++;
+                    $boardnumeration--;
                 }
             }
         }
