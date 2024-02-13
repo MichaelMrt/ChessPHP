@@ -1,9 +1,11 @@
 <?php
-abstract class ChessPiece
+abstract class ChessPiece implements JsonSerializable
 {
     protected String $color;
+    protected String $type;
     protected int $x;
     protected int $y;
+    
     function __construct(String $color, int $x, int $y)
     {
         $this->color = $color;
@@ -31,5 +33,15 @@ abstract class ChessPiece
         }
         return $chessboard;
     }
+    
     abstract function check_move_legal($chessboard, $move_to_x, $move_to_y):bool;
+
+    public function jsonSerialize():mixed {
+        return [
+            'x' => $this->x,
+            'y' => $this->y,
+            'color' => $this->color,
+            'type' => $this->type,
+        ];
+    }
 }
