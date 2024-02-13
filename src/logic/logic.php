@@ -55,13 +55,13 @@ class Logic
         }
         #place white pawns
         for ($x = 1; $x < 9; $x++) {
-            $y = 7;
+            $y = 2;
             $chessboard[$x][$y] = new Pawn("white", $x, $y);
         }
 
         #place black pawns
         for ($x = 1; $x < 9; $x++) {
-            $y = 2;
+            $y = 7;
             $chessboard[$x][$y] = new Pawn("black", $x, $y);
         }
 
@@ -72,10 +72,10 @@ class Logic
     # and setting up the structure
     private function print_board(mixed $chessboard):void
     {
-        $boardnumeration = 1;
+        $boardnumeration = 8;
         echo "<div class='square-container center'>";
 
-        for ($y = 1; $y < 9; $y++) {
+        for ($y = 8; $y > 0; $y--) {
 
             for ($x = 1; $x < 9; $x++) {
                 # set color based on position
@@ -99,7 +99,7 @@ class Logic
                 # bordnumeration right side
                 if ($x == 8) {
                     echo "<div class='square'>$boardnumeration</div>";
-                    $boardnumeration++;
+                    $boardnumeration--;
                 }
             }
         }
