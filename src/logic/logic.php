@@ -77,7 +77,7 @@ class Logic
 
         for ($y = 8; $y > 0; $y--) {
 
-            for ($x = 8; $x > 0; $x--) {
+            for ($x = 1; $x < 9; $x++) {
                 # set color based on position
                 if((($y%2 == 1 && $x % 2 == 1) || ($y % 2 == 0 && $x% 2 == 0))){
                     $area_color = "brown";
@@ -97,7 +97,7 @@ class Logic
                 #... ToDo check for more pieces
 
                 # bordnumeration right side
-                if ($x == 1) {
+                if ($x == 8) {
                     echo "<div class='square'>$boardnumeration</div>";
                     $boardnumeration--;
                 }
