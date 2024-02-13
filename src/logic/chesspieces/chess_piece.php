@@ -16,7 +16,7 @@ abstract class ChessPiece
         return  $this->color;
     }
 
-    function move($chessboard, $move_to_x, $move_to_y)
+    function move(mixed $chessboard, int $move_to_x, int $move_to_y):mixed
     {
         if($this->check_move_legal($chessboard, $move_to_x, $move_to_y)){
             # Coordinates from the current Piece position
