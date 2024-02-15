@@ -20,8 +20,11 @@ class Logic
             $move_to_y = substr($_POST['move_to_coordinates'],2,1);
 
             #move the piece
-            $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, $move_to_x, $move_to_y);
-
+            if(is_a($chessboard[$current_x][$current_y], "ChessPiece")){
+                $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, $move_to_x, $move_to_y);
+            }else{
+                print("<p>This square is empty. Please pick one with a piece.</p>");
+            }
             #print out updated board
             $this->print_board($chessboard);
         } else {
