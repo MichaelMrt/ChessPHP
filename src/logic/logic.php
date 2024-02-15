@@ -21,7 +21,7 @@ class Logic
 
             #check if there is a piece on the selected field, move the piece if there is one
             if(is_a($chessboard[$current_x][$current_y], "ChessPiece")){
-                $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, $move_to_x, $move_to_y);
+                $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, (int) $move_to_x, (int) $move_to_y);
             }else{
                 print("<p>This square is empty. Please pick one with a piece.</p>");
             }
