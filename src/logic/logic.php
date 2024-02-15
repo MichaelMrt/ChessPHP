@@ -27,7 +27,7 @@ class Logic
             }
             #print out updated board
             $this->print_board($chessboard);
-
+        #prevent reset of the board when empty inputs are submitted 
         } else if(isset($_POST['chessboard'])){
 
             #reconstruct chessboard from json
@@ -35,7 +35,7 @@ class Logic
 
            #print out board
            $this->print_board($chessboard);
-
+        #creation of initial board 
         }else{
             $chessboard = $this->create_board();
             $this->print_board($chessboard);
