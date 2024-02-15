@@ -27,7 +27,16 @@ class Logic
             }
             #print out updated board
             $this->print_board($chessboard);
-        } else {
+            
+        } else if(isset($_POST['chessboard']) and !($this->check_inputs_filled())){
+
+            #reconstruct chessboard from json
+           $chessboard = $this->reconstruct_chessboard_from_json($_POST['chessboard']);
+
+           #print out updated board
+           $this->print_board($chessboard);
+
+        }else{
             $chessboard = $this->create_board();
             $this->print_board($chessboard);
         }
