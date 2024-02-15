@@ -19,7 +19,7 @@ class Logic
             $move_to_x = substr($_POST['move_to_coordinates'],0,1);
             $move_to_y = substr($_POST['move_to_coordinates'],2,1);
 
-            #move the piece
+            #check if there is a piece on the selected field, move the piece if there is one
             if(is_a($chessboard[$current_x][$current_y], "ChessPiece")){
                 $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, $move_to_x, $move_to_y);
             }else{
