@@ -28,17 +28,16 @@ class Pawn extends ChessPiece
                      (($current_y+1 == $move_to_y) and ($this->color == "white"))) and 
                        $current_x == $move_to_x){
                     return true;
-            }else{
-                return false;
             }
         #check if pawn is moving one field diagonal
         }elseif(((($current_y-1 == $move_to_y) and ($this->color == "black"))  or  
                  (($current_y+1 == $move_to_y) and ($this->color == "white"))) and 
                  (($current_x+1 == $move_to_x) or ($current_x-1 == $move_to_x))){
                 return true;
-        }else{
-            return false;
         }
+            echo "<p class='error'>pawns can't move like that</p>";
+            return false;
+        
     }
 
 }
