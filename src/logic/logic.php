@@ -120,7 +120,7 @@ class Logic
              </form>";
     }
 
-    function check_rules($current_x, $current_y):bool
+    function check_rules(int $current_x, int $current_y):bool
     {
         # check if it is whites turn
         if($this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="black"){
