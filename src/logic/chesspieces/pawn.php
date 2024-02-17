@@ -16,7 +16,7 @@ class Pawn extends ChessPiece
         $current_x = $this->x;
         $current_y = $this->y;
         
-        #check if there is something on the move_to_field
+        #check if there is nothing on the move_to_field
         if($chessboard[$move_to_x][$move_to_y] == ""){
             #check if pawn is moving two fields forwards, check which color is moving, according to the color check if it is the start position of the pawn, x position should stay the same
             if(((($current_y-2 == $move_to_y) and ($this->color == "black") and ($current_y == 7))  or  
