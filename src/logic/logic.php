@@ -2,7 +2,7 @@
 require_once("chesspieces/pawn.php");
 
 class Logic
-{
+{   protected $chessboard;
     function __construct()
     {
         #check if inputs were filled out
@@ -39,19 +39,7 @@ class Logic
             $this->print_board($chessboard);
         }
 
-        echo "<h3>Format to pick piece is x,y</h3>";
-
-        $encoded_json = json_encode($chessboard);
-        echo "<form method='post' action='chessgame.php'>
-                <label>Enter coordinates of the piece you want to move</label>
-                <input name='piece_coordinates' type='text'>
-                <br><br>
-                <label>Move to coordinates</label>
-                <input name='move_to_coordinates' type='text'>
-                <br>
-                <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
-                <input type='submit' value='Submit move'>
-             </form>";
+        $this->chessboard = $chessboard;
     }
 
     /** @return array<int, array<int, Pawn|string>>*/
@@ -157,5 +145,21 @@ class Logic
         }
 
         return $chessboard;
+    }
+
+    function activate_inputs(){
+        echo "<h3>Format to pick piece is x,y</h3>";
+
+        $encoded_json = json_encode($this->chessboard);
+        echo "<form method='post' action='chessgame.php'>
+                <label>Enter coordinates of the piece you want to move</label>
+                <input name='piece_coordinates' type='text'>
+                <br><br>
+                <label>Move to coordinates</label>
+                <input name='move_to_coordinates' type='text'>
+                <br>
+                <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
+                <input type='submit' value='Submit move'>
+             </form>";
     }
 }
