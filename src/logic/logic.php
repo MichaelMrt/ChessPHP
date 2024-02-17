@@ -3,7 +3,7 @@ require_once("chesspieces/pawn.php");
 
 class Logic
 {
-    protected $chessboard;
+    protected mixed $chessboard;
     function __construct()
     {
         #check if inputs were filled out
@@ -101,7 +101,7 @@ class Logic
         return $chessboard;
     }
 
-    function activate_inputs()
+    function activate_inputs():void
     {
         echo "<h3>Format to pick piece is x,y</h3>";
 

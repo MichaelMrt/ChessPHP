@@ -4,5 +4,5 @@
     echo "<link rel='stylesheet' href='style.css'>";
     echo "<h1>Chessgame</h1>";
     
-    $controller = new controller();
+    $controller = new Controller();
 ?>

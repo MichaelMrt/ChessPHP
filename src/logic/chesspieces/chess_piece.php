@@ -34,7 +34,7 @@ abstract class ChessPiece implements JsonSerializable
         return $chessboard;
     }
     
-    abstract function check_move_legal($chessboard, $move_to_x, $move_to_y):bool;
+    abstract function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool;
 
     public function jsonSerialize():mixed {
         return [
