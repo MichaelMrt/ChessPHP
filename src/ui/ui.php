@@ -25,7 +25,7 @@ class Ui
                     echo "<div class='square $area_color'> </div>";
                 } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
                     if ($chessboard[$x][$y]->get_color() == "white") { # White Pawn
-                        echo "<div class='square $area_color'>wp</div>";
+                        echo "<div class='square $area_color'><img src='../images/chesspieces/white-pawn.png'></div>";
                     }
                     if ($chessboard[$x][$y]->get_color() == "black") { # Black Pawn
                         echo "<div class='square $area_color'>bp</div>";
