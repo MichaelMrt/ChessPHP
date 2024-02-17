@@ -19,10 +19,10 @@ class Logic
             $move_to_y = substr($_POST['move_to_coordinates'], 2, 1);
 
             #check if there is a piece on the selected field, move the piece if there is one
-            if (is_a($chessboard[$current_x][$current_y], "ChessPiece")) {
+            if ($this->check_rules($current_x, $current_y)) {
                 $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, (int) $move_to_x, (int) $move_to_y);
             } else {
-                print("<p>This square is empty. Please pick one with a piece.</p>");
+                print("<p>Chess rules broken.</p>");
             }
         } else if (isset($_POST['chessboard'])) {
 
@@ -116,5 +116,18 @@ class Logic
                 <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
                 <input type='submit' value='Submit move'>
              </form>";
+    }
+
+    function check_rules($current_x, $current_y):bool
+    {
+        # check if it is whites turn
+
+        # check if selected square has a piece
+        if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
