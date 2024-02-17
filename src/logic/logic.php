@@ -19,12 +19,24 @@ class Logic
             $move_to_x = substr($_POST['move_to_coordinates'],0,1);
             $move_to_y = substr($_POST['move_to_coordinates'],2,1);
 
-            #move the piece
-            $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, $move_to_x, $move_to_y);
-
+            #check if there is a piece on the selected field, move the piece if there is one
+            if(is_a($chessboard[$current_x][$current_y], "ChessPiece")){
+                $chessboard = $chessboard[$current_x][$current_y]->move($chessboard, (int) $move_to_x, (int) $move_to_y);
+            }else{
+                print("<p>This square is empty. Please pick one with a piece.</p>");
+            }
             #print out updated board
             $this->print_board($chessboard);
-        } else {
+        #prevent reset of the board when empty inputs are submitted 
+        } else if(isset($_POST['chessboard'])){
+
+            #reconstruct chessboard from json
+           $chessboard = $this->reconstruct_chessboard_from_json($_POST['chessboard']);
+
+           #print out board
+           $this->print_board($chessboard);
+        #creation of initial board 
+        }else{
             $chessboard = $this->create_board();
             $this->print_board($chessboard);
         }
