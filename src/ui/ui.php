@@ -28,7 +28,7 @@ class Ui
                         echo "<div class='square $area_color'><img src='../images/chesspieces/white-pawn.png' class='chesspiece'></div>";
                     }
                     if ($chessboard[$x][$y]->get_color() == "black") { # Black Pawn
-                        echo "<div class='square $area_color'>bp</div>";
+                        echo "<div class='square $area_color'><img src='../images/chesspieces/black-pawn.png' class='chesspiece'></div>";
                     }
                 }
                 #... ToDo check for more pieces
