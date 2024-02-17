@@ -42,7 +42,7 @@ class Logic
         echo "<h3>Format to pick piece is x,y</h3>";
 
         $encoded_json = json_encode($chessboard);
-        echo "<form method='post' action='controller.php'>
+        echo "<form method='post' action='chessgame.php'>
                 <label>Enter coordinates of the piece you want to move</label>
                 <input name='piece_coordinates' type='text'>
                 <br><br>
