@@ -1,11 +1,21 @@
 <?php
 set_time_limit(10);
 require_once("logic/logic.php");
+require_once("ui/ui.php");
 
-echo "<link rel='stylesheet' href='style.css'>";
+class Controller
+{
 
-echo "<h1>Controller</h1>";
-echo "<h3>bp=black pawn<br>wp=whitepawn</h3>";
-$logic = new Logic();
+    function __construct()
+    {
+        echo "<h1>Controller</h1>";
+        echo "<h3>bp=black pawn<br>wp=whitepawn</h3>";
 
-?>
+        $logic = new Logic();
+        $ui = new Ui();
+
+        $logic->activate_inputs();
+
+        $ui->print_board($logic->get_board());
+    }
+}

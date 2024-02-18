@@ -10,7 +10,7 @@ class Pawn extends ChessPiece
       $this->type = 'pawn';
     }
 
-    function check_move_legal($chessboard, $move_to_x, $move_to_y):bool
+    function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
     {
         # Coordinates from the current Piece position
         $current_x = $this->x;
