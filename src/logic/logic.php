@@ -13,10 +13,10 @@ class Logic
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_POST['chessboard']);
             # get the coordinates
-            $current_x = substr($_POST['piece_coordinates'], 0, 1);
-            $current_y = substr($_POST['piece_coordinates'], 2, 1);
-            $move_to_x = substr($_POST['move_to_coordinates'], 0, 1);
-            $move_to_y = substr($_POST['move_to_coordinates'], 2, 1);
+            $current_x = (int) substr($_POST['piece_coordinates'], 0, 1);
+            $current_y = (int) substr($_POST['piece_coordinates'], 2, 1);
+            $move_to_x = (int) substr($_POST['move_to_coordinates'], 0, 1);
+            $move_to_y = (int) substr($_POST['move_to_coordinates'], 2, 1);
 
             #check if there is a piece on the selected field, move the piece if there is one
             if ($this->check_rules($current_x, $current_y)) {
