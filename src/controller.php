@@ -8,14 +8,11 @@ class Controller
 
     function __construct()
     {
-        echo "<h1>Controller</h1>";
-        echo "<h3>bp=black pawn<br>wp=whitepawn</h3>";
 
         $logic = new Logic();
         $ui = new Ui();
 
-        $logic->activate_inputs();
-
         $ui->print_board($logic->get_board());
+        $logic->activate_inputs();
     }
 }

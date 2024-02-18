@@ -11,7 +11,7 @@ body {
 }
 
 .square-container {
-    padding-bottom: 40px;
+    padding-bottom: 0px;
     display: grid;
     grid-template-columns: repeat(9, 20px);
     grid-template-rows: repeat(9, 20px);
