@@ -15,5 +15,6 @@ class Controller
 
         $ui->print_board($logic->get_board());
         
+        print_r($_SESSION);
     }
 }
