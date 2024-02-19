@@ -11,6 +11,11 @@ class Ui
     {
         $boardnumeration = 8;
 
+        $encoded_json = json_encode($chessboard);
+        echo "<form method='post' action='chessgame.php'>
+              <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
+              <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>";
+
         echo "<div class='square-container center'>";
        
         for ($y = 8; $y > 0; $y--) {
@@ -49,7 +54,6 @@ class Ui
             echo "<div class='square'>$boardnumeration</div>";
         }
         echo "</div>";
-        echo "<div><input type='submit' class='submit' value='Submit move'></div>";
         echo "</form>";
     }
 }

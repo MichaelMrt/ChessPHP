@@ -5,9 +5,10 @@ class Logic
 {
     protected mixed $chessboard;
     protected bool $whitesturn=true;
+    
     function __construct()
     {   
-        $whitesturn=true;
+        $_SESSION['whitesturn']=true;
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
 
@@ -115,7 +116,8 @@ class Logic
                 <br>
                 <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
                 <input name='whitesturn' type='hidden' value='".$this->whitesturn."'></input>
-               
+                <div><input type='submit' class='submit' value='Submit move'></div>
+                </form>
              ";
     }
 

@@ -10,8 +10,9 @@ class Controller
     {
 
         $logic = new Logic();
-        $logic->activate_inputs();
         $ui = new Ui();
+
+        $logic->activate_inputs();
         $ui->print_board($logic->get_board());
 
         if(isset($_SESSION['pickedsquare'])){
