@@ -3,38 +3,44 @@ require_once("chesspieces/pawn.php");
 
 class Logic
 {
+    protected mixed $chessboard;
+    protected bool $whitesturn;
     function __construct()
     {
-        $chessboard = $this->create_board();
-        print_r($_POST);
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
-            #move the piece
-            $chessboard = $chessboard[$_POST['piece_x']][$_POST['piece_y']]->move($chessboard, $_POST['move_to_x'], $_POST['move_to_y']);
 
-            #print out updated board
-            print_r($this->print_board($chessboard));
+            #reconstruct chessboard from json
+            $this->chessboard = $this->reconstruct_chessboard_from_json($_POST['chessboard']);
+            # get the coordinates
+            $current_x = (int) substr($_POST['piece_coordinates'], 0, 1);
+            $current_y = (int) substr($_POST['piece_coordinates'], 2, 1);
+            $move_to_x = (int) substr($_POST['move_to_coordinates'], 0, 1);
+            $move_to_y = (int) substr($_POST['move_to_coordinates'], 2, 1);
+
+            #check if there is a piece on the selected field, move the piece if there is one
+            if ($this->check_rules($current_x, $current_y)) {
+                $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
+                $this->whitesturn = !$this->whitesturn; # swap turns
+            } else {
+                print("<p class='error'>Chess rules broken</p>");
+            }
+        } else if (isset($_POST['chessboard'])) {
+
+            #reconstruct chessboard from json
+            $chessboard = $this->reconstruct_chessboard_from_json($_POST['chessboard']);
+
+            #print out board
+            #creation of initial board 
         } else {
-            $this->print_board($chessboard);
+            $this->chessboard = $this->create_board();
         }
-
-        echo "<form method='post' action='controller.php'>
-                <label>Enter piece x coordinate</label>
-                <input name='piece_x' type='text'>
-                <label>Enter piece y coordinate</label>
-                <input name='piece_y' type='text'>
-                <br><br>
-                <label>Move to x coordinate</label>
-                <input name='move_to_x' type='text'>
-                <label>Move to y</label>
-                <input name='move_to_y' type='text'>
-                <br>
-                <input type='submit' value='Submit move'>
-             </form>";
     }
 
-    private function create_board()
-    {
+    /** @return array<int, array<int, Pawn|string>>*/
+    private function create_board(): mixed
+    {   
+        $this->whitesturn = true;
         #Creates an 8x8 array
         for ($x = 1; $x < 9; $x++) {
             for ($y = 1; $y < 9; $y++) {
@@ -43,72 +49,98 @@ class Logic
         }
         #place white pawns
         for ($x = 1; $x < 9; $x++) {
-            $y = 7;
+            $y = 2;
             $chessboard[$x][$y] = new Pawn("white", $x, $y);
         }
 
         #place black pawns
         for ($x = 1; $x < 9; $x++) {
-            $y = 2;
+            $y = 7;
             $chessboard[$x][$y] = new Pawn("black", $x, $y);
         }
 
         return $chessboard;
     }
 
-    # prints the board by checking each array/square content, temporary output for working in logic
-    # and setting up the structure
-    private function print_board($chessboard)
-    {
-        $boardnumeration = 1;
-        echo "<div class='square-container center'>";
 
-        for ($y = 1; $y < 9; $y++) {
-
-            for ($x = 1; $x < 9; $x++) {
-
-                if ($chessboard[$x][$y] == "") { #No piece in that square
-                    echo "<div class='square'> </div>";
-                } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
-                    if ($chessboard[$x][$y]->get_color() == "white") { # White Pawn
-                        echo "<div class='square'>wp</div>";
-                    }
-                    if ($chessboard[$x][$y]->get_color() == "black") { # Black Pawn
-                        echo "<div class='square'>bp</div>";
-                    }
-                }
-                #... ToDo check for more pieces
-
-                # bordnumeration right side
-                if ($x == 8) {
-                    echo "<div class='square'>$boardnumeration</div>";
-                    $boardnumeration++;
-                }
-            }
-        }
-
-        #boardnumeration on the bottom
-        for ($boardnumeration = 1; $boardnumeration < 9; $boardnumeration++) {
-            echo "<div class='square'>$boardnumeration</div>";
-        }
-        echo "</div>";
-    }
 
     #just for testing purpose
-    function debug_output_board($chessboard)
+    function debug_output_board(mixed $chessboard): void
     {
         echo "<pre>";
         print_r($chessboard);
         echo "</pre>";
     }
 
-    function get_board()
+    function get_board(): mixed
     {
-        global $chessboard;
+        return $this->chessboard;
+    }
+
+    function check_inputs_filled(): bool
+    {
+        return !empty($_POST['piece_coordinates']) && !empty($_POST['move_to_coordinates']);
+    }
+
+    private function reconstruct_chessboard_from_json(String $encoded_json): mixed
+    {
+        $this->whitesturn = $_POST['whitesturn'];
+        $decoded_json = json_decode($encoded_json, true);
+
+        for ($x = 1; $x < 9; $x++) {
+            for ($y = 1; $y < 9; $y++) {
+                if ($decoded_json[$x][$y] == "") {
+                    # no pawn on that square
+                    $chessboard[$x][$y] = "";
+                } else {
+                    # pawn on that square
+                    $chessboard[$x][$y] = new Pawn($decoded_json[$x][$y]['color'], $x, $y);
+                }
+            }
+        }
+
         return $chessboard;
     }
 
-    function check_inputs_filled(){
-        return !empty($_POST['piece_x']) && !empty($_POST['piece_y']) && !empty($_POST['move_to_x']) && !empty($_POST['move_to_y']);
+    function activate_inputs():void
+    {
+        echo "<h3>Format to pick piece is x,y</h3>";
+
+        $encoded_json = json_encode($this->chessboard);
+        echo "<form method='post' action='chessgame.php'>
+                <label>Enter coordinates of the piece you want to move</label>
+                <input name='piece_coordinates' type='text'>
+                <br><br>
+                <label>Move to coordinates</label>
+                <input name='move_to_coordinates' type='text'>
+                <br>
+                <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
+                <input name='whitesturn' type='hidden' value='".$this->whitesturn."'></input>
+                <input type='submit' value='Submit move'>
+             </form>";
+    }
+
+    function check_rules(int $current_x, int $current_y):bool
+    {
+        # check if it is whites turn
+        if($this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="black"){
+            echo "<p class='error'>It is whites move</p>";
+            return false;
+        }
+
+        # check if it is blacks turn
+        if(!$this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="white"){
+            echo "<p class='error'>It is blacks move</p>";
+            return false;
+        }
+
+
+        # check if selected square has a piece
+        if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

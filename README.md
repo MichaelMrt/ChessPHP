@@ -17,14 +17,13 @@ To maintain a clear separation of concerns and ensure a smooth flow of data betw
 
 ## UML notation
 ![Bildbeschreibung](docs/UML-notation.jpg)
-
-## ToDo's
+(Does not apply 100%)
 
 ### Installing
 
 1. Download XAMPP with PHP version 8.2 to get a local server
 2. Clone the Repo into the htdocs folder
-3. Type http://localhost/ChessPHP/readme.md into your browser
+3. Type http://localhost/ChessPHP/src/chessgame.php into your browser
 
 
 ### Version History
