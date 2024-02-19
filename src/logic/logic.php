@@ -4,19 +4,20 @@ require_once("chesspieces/pawn.php");
 class Logic
 {
     protected mixed $chessboard;
-    protected bool $whitesturn;
+    protected bool $whitesturn=true;
     function __construct()
-    {
+    {   
+        $whitesturn=true;
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
 
             #reconstruct chessboard from json
-            $this->chessboard = $this->reconstruct_chessboard_from_json($_POST['chessboard']);
+            $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
             # get the coordinates
-            $current_x = (int) substr($_POST['piece_coordinates'], 0, 1);
-            $current_y = (int) substr($_POST['piece_coordinates'], 2, 1);
-            $move_to_x = (int) substr($_POST['move_to_coordinates'], 0, 1);
-            $move_to_y = (int) substr($_POST['move_to_coordinates'], 2, 1);
+            $current_x = (int) substr($_SESSION['piece_coordinates'], 0, 1);
+            $current_y = (int) substr($_SESSION['piece_coordinates'], 2, 1);
+            $move_to_x = (int) substr($_SESSION['move_to_coordinates'], 0, 1);
+            $move_to_y = (int) substr($_SESSION['move_to_coordinates'], 2, 1);
 
             #check if there is a piece on the selected field, move the piece if there is one
             if ($this->check_rules($current_x, $current_y)) {
@@ -25,12 +26,10 @@ class Logic
             } else {
                 print("<p class='error'>Chess rules broken</p>");
             }
-        } else if (isset($_POST['chessboard'])) {
-
+        } else if (isset($_SESSION['chessboard'])) {
             #reconstruct chessboard from json
-            $chessboard = $this->reconstruct_chessboard_from_json($_POST['chessboard']);
+            $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
 
-            #print out board
             #creation of initial board 
         } else {
             $this->chessboard = $this->create_board();
@@ -79,7 +78,7 @@ class Logic
 
     function check_inputs_filled(): bool
     {
-        return !empty($_POST['piece_coordinates']) && !empty($_POST['move_to_coordinates']);
+        return !empty($_SESSION['piece_coordinates']) && !empty($_SESSION['move_to_coordinates']);
     }
 
     private function reconstruct_chessboard_from_json(String $encoded_json): mixed
@@ -116,8 +115,8 @@ class Logic
                 <br>
                 <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
                 <input name='whitesturn' type='hidden' value='".$this->whitesturn."'></input>
-                <input type='submit' value='Submit move'>
-             </form>";
+               
+             ";
     }
 
     function check_rules(int $current_x, int $current_y):bool

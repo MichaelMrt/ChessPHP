@@ -10,9 +10,10 @@ class Controller
     {
 
         $logic = new Logic();
+        $logic->activate_inputs();
         $ui = new Ui();
 
         $ui->print_board($logic->get_board());
-        $logic->activate_inputs();
+        
     }
 }

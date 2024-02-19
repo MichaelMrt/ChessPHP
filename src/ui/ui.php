@@ -10,8 +10,9 @@ class Ui
     public function print_board(mixed $chessboard): void
     {
         $boardnumeration = 8;
-        echo "<div class='square-container center'>";
 
+        echo "<div class='square-container center'>";
+       
         for ($y = 8; $y > 0; $y--) {
 
             for ($x = 1; $x < 9; $x++) {
@@ -25,7 +26,7 @@ class Ui
                     echo "<div class='square $area_color'> </div>";
                 } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
                     if ($chessboard[$x][$y]->get_color() == "white") { # White Pawn
-                        echo "<div class='square $area_color'><img src='../images/chesspieces/white-pawn.png' class='chesspiece'></div>";
+                        echo "<div class='square $area_color'><input class='square' type='submit' name='b' value='a'></input></div>";
                     }
                     if ($chessboard[$x][$y]->get_color() == "black") { # Black Pawn
                         echo "<div class='square $area_color'><img src='../images/chesspieces/black-pawn.png' class='chesspiece'></div>";
@@ -46,5 +47,7 @@ class Ui
             echo "<div class='square'>$boardnumeration</div>";
         }
         echo "</div>";
+        echo "<div><input type='submit' class='submit' value='Submit move'></div>";
+        echo "</form>";
     }
 }
