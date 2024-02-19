@@ -23,14 +23,15 @@ class Ui
                     $area_color = "white";
                 }
                 if ($chessboard[$x][$y] == "") { #No piece in that square
-                    echo "<div class='square $area_color'> </div>";
+                    echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'></button></div>";
                 } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
                     if ($chessboard[$x][$y]->get_color() == "white") { # White Pawn
-                        echo "<div class='square $area_color'><input class='chesspiece square' src='../images/chesspieces/white-pawn.png' type='submit' name='pickedsquare' value='$x$y'></input></div>";
+                        echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'><img src='../images/chesspieces/white-pawn.png' class='chesspiece'></button></div>";
+
 
                     }
                     if ($chessboard[$x][$y]->get_color() == "black") { # Black Pawn
-                        echo "<div class='square $area_color'><img src='../images/chesspieces/black-pawn.png' class='chesspiece'></div>";
+                        echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'><img src='../images/chesspieces/black-pawn.png' class='chesspiece'></button></div>";
                     }
                 }
                 #... ToDo check for more pieces

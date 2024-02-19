@@ -12,9 +12,13 @@ class Controller
         $logic = new Logic();
         $logic->activate_inputs();
         $ui = new Ui();
-
         $ui->print_board($logic->get_board());
-        
-        print_r($_SESSION);
+
+        if(isset($_SESSION['pickedsquare'])){
+            #print_r($_SESSION['pickedsquare']);
+            print("x:".substr($_SESSION['pickedsquare'],0,1)."<br>");
+            print("y:".substr($_SESSION['pickedsquare'],1,2));
+        }
+       
     }
 }
