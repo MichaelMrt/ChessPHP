@@ -12,8 +12,8 @@ class Controller
         $logic = new Logic();
         $ui = new Ui();
 
-        $logic->activate_inputs();
         $ui->print_board($logic->get_board());
+        $logic->activate_inputs();
 
         if(isset($_SESSION['pickedsquare'])){
             #print_r($_SESSION['pickedsquare']);
