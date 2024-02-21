@@ -123,6 +123,14 @@ class Logic
 
     function check_rules(int $current_x, int $current_y):bool
     {
+        # check if selected square has a piece
+        if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
+            return true;
+        }else{
+            echo "not a piece";
+            return false;
+        }
+
         # check if it is whites turn
         if($this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="black"){
             echo "<p class='error'>It is whites move</p>";
@@ -136,12 +144,7 @@ class Logic
         }
 
 
-        # check if selected square has a piece
-        if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
-            return true;
-        }else{
-            return false;
-        }
+        
 
     }
 
