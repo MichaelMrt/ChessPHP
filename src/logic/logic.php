@@ -144,4 +144,11 @@ class Logic
         }
 
     }
+
+    function input_move($current_x, $current_y):void
+    {
+        if($this->check_rules($current_x,$current_y)){
+            echo "<br>rules checked";
+        }
+    }
 }

@@ -19,6 +19,12 @@ class Controller
             #print_r($_SESSION['pickedsquare']);
             print("x:".substr($_SESSION['pickedsquare'],0,1)."<br>");
             print("y:".substr($_SESSION['pickedsquare'],1,2));
+
+            $current_x = (int) substr($_SESSION['pickedsquare'],0,1);
+            $current_y = (int) substr($_SESSION['pickedsquare'],0,1);
+
+            # try to move the piece
+            $logic->input_move($current_x, $current_y);
         }
        
     }
