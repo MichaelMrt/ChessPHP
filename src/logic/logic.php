@@ -127,7 +127,7 @@ class Logic
         if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
             return true;
         }else{
-            echo "not a piece";
+            echo "<br>Not a Chesspiece on that square";
             return false;
         }
 
@@ -142,13 +142,9 @@ class Logic
             echo "<p class='error'>It is blacks move</p>";
             return false;
         }
-
-
-        
-
     }
 
-    function input_move($current_x, $current_y):void
+    function input_move(int $current_x, int $current_y):void
     {
         if($this->check_rules($current_x,$current_y)){
             echo "<br>rules checked";
