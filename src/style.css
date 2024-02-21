@@ -23,6 +23,9 @@ body {
     height: 100%;
     border: 1px solid black;
     background-color: burlywood;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 label {
