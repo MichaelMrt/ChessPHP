@@ -15,8 +15,6 @@
 
     $_SESSION = $_POST;
 
-
-    print_r($_SESSION);
     echo "<link rel='stylesheet' href='style.css'>";
     echo "<h1>Chessgame</h1>";
     

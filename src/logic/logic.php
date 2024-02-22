@@ -147,7 +147,6 @@ class Logic
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     {
-        echo "<br>moveitmoveit";
         $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
         $this->whitesturn = !$this->whitesturn; # swap turns
 

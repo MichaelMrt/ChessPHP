@@ -20,9 +20,6 @@ class Controller
             $current_y = (int) substr($_SESSION['pickedsquare'],1,2);
             $_SESSION['current_x'] = $current_x;
             $_SESSION['current_y'] = $current_y;
-
-           # $logic->check_rules($current_x, $current_y);
-
         }
 
         if(isset($_SESSION['movetosquare'])){
@@ -34,19 +31,10 @@ class Controller
 
             # try to move the piece
             $logic->input_move($_SESSION['current_x'], $_SESSION['current_y'], $move_to_x, $move_to_y);
-            $chessboard = $logic->reconstruct_chessboard_from_json($_SESSION['chessboard']);
-            
-            $ui->print_board($chessboard);
         }
-
-
-
 
         $ui->print_board($logic->get_board());
         $logic->activate_inputs();
 
-        
-        
-       # print_r($_SESSION);
     }
 }
