@@ -126,7 +126,7 @@ class Logic
     {
         # check if selected square has a piece
         if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
-            return true;
+
         }else{
             echo "<br>Not a Chesspiece on that square";
             return false;
@@ -143,6 +143,9 @@ class Logic
             echo "<p class='error'>It is blacks move</p>";
             return false;
         }
+
+        # all rules checked
+        return true;
     }
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
