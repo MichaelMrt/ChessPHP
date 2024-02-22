@@ -150,6 +150,6 @@ class Logic
         $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
         $this->whitesturn = !$this->whitesturn; # swap turns
 
-        $_SESSION['chessboard'] = $this->chessboard;
+        $_SESSION['chessboard'] = json_encode($this->chessboard);
     }
 }

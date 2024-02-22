@@ -37,8 +37,8 @@ class Controller
 
             # try to move the piece
             $logic->input_move($_SESSION['current_x'], $_SESSION['current_y'], $move_to_x, $move_to_y);
-
-            $ui->print_board($_SESSION['chessboard']);
+            $chessboard = $logic->reconstruct_chessboard_from_json($_SESSION['chessboard']);
+            $ui->print_board($chessboard);
         }
         
        # print_r($_SESSION);
