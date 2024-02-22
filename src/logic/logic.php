@@ -35,6 +35,7 @@ class Logic
         } else {
             $this->chessboard = $this->create_board();
         }
+        $_SESSION['chessboard'] = json_encode($this->chessboard);
     }
 
     /** @return array<int, array<int, Pawn|string>>*/

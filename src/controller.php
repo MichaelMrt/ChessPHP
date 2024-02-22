@@ -7,13 +7,10 @@ class Controller
 {
 
     function __construct()
-    {
-
+    {   
         $logic = new Logic();
         $ui = new Ui();
 
-        $ui->print_board($logic->get_board());
-        $logic->activate_inputs();
 
         if(isset($_SESSION['pickedsquare'])){
             print("picked x:".substr($_SESSION['pickedsquare'],0,1)."<br>");
@@ -38,8 +35,17 @@ class Controller
             # try to move the piece
             $logic->input_move($_SESSION['current_x'], $_SESSION['current_y'], $move_to_x, $move_to_y);
             $chessboard = $logic->reconstruct_chessboard_from_json($_SESSION['chessboard']);
+            
             $ui->print_board($chessboard);
         }
+
+
+
+
+        $ui->print_board($logic->get_board());
+        $logic->activate_inputs();
+
+        
         
        # print_r($_SESSION);
     }
