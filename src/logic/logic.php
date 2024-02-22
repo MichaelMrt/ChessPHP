@@ -8,7 +8,7 @@ class Logic
     
     function __construct()
     {   
-        $_SESSION['whitesturn']=true;
+
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
 
@@ -33,6 +33,7 @@ class Logic
 
             #creation of initial board 
         } else {
+            $_SESSION['whitesturn']=true;
             $this->chessboard = $this->create_board();
         }
         $_SESSION['chessboard'] = json_encode($this->chessboard);
@@ -150,9 +151,13 @@ class Logic
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     {
-        $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
-        $this->whitesturn = !$this->whitesturn; # swap turns
-
-        $_SESSION['chessboard'] = json_encode($this->chessboard);
+        if($this->check_rules($current_x, $current_y)){
+            $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
+            $this->whitesturn = !$this->whitesturn; # swap turns
+    
+            $_SESSION['chessboard'] = json_encode($this->chessboard);
+            $_SESSION['whitesturn'] = $this->whitesturn;
+        }
+       
     }
 }
