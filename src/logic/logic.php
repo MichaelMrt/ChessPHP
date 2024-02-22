@@ -82,7 +82,7 @@ class Logic
         return !empty($_SESSION['piece_coordinates']) && !empty($_SESSION['move_to_coordinates']);
     }
 
-    private function reconstruct_chessboard_from_json(String $encoded_json): mixed
+    function reconstruct_chessboard_from_json(String $encoded_json): mixed
     {
         $this->whitesturn = $_POST['whitesturn'];
         $decoded_json = json_decode($encoded_json, true);
@@ -144,10 +144,12 @@ class Logic
         }
     }
 
-    function input_move(int $current_x, int $current_y):void
+    function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     {
-        if($this->check_rules($current_x,$current_y)){
-            echo "<br>rules checked";
-        }
+        echo "<br>moveitmoveit";
+        $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
+        $this->whitesturn = !$this->whitesturn; # swap turns
+
+        $_SESSION['chessboard'] = $this->chessboard;
     }
 }
