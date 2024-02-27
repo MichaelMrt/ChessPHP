@@ -8,7 +8,7 @@ class Logic
     
     function __construct()
     {   
-        $_SESSION['whitesturn']=true;
+
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
 
@@ -33,8 +33,10 @@ class Logic
 
             #creation of initial board 
         } else {
+            $_SESSION['whitesturn']=true;
             $this->chessboard = $this->create_board();
         }
+        $_SESSION['chessboard'] = json_encode($this->chessboard);
     }
 
     /** @return array<int, array<int, Pawn|string>>*/
@@ -82,7 +84,7 @@ class Logic
         return !empty($_SESSION['piece_coordinates']) && !empty($_SESSION['move_to_coordinates']);
     }
 
-    private function reconstruct_chessboard_from_json(String $encoded_json): mixed
+    function reconstruct_chessboard_from_json(String $encoded_json): mixed
     {
         $this->whitesturn = $_POST['whitesturn'];
         $decoded_json = json_decode($encoded_json, true);
@@ -123,6 +125,14 @@ class Logic
 
     function check_rules(int $current_x, int $current_y):bool
     {
+        # check if selected square has a piece
+        if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
+
+        }else{
+            echo "<br>Not a Chesspiece on that square";
+            return false;
+        }
+
         # check if it is whites turn
         if($this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="black"){
             echo "<p class='error'>It is whites move</p>";
@@ -135,13 +145,22 @@ class Logic
             return false;
         }
 
+        # all rules checked
+        return true;
+    }
 
-        # check if selected square has a piece
-        if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
-            return true;
-        }else{
-            return false;
+    function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
+    {   
+        if($this->check_rules($current_x, $current_y)){
+            if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){
+                $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
+                $this->whitesturn = !$this->whitesturn; # swap turns
+            }
+
+    
+            $_SESSION['chessboard'] = json_encode($this->chessboard);
+            $_SESSION['whitesturn'] = $this->whitesturn;
         }
-
+       
     }
 }

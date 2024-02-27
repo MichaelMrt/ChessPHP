@@ -12,8 +12,10 @@ class Ui
         $boardnumeration = 8;
 
         $encoded_json = json_encode($chessboard);
+        $_SESSION['chessboard'] = $encoded_json;
+
         echo "<form method='post' action='chessgame.php'>
-              <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
+              
               <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>";
 
         echo "<div class='square-container center'>";
@@ -28,15 +30,28 @@ class Ui
                     $area_color = "white";
                 }
                 if ($chessboard[$x][$y] == "") { #No piece in that square
-                    echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'></button></div>";
+                    if(!isset($_SESSION['pickedsquare'])){
+                        echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'></button></div>";
+                    }else{
+ 
+                        echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='movetosquare' value='$x$y'></button></div>";
+                    }
+                   
                 } elseif (is_a($chessboard[$x][$y], 'Pawn')) { # Pawn in that square
                     if ($chessboard[$x][$y]->get_color() == "white") { # White Pawn
-                        echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'><img src='../images/chesspieces/white-pawn.png' class='chesspiece'></button></div>";
-
-
+                        if(!isset($_SESSION['pickedsquare'])){
+                            echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'><img src='../images/chesspieces/white-pawn.png' class='chesspiece'></button></div>";
+                        }else{
+     
+                            echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='movetosquare' value='$x$y'><img src='../images/chesspieces/white-pawn.png' class='chesspiece'></button></div>";
+                        }
                     }
                     if ($chessboard[$x][$y]->get_color() == "black") { # Black Pawn
-                        echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'><img src='../images/chesspieces/black-pawn.png' class='chesspiece'></button></div>";
+                        if(!isset($_SESSION['pickedsquare'])){
+                            echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='pickedsquare' value='$x$y'><img src='../images/chesspieces/black-pawn.png' class='chesspiece'></button></div>";
+                        }else{
+                            echo "<div class='square $area_color'><button class='square $area_color' type='submit' name='movetosquare' value='$x$y'><img src='../images/chesspieces/black-pawn.png' class='chesspiece'></button></div>";
+                        }
                     }
                 }
                 #... ToDo check for more pieces
