@@ -150,10 +150,13 @@ class Logic
     }
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
-    {
+    {   
         if($this->check_rules($current_x, $current_y)){
-            $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
-            $this->whitesturn = !$this->whitesturn; # swap turns
+            if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){
+                $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
+                $this->whitesturn = !$this->whitesturn; # swap turns
+            }
+
     
             $_SESSION['chessboard'] = json_encode($this->chessboard);
             $_SESSION['whitesturn'] = $this->whitesturn;
