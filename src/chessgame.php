@@ -2,7 +2,6 @@
     require_once("controller.php");
 
     session_start();
-
     if(isset($_SESSION['current_x']) & isset($_SESSION['current_y']))
     {
         $_POST['current_x'] = $_SESSION['current_x'];
@@ -15,6 +14,12 @@
 
     if(isset($_SESSION['whitesturn'])){
         $_POST['whitesturn'] = $_SESSION['whitesturn'];
+    }
+
+    if(isset($_SESSION['move_number'])){
+       $_POST['move_number'] = $_SESSION['move_number']; 
+    }else{
+        $_POST['move_number'] = 0;
     }
 
     # resets the board in logic constructor
@@ -31,28 +36,7 @@
    # header
     echo "<div><h1>HEADER</h2></div>";
 
-    # middle
-    echo "<div class='container'>";
-
-        # left div
-
-        echo "
-        <div class='inner-div'>
-        <form method='post' action='chessgame.php'>
-            <h3>left</h3>
-            <input type='hidden' name='reset' value='true'>
-            <input type='submit' value='reset'> </input>
-        </form>
-        </div>";
-
-        echo "<div class='inner-div-center'>";
-        $controller = new Controller();
-        echo "</div>";
-
-        # right div
-        echo "<div class='inner-div'><h3>right</h3></div>";
-
-    echo "</div>";
+    $controller = new Controller();
 
     # footer
     echo "<div><h1>footer</h1></div>";

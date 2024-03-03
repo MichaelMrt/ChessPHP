@@ -13,10 +13,11 @@ class Ui
 
         $encoded_json = json_encode($chessboard);
         $_SESSION['chessboard'] = $encoded_json;
-
-        echo "<form method='post' action='chessgame.php'>
-              
-              <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>";
+      #  $_SESSION['move_number'] = 0;
+        echo "<form method='post' action='chessgame.php'>            
+              <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>
+              <input name='move_number' type='hidden' value='".$_SESSION['move_number']."'></input>
+              ";  
 
         echo "<div class='square-container center'>";
        
