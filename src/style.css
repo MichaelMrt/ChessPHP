@@ -13,8 +13,8 @@ body {
 .square-container {
     padding-bottom: 0px;
     display: grid;
-    grid-template-columns: repeat(9, 20px);
-    grid-template-rows: repeat(9, 20px);
+    grid-template-columns: repeat(9, 40px);
+    grid-template-rows: repeat(9, 40px);
     gap: 2px;
 }
 
@@ -58,8 +58,8 @@ label {
 }
 
 .chesspiece{
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
 }
 
 .container {
@@ -68,7 +68,13 @@ label {
 }
 
 .inner-div {
-    width: 33%; 
+    width: 25%; 
+    margin: 5px; 
+    background-color: #5a5a5a; 
+}
+
+.inner-div-center {
+    width: 50%; 
     margin: 5px; 
     background-color: #5a5a5a; 
 }

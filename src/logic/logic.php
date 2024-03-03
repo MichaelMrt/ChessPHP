@@ -11,7 +11,6 @@ class Logic
 
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
-
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
             # get the coordinates
@@ -86,7 +85,7 @@ class Logic
 
     function reconstruct_chessboard_from_json(String $encoded_json): mixed
     {
-        $this->whitesturn = $_POST['whitesturn'];
+        $this->whitesturn = $_SESSION['whitesturn'];
         $decoded_json = json_decode($encoded_json, true);
 
         for ($x = 1; $x < 9; $x++) {
