@@ -42,7 +42,7 @@ class Controller
     <form method='post' action='chessgame.php'>
         <h3>left</h3>
         <input type='hidden' name='reset' value='true'>
-        <input type='submit' value='reset'> </input>
+        <input class='reset' type='submit' value='Restart'> </input>
     </form>
     </div>";
 
@@ -57,6 +57,6 @@ class Controller
     <h3>right</h3>";
     
    echo "</div>";
-echo "</div>";
+   echo "</div>";
     }
 }
