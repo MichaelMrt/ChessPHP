@@ -11,7 +11,6 @@ class Logic
 
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
-            echo "inputsfilled";
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
             # get the coordinates
@@ -28,13 +27,11 @@ class Logic
                 print("<p class='error'>Chess rules broken</p>");
             }
         } else if (isset($_SESSION['chessboard'])) {
-            echo "chessboard set inputs not filled";
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
 
             #creation of initial board 
         } else {
-            echo "initial creation of board";
             $_SESSION['whitesturn']=true;
             $this->chessboard = $this->create_board();
         }
