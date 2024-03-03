@@ -61,3 +61,14 @@ label {
     width: 20px;
     height: 20px;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.inner-div {
+    width: 33%; 
+    margin: 5px; 
+    background-color: #5a5a5a; 
+}
