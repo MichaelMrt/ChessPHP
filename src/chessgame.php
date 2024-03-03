@@ -45,7 +45,7 @@
         </form>
         </div>";
 
-        echo "<div class='inner-div'>";
+        echo "<div class='inner-div-center'>";
         $controller = new Controller();
         echo "</div>";
 
