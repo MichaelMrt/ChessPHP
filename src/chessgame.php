@@ -2,7 +2,6 @@
     require_once("controller.php");
 
     session_start();
-
     if(isset($_SESSION['current_x']) & isset($_SESSION['current_y']))
     {
         $_POST['current_x'] = $_SESSION['current_x'];
@@ -15,6 +14,12 @@
 
     if(isset($_SESSION['whitesturn'])){
         $_POST['whitesturn'] = $_SESSION['whitesturn'];
+    }
+
+    if(isset($_SESSION['move_number'])){
+       $_POST['move_number'] = $_SESSION['move_number']; 
+    }else{
+        $_POST['move_number'] = 0;
     }
 
     # resets the board in logic constructor

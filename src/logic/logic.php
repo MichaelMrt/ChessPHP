@@ -5,7 +5,6 @@ class Logic
 {
     protected mixed $chessboard;
     protected bool $whitesturn=true;
-    protected int $move_number=0;
     
     function __construct()
     {   
@@ -24,7 +23,7 @@ class Logic
             if ($this->check_rules($current_x, $current_y)) {
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
-                $this->move_number++;
+                $_SESSION['move_number'] = ($_SESSION['move_number']+1);
             } else {
                 print("<p class='error'>Chess rules broken</p>");
             }
@@ -156,7 +155,7 @@ class Logic
             if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
-                $this->move_number++;
+                $_SESSION['move_number'] = ($_SESSION['move_number']+1);
             }
 
     
@@ -171,8 +170,4 @@ class Logic
         return $this->whitesturn;
     }
 
-    function get_move_number():int
-    {
-        return $this->move_number;
-    }
 }
