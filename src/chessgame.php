@@ -13,6 +13,16 @@
         $_POST['chessboard'] = $_SESSION['chessboard'];
     }
 
+    if(isset($_SESSION['whitesturn'])){
+        $_POST['whitesturn'] = $_SESSION['whitesturn'];
+    }
+
+    # resets the board in logic constructor
+    if(isset($_POST['reset'])){
+        $_POST = array();
+        $_SESSION = array();
+    }
+
     $_SESSION = $_POST;
 
     echo "<link rel='stylesheet' href='style.css'>";
@@ -25,7 +35,15 @@
     echo "<div class='container'>";
 
         # left div
-        echo "<div class='inner-div'><h3>left</h3></div>";
+
+        echo "
+        <div class='inner-div'>
+        <form method='post' action='chessgame.php'>
+            <h3>left</h3>
+            <input type='hidden' name='reset' value='true'>
+            <input type='submit' value='reset'> </input>
+        </form>
+        </div>";
 
         echo "<div class='inner-div'>";
         $controller = new Controller();
