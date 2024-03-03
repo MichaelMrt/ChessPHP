@@ -61,3 +61,15 @@ label {
     width: 20px;
     height: 20px;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.inner-div {
+    width: 33%; /* Breite der inneren Divs anpassen */
+    
+    margin: 5px; /* Abstand zwischen den inneren Divs anpassen */
+    background-color: #ccc; /* Hintergrundfarbe der inneren Divs anpassen */
+}
