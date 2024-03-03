@@ -54,12 +54,15 @@ class Controller
 
     # right div
     echo "<div class='inner-div'>
-    <h3>right</h3>";
-    if($logic->get_player_on_move()==true){
-        echo "Whites move";
-    }else{
-        echo "Blacks move";
-    }
+        <h3>right</h3>";
+        # display move number
+        echo "Move number: ".$logic->get_move_number()."<br>";
+        # display player on move
+        if($logic->get_player_on_move()==true){
+            echo "Whites move";
+        }else{
+            echo "Blacks move";
+        }
    echo "</div>";
    echo "</div>";
     }
