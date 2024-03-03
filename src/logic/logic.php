@@ -162,4 +162,9 @@ class Logic
         }
        
     }
+
+    function get_player_on_move():bool
+    {
+        return $this->whitesturn;
+    }
 }
