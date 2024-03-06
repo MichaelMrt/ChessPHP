@@ -2,15 +2,23 @@
     require_once("controller.php");
 
     session_start();
+
+    # Values that are stored in the SESSION get moved to the $_POST array
+    # Data from the submits is stored in the POST array
+
+    # Maybe swap loading the data from SESSION into POST and making SESSION=POST in the end
+    # to just add data from POST into SESSION one by one
+
     if(isset($_SESSION['current_x']) & isset($_SESSION['current_y']))
     {
         $_POST['current_x'] = $_SESSION['current_x'];
         $_POST['current_y'] = $_SESSION['current_y'];
     }
 
+    /* I think it isn't necessary anymore
     if(isset($_SESSION['chessboard'])){
         $_POST['chessboard'] = $_SESSION['chessboard'];
-    }
+    }    */
 
     if(isset($_SESSION['whitesturn'])){
         $_POST['whitesturn'] = $_SESSION['whitesturn'];
@@ -26,6 +34,7 @@
     if(isset($_POST['reset'])){
         $_POST = array();
         $_SESSION = array();
+        $_POST['move_number'] = 0;
     }
 
     $_SESSION = $_POST;
