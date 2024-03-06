@@ -13,8 +13,8 @@ body {
 .square-container {
     padding-bottom: 0px;
     display: grid;
-    grid-template-columns: repeat(9, 20px);
-    grid-template-rows: repeat(9, 20px);
+    grid-template-columns: repeat(9, 40px);
+    grid-template-rows: repeat(9, 40px);
     gap: 2px;
 }
 
@@ -23,6 +23,9 @@ body {
     height: 100%;
     border: 1px solid black;
     background-color: burlywood;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 label {
@@ -31,21 +34,7 @@ label {
     font-weight: bold;
 }
 
-input {
-    width: 10%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-input:focus {
-    outline: none;
-    border-color: #66afe9;
-}
-
-input[type="submit"] {
+.submit{
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
@@ -55,7 +44,7 @@ input[type="submit"] {
     font-size: 16px;
   }
   
-  input[type="submit"]:hover {
+  .submit:hover {
     background-color: #45a049;
   }
   
@@ -69,6 +58,37 @@ input[type="submit"] {
 }
 
 .chesspiece{
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.inner-div {
+    width: 25%; 
+    margin: 5px; 
+    background-color: #5a5a5a; 
+}
+
+.inner-div-center {
+    width: 50%; 
+    margin: 5px; 
+    background-color: #5a5a5a; 
+}
+
+.reset{
+    background-color: yellow;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .reset:hover {
+    background-color: 	#FFBF00;
+  }
