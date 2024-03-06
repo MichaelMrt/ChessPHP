@@ -22,7 +22,7 @@ class Logic
             #check if there is a piece on the selected field, move the piece if there is one
             if ($this->check_rules($current_x, $current_y)) {
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
-                $this->whitesturn = !$this->whitesturn; # swap turns
+                $_SESSION['whitesturn'] = !$_SESSION['whitesturn']; # swap turns
                 $_SESSION['move_number'] = ($_SESSION['move_number']+1);
             } else {
                 print("<p class='error'>Chess rules broken</p>");
@@ -117,7 +117,7 @@ class Logic
                 <input name='move_to_coordinates' type='text'>
                 <br>
                 <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
-                <input name='whitesturn' type='hidden' value='".$this->whitesturn."'></input>
+                <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>
                 <div><input type='submit' class='submit' value='Submit move'></div>
                 </form>
              ";
