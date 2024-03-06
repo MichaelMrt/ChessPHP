@@ -8,6 +8,13 @@ class Pawn extends ChessPiece
     {
       parent::__construct($color, $x, $y);
       $this->type = 'pawn';
+      
+      if($color=='white'){
+        $this->icon ="<img src='../images/chesspieces/white-pawn.png' class='chesspiece'>";
+      }elseif($color=='black'){
+        $this->icon ="<img src='../images/chesspieces/black-pawn.png' class='chesspiece'>";
+      }
+
     }
 
     function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool

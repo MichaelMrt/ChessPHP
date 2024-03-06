@@ -5,6 +5,7 @@ abstract class ChessPiece implements JsonSerializable
     protected String $type;
     protected int $x;
     protected int $y;
+    protected String $icon;
     
     function __construct(String $color, int $x, int $y)
     {
@@ -33,8 +34,6 @@ abstract class ChessPiece implements JsonSerializable
         }
         return $chessboard;
     }
-    
-    abstract function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool;
 
     public function jsonSerialize():mixed {
         return [
@@ -44,4 +43,13 @@ abstract class ChessPiece implements JsonSerializable
             'type' => $this->type,
         ];
     }
+
+    public function get_icon():String
+    {
+        return $this->icon;
+    }
+
+    # ---abstract methods---
+    abstract function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool;
+
 }
