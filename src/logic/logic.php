@@ -173,10 +173,10 @@ class Logic
         $encoded_json = json_encode($this->chessboard);
         echo "<form method='post' action='chessgame.php'>
                 <label>Enter coordinates of the piece you want to move</label>
-                <input name='piece_coordinates' type='text'>
+                <input class='textinput' name='piece_coordinates' type='text'>
                 <br><br>
                 <label>Move to coordinates</label>
-                <input name='move_to_coordinates' type='text'>
+                <input class='textinput' name='move_to_coordinates' type='text'>
                 <br>
                 <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
                 <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>
