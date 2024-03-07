@@ -42,6 +42,7 @@ class Controller
             <input class='reset' type='submit' value='Restart'> </input>
         </form>
         $output
+        ".$logic->get_rulesbroken_msg()."
         </div>";
 
         # middle/center
