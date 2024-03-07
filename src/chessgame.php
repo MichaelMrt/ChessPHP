@@ -43,8 +43,9 @@
    # echo "<h1>Chessgame</h1>";
 
    # header
-    echo "<div><h1>HEADER</h2></div>";
-
+    echo "<div><h1>ChessPHP</h1>";
+    echo "Select a chess piece by clicking on the square it occupies, then click on the destination square to move it<br>
+    or input your move down below and hit submit<br><br></div>";
     $controller = new Controller();
 
     # footer
