@@ -1,5 +1,6 @@
 <?php
 require_once("chesspieces/pawn.php");
+require_once("chesspieces/king.php");
 
 class Logic
 {
@@ -61,6 +62,12 @@ class Logic
             $chessboard[$x][$y] = new Pawn("black", $x, $y);
         }
 
+        #place white king
+        $chessboard[5][1] = new king("white", 5, 1);
+
+        #place black king
+        $chessboard[5][8] = new king("black", 5, 8);
+
         return $chessboard;
     }
 
@@ -91,13 +98,17 @@ class Logic
 
         for ($x = 1; $x < 9; $x++) {
             for ($y = 1; $y < 9; $y++) {
-                if ($decoded_json[$x][$y] == "") {
+                
+                if (!isset($decoded_json[$x][$y]['type'])) {
                     # no pawn on that square
                     $chessboard[$x][$y] = "";
-                } else {
+                } elseif($decoded_json[$x][$y]['type'] == 'pawn') {
                     # pawn on that square
                     $chessboard[$x][$y] = new Pawn($decoded_json[$x][$y]['color'], $x, $y);
-                }
+                } elseif($decoded_json[$x][$y]['type'] == 'king'){
+                    # king on that square
+                    $chessboard[$x][$y] = new king($decoded_json[$x][$y]['color'], $x, $y);
+                } 
             }
         }
 

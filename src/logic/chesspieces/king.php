@@ -7,9 +7,9 @@ class King extends ChessPiece
       $this->type = 'king';
 
       if($color=='white'){
-        $this->icon ="<img src='../images/chesspieces/king-pawn.png' class='chesspiece'>";
+        $this->icon ="<img src='../images/chesspieces/white-king.png' class='chesspiece'>";
       }elseif($color=='black'){
-        $this->icon ="<img src='../images/chesspieces/king-pawn.png' class='chesspiece'>";
+        $this->icon ="<img src='../images/chesspieces/black-king.png' class='chesspiece'>";
       }
     }
 
