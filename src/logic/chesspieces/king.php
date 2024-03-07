@@ -5,6 +5,12 @@ class King extends ChessPiece
     {
       parent::__construct($color, $x, $y);
       $this->type = 'king';
+
+      if($color=='white'){
+        $this->icon ="<img src='../images/chesspieces/white-king.png' class='chesspiece'>";
+      }elseif($color=='black'){
+        $this->icon ="<img src='../images/chesspieces/black-king.png' class='chesspiece'>";
+      }
     }
 
     function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
