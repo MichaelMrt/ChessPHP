@@ -67,10 +67,40 @@ class Logic
         }
 
         #place white king
-        $chessboard[5][1] = new king("white", 5, 1);
+        $chessboard[5][1] = new King("white", 5, 1);
 
         #place black king
-        $chessboard[5][8] = new king("black", 5, 8);
+        $chessboard[5][8] = new King("black", 5, 8);
+       
+        #place white queen
+        $chessboard[4][1] = new Queen("white", 4, 1);
+
+        #place black queen
+        $chessboard[4][8] = new Queen("black", 4, 8);
+
+        #place white bishop
+        $chessboard[3][1] = new Bishop("white", 3, 1);
+        $chessboard[6][1] = new Bishop("white", 6, 1);
+
+        #place black bishop
+        $chessboard[3][8] = new Bishop("black", 3, 8);
+        $chessboard[6][8] = new Bishop("black", 6, 8);
+
+        #place white knight
+        $chessboard[2][1] = new Knight("white", 2, 1);
+        $chessboard[7][1] = new Knight("white", 7, 1);
+
+        #place black knight
+        $chessboard[2][8] = new Knight("black", 2, 8);
+        $chessboard[7][8] = new Knight("black", 7, 8);
+
+        #place white rook
+        $chessboard[1][1] = new Rook("white", 1, 1);
+        $chessboard[8][1] = new Rook("white", 8, 1);
+
+        #place black rook
+        $chessboard[1][8] = new Rook("black", 1, 8);
+        $chessboard[8][8] = new Rook("black", 8, 8);
 
         return $chessboard;
     }

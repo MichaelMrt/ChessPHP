@@ -7,9 +7,9 @@ class Knight extends ChessPiece
       $this->type = 'knight';
 
       if($color=='white'){
-        $this->icon ="<img src='../images/chesspieces/knight-pawn.png' class='chesspiece'>";
+        $this->icon ="<img src='../images/chesspieces/white-knight.png' class='chesspiece'>";
       }elseif($color=='black'){
-        $this->icon ="<img src='../images/chesspieces/knight-pawn.png' class='chesspiece'>";
+        $this->icon ="<img src='../images/chesspieces/black-knight.png' class='chesspiece'>";
       }
     }
 
