@@ -13,24 +13,21 @@ class Controller
 
 
         if(isset($_SESSION['pickedsquare'])){
-            print("picked x:".substr($_SESSION['pickedsquare'],0,1)."<br>");
-            print("picked y:".substr($_SESSION['pickedsquare'],1,2));
-
+            $output = "Picked square: <br>x:".substr($_SESSION['pickedsquare'],0,1)."<br>y:".substr($_SESSION['pickedsquare'],1,2)."<br>";
             $current_x = (int) substr($_SESSION['pickedsquare'],0,1);
             $current_y = (int) substr($_SESSION['pickedsquare'],1,2);
             $_SESSION['current_x'] = $current_x;
             $_SESSION['current_y'] = $current_y;
-        }
-
-        if(isset($_SESSION['movetosquare'])){
-            print("moveto x:".substr($_SESSION['movetosquare'],0,1)."<br>");
-            print("moveto y:".substr($_SESSION['movetosquare'],1,2));
+        }elseif(isset($_SESSION['movetosquare'])){
+            $output = "Move to <br>x:".substr($_SESSION['movetosquare'],0,1)."<br>y:".substr($_SESSION['movetosquare'],1,2)."<br>";
 
             $move_to_x = (int) substr($_SESSION['movetosquare'],0,1);
             $move_to_y = (int) substr($_SESSION['movetosquare'],1,2);
 
             # try to move the piece
             $logic->input_move($_SESSION['current_x'], $_SESSION['current_y'], $move_to_x, $move_to_y);
+        }else{
+            $output = "";
         }
 
     # contains 3 div areas: left,middel,right
@@ -44,6 +41,7 @@ class Controller
             <input type='hidden' name='reset' value='true'>
             <input class='reset' type='submit' value='Restart'> </input>
         </form>
+        $output
         </div>";
 
         # middle/center
