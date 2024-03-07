@@ -37,6 +37,7 @@ label {
 .submit{
     background-color: #4CAF50;
     color: white;
+    margin-top: 20px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -91,4 +92,8 @@ label {
   
   .reset:hover {
     background-color: 	#FFBF00;
+  }
+
+  .textinput{
+    width: 50px;
   }

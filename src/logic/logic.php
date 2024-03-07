@@ -20,9 +20,9 @@ class Logic
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
             # get the coordinates
             $current_x = (int) substr($_SESSION['piece_coordinates'], 0, 1);
-            $current_y = (int) substr($_SESSION['piece_coordinates'], 2, 1);
+            $current_y = (int) substr($_SESSION['piece_coordinates'], 1, 2);
             $move_to_x = (int) substr($_SESSION['move_to_coordinates'], 0, 1);
-            $move_to_y = (int) substr($_SESSION['move_to_coordinates'], 2, 1);
+            $move_to_y = (int) substr($_SESSION['move_to_coordinates'], 1, 2);
 
             #check if there is a piece on the selected field, move the piece if there is one
             if ($this->check_rules($current_x, $current_y)) {
@@ -168,15 +168,15 @@ class Logic
 
     function activate_inputs():void
     {
-        echo "<h3>Format to pick piece is x,y</h3>";
+        echo "<h3>Format to pick piece is xy</h3>";
 
         $encoded_json = json_encode($this->chessboard);
         echo "<form method='post' action='chessgame.php'>
                 <label>Enter coordinates of the piece you want to move</label>
-                <input name='piece_coordinates' type='text'>
+                <input class='textinput' name='piece_coordinates' type='text'>
                 <br><br>
                 <label>Move to coordinates</label>
-                <input name='move_to_coordinates' type='text'>
+                <input class='textinput' name='move_to_coordinates' type='text'>
                 <br>
                 <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
                 <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>
