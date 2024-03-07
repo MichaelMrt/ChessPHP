@@ -5,11 +5,11 @@ require_once("chesspieces/queen.php");
 require_once("chesspieces/bishop.php");
 require_once("chesspieces/knight.php");
 require_once("chesspieces/rook.php");
-
 class Logic
 {
     protected mixed $chessboard;
     protected bool $whitesturn=true;
+    protected String $error="";
     
     function __construct()
     {   
@@ -30,7 +30,7 @@ class Logic
                 $_SESSION['whitesturn'] = !$_SESSION['whitesturn']; # swap turns
                 $_SESSION['move_number'] = ($_SESSION['move_number']+1);
             } else {
-                print("<p class='error'>Chess rules broken</p>");
+                $this->error .= "<p class='error'>Chess rules broken</p><br>";
             }
         } else if (isset($_SESSION['chessboard'])) {
             #reconstruct chessboard from json
@@ -197,13 +197,13 @@ class Logic
 
         # check if it is whites turn
         if($this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="black"){
-            echo "<p class='error'>It is whites move</p>";
+            $this->error .= "<p class='error'>It is whites move</p>";
             return false;
         }
 
         # check if it is blacks turn
         if(!$this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="white"){
-            echo "<p class='error'>It is blacks move</p>";
+            $this->error .=  "<p class='error'>It is blacks move</p>";
             return false;
         }
 
@@ -230,6 +230,11 @@ class Logic
     function get_player_on_move():bool
     {
         return $this->whitesturn;
+    }
+
+    function get_rulesbroken_msg():String
+    {
+        return $this->error;
     }
 
 }
