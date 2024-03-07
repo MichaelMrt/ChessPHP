@@ -42,7 +42,8 @@ class Pawn extends ChessPiece
                  (($current_x+1 == $move_to_x) or ($current_x-1 == $move_to_x))){
                 return true;
         }
-            echo "<p class='error'>pawns can't move like that</p>";
+            #echo "<p class='error'>pawns can't move like that</p>";
+            $_SESSION['error'] = "<p class='error'>pawns can't move like that</p>";
             return false;
         
     }
