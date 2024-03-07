@@ -1,6 +1,10 @@
 <?php
 require_once("chesspieces/pawn.php");
 require_once("chesspieces/king.php");
+require_once("chesspieces/queen.php");
+require_once("chesspieces/bishop.php");
+require_once("chesspieces/knight.php");
+require_once("chesspieces/rook.php");
 
 class Logic
 {
