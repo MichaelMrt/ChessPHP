@@ -32,6 +32,10 @@ class Controller
 
     # contains 3 div areas: left,middel,right
     echo "<div class='container'>";
+           
+        if(!isset($_SESSION['error'])){
+            $_SESSION['error'] ="";
+        }
 
         # left div
         echo "
@@ -43,6 +47,7 @@ class Controller
         </form>
         $output
         ".$logic->get_rulesbroken_msg()."
+        ".$_SESSION['error']."
         </div>";
 
         # middle/center
