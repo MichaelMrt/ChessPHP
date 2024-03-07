@@ -141,7 +141,23 @@ class Logic
                     $chessboard[$x][$y] = new Pawn($decoded_json[$x][$y]['color'], $x, $y);
                 } elseif($decoded_json[$x][$y]['type'] == 'king'){
                     # king on that square
-                    $chessboard[$x][$y] = new king($decoded_json[$x][$y]['color'], $x, $y);
+                    $chessboard[$x][$y] = new King($decoded_json[$x][$y]['color'], $x, $y);
+                } 
+                elseif($decoded_json[$x][$y]['type'] == 'queen'){
+                    # queen on that square
+                    $chessboard[$x][$y] = new Queen($decoded_json[$x][$y]['color'], $x, $y);
+                } 
+                elseif($decoded_json[$x][$y]['type'] == 'bishop'){
+                    # bishop on that square
+                    $chessboard[$x][$y] = new Bishop($decoded_json[$x][$y]['color'], $x, $y);
+                } 
+                elseif($decoded_json[$x][$y]['type'] == 'knight'){
+                    # knight on that square
+                    $chessboard[$x][$y] = new Knight($decoded_json[$x][$y]['color'], $x, $y);
+                } 
+                elseif($decoded_json[$x][$y]['type'] == 'rook'){
+                    # rook on that square
+                    $chessboard[$x][$y] = new Rook($decoded_json[$x][$y]['color'], $x, $y);
                 } 
             }
         }
