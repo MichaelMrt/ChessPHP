@@ -44,7 +44,6 @@ class Logic
         $_SESSION['chessboard'] = json_encode($this->chessboard);
     }
 
-    /** @return array<int, array<int, Pawn|string>>*/
     private function create_board(): mixed
     {   
         $this->whitesturn = true;
@@ -158,10 +157,12 @@ class Logic
                 elseif($decoded_json[$x][$y]['type'] == 'rook'){
                     # rook on that square
                     $chessboard[$x][$y] = new Rook($decoded_json[$x][$y]['color'], $x, $y);
+                }else{
+                    echo "<p class='error'>Error: Chessboard is not defined!</p>";
+                    exit;
                 } 
             }
         }
-
         return $chessboard;
     }
 
