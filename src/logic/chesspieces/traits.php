@@ -84,19 +84,17 @@ trait BishopTrait{
             # top right - check if piece on the way
             if($current_x<$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
-                    if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
-                        if($i==$distance){
-                            return true;
-                        }else{
-                            return false;
-                        }
+                    if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece') && $i==$distance  && $chessboard[$current_x+$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
+                        return true;
+                    }else{
+                        return false;
                     }
                 }
             # top left
             }elseif($current_x>$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
-                        if($i==$distance){
+                        if($i==$distance && $i==$distance  && $chessboard[$current_x-$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
                         }else{
                             return false;
@@ -107,7 +105,7 @@ trait BishopTrait{
             }elseif($current_x>$move_to_x && $current_y>$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
-                        if($i==$distance){
+                        if($i==$distance && $chessboard[$current_x-$i][$current_y-$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
                         }else{
                             return false;
@@ -118,7 +116,7 @@ trait BishopTrait{
             }elseif($current_x<$move_to_x && $current_y>$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
-                        if($i==$distance){
+                        if($i==$distance  && $chessboard[$current_x+$i][$current_y-$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
                         }else{
                             return false;
