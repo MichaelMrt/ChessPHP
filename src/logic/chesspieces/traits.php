@@ -3,23 +3,34 @@ trait RookTrait
 {
     public function check_legal_rookmove(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y): bool
     {
+        # distance in squares
+        $distance_x = sqrt(pow(($move_to_x-$current_x),2)); 
+        $distance_y = sqrt(pow(($move_to_y-$current_y),2)); 
+
         #check if its horizontally
         if ($current_y == $move_to_y && $current_x != $move_to_x) {
+
             # check if moving to the right
             if ($current_x < $move_to_x) {
-                for ($i = 1; $i <= ($move_to_x - $current_x); $i++) {
-
+                for ($i = 1; $i <= $distance_x; $i++) {
                     # check if there is a piece on the way
-                    if (is_a($chessboard[$current_x + $i][$current_y], 'Chesspiece')) {
+                   if($distance_x==$i && is_a($chessboard[$current_x + $i][$current_y], 'Chesspiece') && $chessboard[$current_x+$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                        return true;
+                    }elseif(!is_a($chessboard[$current_x + $i][$current_y], 'Chesspiece')){
+                       
+                    }else{
                         return false;
                     }
                 }
                 # check if its moving to the left
             } elseif ($move_to_x < $current_x) {
-                for ($i = 1; $i <= ($current_x - $move_to_x); $i++) {
-
+                for ($i = 1; $i <= $distance_x; $i++) {
                     # check if there is a piece on the way
-                    if (is_a($chessboard[$current_x - $i][$current_y], 'Chesspiece')) {
+                    if($distance_x==$i && is_a($chessboard[$current_x - $i][$current_y], 'Chesspiece') && $chessboard[$current_x+$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                        return true;
+                    }elseif(!is_a($chessboard[$current_x - $i][$current_y], 'Chesspiece')){
+
+                    }else{
                         return false;
                     }
                 }
@@ -31,25 +42,33 @@ trait RookTrait
         if ($current_x == $move_to_x && $current_y != $move_to_y) {
             # check if moving up
             if($current_y<$move_to_y){
-                for ($i=1; $i<=($move_to_y-$current_y); $i++) { 
-                    
+                
+                for ($i=1; $i<= $distance_y; $i++) { 
                     # check if there is a piece on the way
-                    if (is_a($chessboard[$current_x][$current_y+$i], 'Chesspiece')) {
+                    if($distance_y==$i && is_a($chessboard[$current_x][$current_y+$i], 'Chesspiece') && $chessboard[$current_x][$current_y+$i]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                        return true;
+                    }elseif(!is_a($chessboard[$current_x][$current_y+$i], 'Chesspiece')){
+
+                    }else{
                         return false;
                     }
                 }
+                # check if moving down
             }elseif ($move_to_y<$current_y) {
-                for ($i=1; $i<=($current_y-$move_to_y); $i++) { 
+                for ($i=1; $i<= $distance_y; $i++) { 
                     
                     # check if there is a piece on the way
-                    if (is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece')) {
+                    if($distance_x==$i && is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece') && $chessboard[$current_x+$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                        return true;
+                    }elseif(!is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece')){
+
+                    }else{
                         return false;
                     }
                 }
             }
             return true;
         }
-
         return false;
     }
 }
