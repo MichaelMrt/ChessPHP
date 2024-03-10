@@ -66,28 +66,44 @@ trait BishopTrait{
             if($current_x<$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
-                        return false;
+                        if($i==$distance){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }
                 }
             # top left
             }elseif($current_x>$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
-                        return false;
+                        if($i==$distance){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }
                 }
             # bottom left
             }elseif($current_x>$move_to_x && $current_y>$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
-                        return false;
+                        if($i==$distance){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }
                 }
             # bottom right
             }elseif($current_x<$move_to_x && $current_y>$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
-                        return false;
+                        if($i==$distance){
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }
                 }
             }
@@ -95,4 +111,5 @@ trait BishopTrait{
         }
     return false; # not a diagonal move
     }
+
 }
