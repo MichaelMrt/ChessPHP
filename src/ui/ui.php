@@ -22,11 +22,20 @@ class Ui
 
         echo "<div class='square-container center'>";
        
+        if(isset($_SESSION['pickedsquare'])){
+            $picked_x = (int) substr($_SESSION['pickedsquare'],0,1);
+            $picked_y = (int) substr($_SESSION['pickedsquare'],1,2);
+        }else{
+            $picked_x = null;
+            $picked_y = null;
+        }
+        
         for ($y = 8; $y > 0; $y--) {
-
             for ($x = 1; $x < 9; $x++) {
                 # set color based on position
-                if ((($y % 2 == 1 && $x % 2 == 1) || ($y % 2 == 0 && $x % 2 == 0))) {
+                if($x==$picked_x && $y ==$picked_y){
+                    $area_color = "yellow";
+                }elseif ((($y % 2 == 1 && $x % 2 == 1) || ($y % 2 == 0 && $x % 2 == 0))) {
                     $area_color = "brown";
                 } else {
                     $area_color = "white";
