@@ -53,3 +53,63 @@ trait RookTrait
         return false;
     }
 }
+
+trait BishopTrait{
+    public function check_legal_bishopmove(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
+        # check if its diagonal move
+        if(pow($current_x-$move_to_x,2) == pow($current_y-$move_to_y,2)){
+
+            $distance = sqrt(pow($current_x-$move_to_x,2)); # distance in squares
+
+            # top right - check if piece on the way
+            if($current_x<$move_to_x && $current_y<$move_to_y){
+                for ($i=1; $i <= $distance; $i++) { 
+                    if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
+                        if($i==$distance){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                }
+            # top left
+            }elseif($current_x>$move_to_x && $current_y<$move_to_y){
+                for ($i=1; $i <= $distance; $i++) { 
+                    if(is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
+                        if($i==$distance){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                }
+            # bottom left
+            }elseif($current_x>$move_to_x && $current_y>$move_to_y){
+                for ($i=1; $i <= $distance; $i++) { 
+                    if(is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
+                        if($i==$distance){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                }
+            # bottom right
+            }elseif($current_x<$move_to_x && $current_y>$move_to_y){
+                for ($i=1; $i <= $distance; $i++) { 
+                    if(is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
+                        if($i==$distance){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+    return false; # not a diagonal move
+    }
+
+}
