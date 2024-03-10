@@ -11,7 +11,6 @@ trait RookTrait
 
                     # check if there is a piece on the way
                     if (is_a($chessboard[$current_x + $i][$current_y], 'Chesspiece')) {
-                        echo "Chesspiece on the way";
                         return false;
                     }
                 }
@@ -21,7 +20,6 @@ trait RookTrait
 
                     # check if there is a piece on the way
                     if (is_a($chessboard[$current_x - $i][$current_y], 'Chesspiece')) {
-                        echo "Chesspiece on the way";
                         return false;
                     }
                 }
@@ -37,7 +35,6 @@ trait RookTrait
                     
                     # check if there is a piece on the way
                     if (is_a($chessboard[$current_x][$current_y+$i], 'Chesspiece')) {
-                        echo "Chesspiece on the way";
                         return false;
                     }
                 }
@@ -46,7 +43,6 @@ trait RookTrait
                     
                     # check if there is a piece on the way
                     if (is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece')) {
-                        echo "Chesspiece on the way";
                         return false;
                     }
                 }
