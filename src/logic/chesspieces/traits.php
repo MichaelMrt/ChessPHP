@@ -53,3 +53,18 @@ trait RookTrait
         return false;
     }
 }
+
+trait BishopTrait{
+    public function check_legal_bishopmove(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
+        # check if its diagonal move
+        echo "x:".pow(($current_x-$move_to_x),2) ." y:".pow(($current_y-$move_to_y),2);
+        if(pow($current_x-$move_to_x,2) == pow($current_y-$move_to_y,2)){
+            return true;
+        }
+
+# 3-1=2     y:5-7=-2     
+
+        return false;
+    }
+}
