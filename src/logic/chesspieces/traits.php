@@ -60,19 +60,39 @@ trait BishopTrait{
         # check if its diagonal move
         if(pow($current_x-$move_to_x,2) == pow($current_y-$move_to_y,2)){
 
-            $distance = sqrt(pow($current_x-$move_to_x,2));
+            $distance = sqrt(pow($current_x-$move_to_x,2)); # distance in squares
 
-            # top right
+            # top right - check if piece on the way
             if($current_x<$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
                         return false;
                     }
                 }
+            # top left
+            }elseif($current_x>$move_to_x && $current_y<$move_to_y){
+                for ($i=1; $i <= $distance; $i++) { 
+                    if(is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
+                        return false;
+                    }
+                }
+            # bottom left
+            }elseif($current_x>$move_to_x && $current_y>$move_to_y){
+                for ($i=1; $i <= $distance; $i++) { 
+                    if(is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
+                        return false;
+                    }
+                }
+            # bottom right
+            }elseif($current_x<$move_to_x && $current_y>$move_to_y){
+                for ($i=1; $i <= $distance; $i++) { 
+                    if(is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
+                        return false;
+                    }
+                }
             }
             return true;
         }
-
-        return false;
+    return false; # not a diagonal move
     }
 }
