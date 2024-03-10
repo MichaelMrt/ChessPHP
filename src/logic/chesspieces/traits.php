@@ -31,7 +31,26 @@ trait RookTrait
 
         #check if its vertically
         if ($current_x == $move_to_x && $current_y != $move_to_y) {
-            # toDo: check if there is a piece on the way
+            # check if moving up
+            if($current_y<$move_to_y){
+                for ($i=1; $i<=($move_to_y-$current_y); $i++) { 
+                    
+                    # check if there is a piece on the way
+                    if (is_a($chessboard[$current_x][$current_y+$i], 'Chesspiece')) {
+                        echo "Chesspiece on the way";
+                        return false;
+                    }
+                }
+            }elseif ($move_to_y<$current_y) {
+                for ($i=1; $i<=($current_y-$move_to_y); $i++) { 
+                    
+                    # check if there is a piece on the way
+                    if (is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece')) {
+                        echo "Chesspiece on the way";
+                        return false;
+                    }
+                }
+            }
             return true;
         }
 
