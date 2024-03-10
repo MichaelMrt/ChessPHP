@@ -7,10 +7,20 @@ trait RookTrait
         if ($current_y == $move_to_y && $current_x != $move_to_x) {
             # check if moving to the right
             if ($current_x < $move_to_x) {
-                for ($i = $current_x; $i < $move_to_x; $i++) {
+                for ($i = 1; $i <= ($move_to_x - $current_x); $i++) {
 
                     # check if there is a piece on the way
                     if (is_a($chessboard[$current_x + $i][$current_y], 'Chesspiece')) {
+                        echo "Chesspiece on the way";
+                        return false;
+                    }
+                }
+                # check if its moving to the left
+            } elseif ($move_to_x < $current_x) {
+                for ($i = 1; $i <= ($current_x - $move_to_x); $i++) {
+
+                    # check if there is a piece on the way
+                    if (is_a($chessboard[$current_x - $i][$current_y], 'Chesspiece')) {
                         echo "Chesspiece on the way";
                         return false;
                     }
