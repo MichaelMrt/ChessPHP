@@ -84,21 +84,27 @@ trait BishopTrait{
             # top right - check if piece on the way
             if($current_x<$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
-                    if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece') && $i==$distance  && $chessboard[$current_x+$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
+                    if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
+                        if($i==$distance  && $chessboard[$current_x+$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }elseif($i==$distance && !is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
                         return true;
-                    }else{
-                        return false;
                     }
                 }
             # top left
             }elseif($current_x>$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
-                        if($i==$distance && $i==$distance  && $chessboard[$current_x-$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
+                        if($i==$distance  && $chessboard[$current_x-$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
                         }else{
                             return false;
                         }
+                    }elseif($i==$distance && !is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
+                        return true;
                     }
                 }
             # bottom left
@@ -110,6 +116,8 @@ trait BishopTrait{
                         }else{
                             return false;
                         }
+                    }elseif($i==$distance && !is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
+                        return true;
                     }
                 }
             # bottom right
@@ -121,10 +129,12 @@ trait BishopTrait{
                         }else{
                             return false;
                         }
+                    }elseif($i==$distance && !is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
+                        return true;
                     }
                 }
             }
-            return true;
+            return false;
         }
     return false; # not a diagonal move
     }
