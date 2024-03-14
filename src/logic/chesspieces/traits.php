@@ -56,9 +56,8 @@ trait RookTrait
                 # check if moving down
             }elseif ($move_to_y<$current_y) {
                 for ($i=1; $i<= $distance_y; $i++) { 
-                    
                     # check if there is a piece on the way
-                    if($distance_x==$i && is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece') && $chessboard[$current_x+$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                    if($distance_y==$i && is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece') && $chessboard[$current_x][$current_y-$i]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
                         return true;
                     }elseif(!is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece')){
 
