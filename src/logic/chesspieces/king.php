@@ -15,7 +15,19 @@ class King extends ChessPiece
 
     function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
     {
-        return true;
+      $distance_x = sqrt(pow(($move_to_x-$this->x),2)); 
+      $distance_y = sqrt(pow(($move_to_y-$this->y),2)); 
+
+      if($distance_x <= 1 && $distance_y <= 1){
+        # check if there is a piece on the move to square and if it is opposite color
+         if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece') &&  $chessboard[$this->x][$this->y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
+          return true;
+         }elseif(!is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece')){
+          return true;
+         }
+      }
+      $_SESSION['error'] = "<p class='error'>kings can't move like that</p>";
+        return false;
     }
 }
 ?>

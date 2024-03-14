@@ -97,3 +97,7 @@ label {
   .textinput{
     width: 50px;
   }
+
+  .yellow{
+    background-color: #FFBF00;
+  }
