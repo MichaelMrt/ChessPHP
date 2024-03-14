@@ -86,6 +86,8 @@ trait BishopTrait{
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece') && $i==$distance  && $chessboard[$current_x+$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                         return true;
+                    }elseif(!is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
+                        return true;
                     }else{
                         return false;
                     }
@@ -95,6 +97,8 @@ trait BishopTrait{
                 for ($i=1; $i <= $distance; $i++) { 
                     if(is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
                         if($i==$distance && $i==$distance  && $chessboard[$current_x-$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
+                            return true;
+                        }elseif(!is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
                             return true;
                         }else{
                             return false;
@@ -107,6 +111,8 @@ trait BishopTrait{
                     if(is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
                         if($i==$distance && $chessboard[$current_x-$i][$current_y-$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
+                        }elseif(!is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
+                            return true;
                         }else{
                             return false;
                         }
@@ -118,15 +124,17 @@ trait BishopTrait{
                     if(is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
                         if($i==$distance  && $chessboard[$current_x+$i][$current_y-$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
+                        }elseif(!is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
+                            return true;
                         }else{
                             return false;
                         }
                     }
                 }
             }
-            return true;
+         return false;
         }
-    return false; # not a diagonal move
+      return false; # not a diagonal move
     }
 
 }
