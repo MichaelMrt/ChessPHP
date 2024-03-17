@@ -191,7 +191,7 @@ class Logic
         if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
 
         }else{
-            echo "<br>Not a Chesspiece on that square";
+             $_SESSION['error'] = "Not a Chess piece on that Square";
             return false;
         }
 
