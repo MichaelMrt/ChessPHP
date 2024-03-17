@@ -15,36 +15,16 @@ class Logic
     
     function __construct()
     {   
-        # only for terminal input right now
-        #check if inputs were filled out
-        if ($this->check_inputs_filled()) {
-            #reconstruct chessboard from json
-            $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
-
-            $this->save_pieces_in_vars();
-            
-
-            # get the coordinates
-            $current_x = (int) substr($_SESSION['piece_coordinates'], 0, 1);
-            $current_y = (int) substr($_SESSION['piece_coordinates'], 1, 2);
-            $move_to_x = (int) substr($_SESSION['move_to_coordinates'], 0, 1);
-            $move_to_y = (int) substr($_SESSION['move_to_coordinates'], 1, 2);
-
-            #check if there is a piece on the selected field, move the piece if there is one
-            if ($this->check_rules($current_x, $current_y, $move_to_x, $move_to_y)) {
-                $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
-                $_SESSION['whitesturn'] = !$_SESSION['whitesturn']; # swap turns
-                $_SESSION['move_number'] = ($_SESSION['move_number']+1);
-            } 
-
-
-        } else if (isset($_SESSION['chessboard'])) { # submit was hit without filling inputs
+        if(isset($_SESSION['chessboard'])) { # submit was hit without filling inputs
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
         } else { #creation of initial board 
             $_SESSION['whitesturn']=true;
             $this->chessboard = $this->create_board();
         }
+        
+        $this->save_pieces_in_vars();
+     
         $_SESSION['chessboard'] = json_encode($this->chessboard);
     }
 
@@ -177,10 +157,10 @@ class Logic
         $encoded_json = json_encode($this->chessboard);
         echo "<form method='post' action='chessgame.php'>
                 <label>Enter coordinates of the piece you want to move</label>
-                <input class='textinput' name='piece_coordinates' type='text'>
+                <input class='textinput' name='pickedsquare' type='text'>
                 <br><br>
                 <label>Move to coordinates</label>
-                <input class='textinput' name='move_to_coordinates' type='text'>
+                <input class='textinput' name='movetosquare' type='text'>
                 <br>
                 <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
                 <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>
@@ -224,8 +204,8 @@ class Logic
     }
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
-    {   $this->save_pieces_in_vars();
-        echo($this->king_white->get_color());
+    {   
+
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){
             if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
