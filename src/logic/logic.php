@@ -10,14 +10,20 @@ class Logic
     protected mixed $chessboard;
     protected bool $whitesturn=true;
     protected String $error="";
+    protected King $king_white;
+    protected King $king_black;
     
     function __construct()
     {   
-
+        # only for terminal input right now
         #check if inputs were filled out
         if ($this->check_inputs_filled()) {
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
+
+            $this->save_pieces_in_vars();
+            
+
             # get the coordinates
             $current_x = (int) substr($_SESSION['piece_coordinates'], 0, 1);
             $current_y = (int) substr($_SESSION['piece_coordinates'], 1, 2);
@@ -30,6 +36,8 @@ class Logic
                 $_SESSION['whitesturn'] = !$_SESSION['whitesturn']; # swap turns
                 $_SESSION['move_number'] = ($_SESSION['move_number']+1);
             } 
+
+
         } else if (isset($_SESSION['chessboard'])) { # submit was hit without filling inputs
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
@@ -216,7 +224,8 @@ class Logic
     }
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
-    {   
+    {   $this->save_pieces_in_vars();
+        echo($this->king_white->get_color());
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){
             if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
@@ -239,6 +248,22 @@ class Logic
     function get_rulesbroken_msg():String
     {
         return $this->error;
+    }
+
+    function save_pieces_in_vars():void
+    {
+        for ($x=1; $x < 9; $x++) { 
+            for ($y=1; $y < 9; $y++) { 
+                if(is_a($this->chessboard[$x][$y],'King')){
+
+                    if($this->chessboard[$x][$y]->get_color()=='white'){
+                        $this->king_white = $this->chessboard[$x][$y];
+                    }elseif($this->chessboard[$x][$y]->get_color()=='black'){
+                        $this->king_black = $this->chessboard[$x][$y];
+                    }
+                }
+            }
+        }
     }
 
 }
