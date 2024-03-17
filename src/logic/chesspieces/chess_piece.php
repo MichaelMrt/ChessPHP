@@ -31,6 +31,10 @@ abstract class ChessPiece implements JsonSerializable
 
             # Delete old piece position
             $chessboard[$current_x][$current_y] = "";
+
+            # Update position vars
+            $this->x = $move_to_x;
+            $this->y = $move_to_y;
         }
         return $chessboard;
     }
@@ -49,6 +53,15 @@ abstract class ChessPiece implements JsonSerializable
         return $this->icon;
     }
 
+    public function get_x():int
+    {
+        return $this->x;
+    }
+
+    public function get_y():int
+    {
+        return $this->y;
+    }
     # ---abstract methods---
     abstract function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool;
 
