@@ -207,15 +207,17 @@ class Logic
                 # check if king is in check
         for ($x=1; $x < 9; $x++) { 
             for ($y=1; $y < 9; $y++) { 
+                
                 if(is_a($this->chessboard[$x][$y],'ChessPiece')){
                     if($this->chessboard[$x][$y]->get_color()=="black" && $this->chessboard[$x][$y]->check_move_legal($this->chessboard,$this->king_white->get_x(),$this->king_white->get_y())){
-                        echo "White king in check!";
+                        $_SESSION['check'] = "White king in check!";
                     }elseif($this->chessboard[$x][$y]->get_color()=="white" && $this->chessboard[$x][$y]->check_move_legal($this->chessboard,$this->king_black->get_x(),$this->king_black->get_y())){
-                        echo "Black king in check";
+                       $_SESSION['check'] = "Black king in check!";
                     }
                 }
             }
         }
+        $_SESSION['error'] = "";
             }
 
     

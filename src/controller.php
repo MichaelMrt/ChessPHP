@@ -38,6 +38,11 @@ class Controller
             $_SESSION['error'] ="";
         }
 
+        if(!isset($_SESSION['check'])){
+            $_SESSION['check'] = "";
+        }
+       
+
         # left div
         echo "
         <div class='inner-div'>
@@ -49,6 +54,7 @@ class Controller
         $output
         ".$logic->get_rulesbroken_msg()."
         ".$_SESSION['error']."
+        ".$_SESSION['check']."
         </div>";
 
         # middle/center
