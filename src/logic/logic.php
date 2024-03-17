@@ -25,19 +25,15 @@ class Logic
             $move_to_y = (int) substr($_SESSION['move_to_coordinates'], 1, 2);
 
             #check if there is a piece on the selected field, move the piece if there is one
-            if ($this->check_rules($current_x, $current_y)) {
+            if ($this->check_rules($current_x, $current_y, $move_to_x, $move_to_y)) {
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
                 $_SESSION['whitesturn'] = !$_SESSION['whitesturn']; # swap turns
                 $_SESSION['move_number'] = ($_SESSION['move_number']+1);
-            } else {
-                $this->error .= "<p class='error'>Chess rules broken</p><br>";
-            }
-        } else if (isset($_SESSION['chessboard'])) {
+            } 
+        } else if (isset($_SESSION['chessboard'])) { # submit was hit without filling inputs
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
-
-            #creation of initial board 
-        } else {
+        } else { #creation of initial board 
             $_SESSION['whitesturn']=true;
             $this->chessboard = $this->create_board();
         }
@@ -185,7 +181,7 @@ class Logic
              ";
     }
 
-    function check_rules(int $current_x, int $current_y):bool
+    function check_rules(int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
         # check if selected square has a piece
         if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
@@ -206,6 +202,14 @@ class Logic
             $this->error .=  "<p class='error'>It is blacks move</p>";
             return false;
         }
+        # check if king is in check
+        for ($x=1; $x < 9; $x++) { 
+            for ($y=1; $y < 9; $y++) { 
+                if(is_a($this->chessboard[$x][$y],'ChessPiece')){
+                    
+                }
+            }
+        }
 
         # all rules checked
         return true;
@@ -213,7 +217,7 @@ class Logic
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     {   
-        if($this->check_rules($current_x, $current_y)){
+        if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){
             if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
