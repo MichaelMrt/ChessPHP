@@ -260,8 +260,8 @@ class Logic
         return false;
     }
 
-    function get_king_pos($chessboard):mixed
-    {
+    function get_king_pos(mixed $chessboard):mixed
+    {   $king_pos=null;
         for ($x=1; $x < 9; $x++) { 
             for ($y=1; $y < 9; $y++) { 
               if(is_a($chessboard[$x][$y],'King') && $chessboard[$x][$y]->get_color()=="white"){
