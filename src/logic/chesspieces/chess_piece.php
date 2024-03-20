@@ -21,7 +21,7 @@ abstract class ChessPiece implements JsonSerializable
 
     function move(mixed $chessboard, int $move_to_x, int $move_to_y):mixed
     {
-        if($this->check_move_legal($chessboard, $move_to_x, $move_to_y)){
+        
             # Coordinates from the current Piece position
             $current_x = $this->x;
             $current_y = $this->y;
@@ -35,7 +35,7 @@ abstract class ChessPiece implements JsonSerializable
             # Update position vars
             $this->x = $move_to_x;
             $this->y = $move_to_y;
-        }
+        
         return $chessboard;
     }
 
