@@ -6,7 +6,7 @@ trait RookTrait
         # distance in squares
         $distance_x = sqrt(pow(($move_to_x-$current_x),2)); 
         $distance_y = sqrt(pow(($move_to_y-$current_y),2)); 
-        
+
        # check if its horizontally
         if ($current_y == $move_to_y && $current_x != $move_to_x) {
 
@@ -133,10 +133,8 @@ trait BishopTrait{
                     }
                 }
             }
-            #echo "dia but illegal";
             return false;
         }
-       # echo " not dia ";
     return false; # not a diagonal move
     }
 
