@@ -203,21 +203,8 @@ class Logic
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $_SESSION['move_number'] = ($_SESSION['move_number']+1);
-
-                # check if king is in check
-        for ($x=1; $x < 9; $x++) { 
-            for ($y=1; $y < 9; $y++) { 
+                $this->is_check();
                 
-                if(is_a($this->chessboard[$x][$y],'ChessPiece')){
-                    if($this->chessboard[$x][$y]->get_color()=="black" && $this->chessboard[$x][$y]->check_move_legal($this->chessboard,$this->king_white->get_x(),$this->king_white->get_y())){
-                        $_SESSION['check'] = "White king in check!";
-                    }elseif($this->chessboard[$x][$y]->get_color()=="white" && $this->chessboard[$x][$y]->check_move_legal($this->chessboard,$this->king_black->get_x(),$this->king_black->get_y())){
-                       $_SESSION['check'] = "Black king in check!";
-                    }
-                }
-            }
-        }
-        $_SESSION['error'] = "";
             }
 
     
@@ -251,6 +238,29 @@ class Logic
                 }
             }
         }
+    }
+
+    function is_check():bool
+    {
+        # check if king is in check
+        for ($x=1; $x < 9; $x++) { 
+            for ($y=1; $y < 9; $y++) { 
+                
+                if(is_a($this->chessboard[$x][$y],'ChessPiece')){
+                    if($this->chessboard[$x][$y]->get_color()=="black" && $this->chessboard[$x][$y]->check_move_legal($this->chessboard,$this->king_white->get_x(),$this->king_white->get_y())){
+                        $_SESSION['check'] = "White king in check!";
+                        $_SESSION['error'] = "";
+                        return true;
+                    }elseif($this->chessboard[$x][$y]->get_color()=="white" && $this->chessboard[$x][$y]->check_move_legal($this->chessboard,$this->king_black->get_x(),$this->king_black->get_y())){
+                        $_SESSION['error'] = "";
+                        $_SESSION['check'] = "Black king in check!";
+                       return true;
+                    }
+                }
+            }
+        }
+        $_SESSION['error'] = "";
+        return false;
     }
 
 }
