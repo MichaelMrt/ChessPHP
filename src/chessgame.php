@@ -50,5 +50,9 @@
     $controller = new Controller();
 
     # footer
-    echo "<div><h1>footer</h1></div>";
+    echo "<div>
+    <h1>footer</h1>
+    <p> Contribute on GitHub:<a href='https://github.com/MichaelMrt03/ChessPHP'>https://github.com/MichaelMrt03/ChessPHP</a></p>
+    </div>";
+    
 ?>

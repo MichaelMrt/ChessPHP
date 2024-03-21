@@ -10,37 +10,21 @@ class Logic
     protected mixed $chessboard;
     protected bool $whitesturn=true;
     protected String $error="";
+    protected bool $white_in_check=false;
+    protected bool $black_in_check=false;
     
     function __construct()
     {   
-
-        #check if inputs were filled out
-        if ($this->check_inputs_filled()) {
+        if(isset($_SESSION['chessboard'])) { # submit was hit without filling inputs
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
-            # get the coordinates
-            $current_x = (int) substr($_SESSION['piece_coordinates'], 0, 1);
-            $current_y = (int) substr($_SESSION['piece_coordinates'], 1, 2);
-            $move_to_x = (int) substr($_SESSION['move_to_coordinates'], 0, 1);
-            $move_to_y = (int) substr($_SESSION['move_to_coordinates'], 1, 2);
-
-            #check if there is a piece on the selected field, move the piece if there is one
-            if ($this->check_rules($current_x, $current_y)) {
-                $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
-                $_SESSION['whitesturn'] = !$_SESSION['whitesturn']; # swap turns
-                $_SESSION['move_number'] = ($_SESSION['move_number']+1);
-            } else {
-                $this->error .= "<p class='error'>Chess rules broken</p><br>";
-            }
-        } else if (isset($_SESSION['chessboard'])) {
-            #reconstruct chessboard from json
-            $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
-
-            #creation of initial board 
-        } else {
+        } else { #creation of initial board 
             $_SESSION['whitesturn']=true;
             $this->chessboard = $this->create_board();
         }
+
+       
+     
         $_SESSION['chessboard'] = json_encode($this->chessboard);
     }
 
@@ -173,10 +157,10 @@ class Logic
         $encoded_json = json_encode($this->chessboard);
         echo "<form method='post' action='chessgame.php'>
                 <label>Enter coordinates of the piece you want to move</label>
-                <input class='textinput' name='piece_coordinates' type='text'>
+                <input class='textinput' name='pickedsquare' type='text'>
                 <br><br>
                 <label>Move to coordinates</label>
-                <input class='textinput' name='move_to_coordinates' type='text'>
+                <input class='textinput' name='movetosquare' type='text'>
                 <br>
                 <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
                 <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>
@@ -185,13 +169,13 @@ class Logic
              ";
     }
 
-    function check_rules(int $current_x, int $current_y):bool
+    function check_rules(int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
         # check if selected square has a piece
         if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
 
         }else{
-            echo "<br>Not a Chesspiece on that square";
+             $_SESSION['error'] = "Not a Chess piece on that Square";
             return false;
         }
 
@@ -207,17 +191,46 @@ class Logic
             return false;
         }
 
+        # look for checks and finds out if the next move stops the check
+      if($this->is_check($this->chessboard)){
+            $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+            if($this->is_check($controll_board)){
+                # In check and the move doesn't block the check or move out of it
+                return false;
+            }
+      } 
+
+      # make sure the next move does not result in check for the same color
+      # => King cannot move into check
+      if($this->whitesturn){
+        $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+            if($this->is_check($controll_board)){
+                if($this->white_in_check){
+                    return false;
+                }
+            }
+      }elseif(!$this->whitesturn){
+        $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+            if($this->is_check($controll_board)){
+                if($this->black_in_check){
+                    return false;
+                }
+            }
+      }
+
         # all rules checked
         return true;
     }
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
-    {   
-        if($this->check_rules($current_x, $current_y)){
-            if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){
+    { 
+        if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
+            if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){                
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $_SESSION['move_number'] = ($_SESSION['move_number']+1);
+                $this->is_check($this->chessboard);
+                
             }
 
     
@@ -237,4 +250,49 @@ class Logic
         return $this->error;
     }
 
+
+    function is_check(mixed $chessboard):bool
+    {
+        # check if king is in check
+        for ($x=1; $x < 9; $x++) { 
+            for ($y=1; $y < 9; $y++) { 
+                $king_pos = $this->get_king_pos($chessboard);
+                if(is_a($chessboard[$x][$y],'ChessPiece')){
+                    if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['white']['x'],$king_pos['white']['y'])){
+                        $_SESSION['check'] = "White king in check!";
+                        $_SESSION['error'] = "";
+                        $this->white_in_check = true;
+                        return true;
+                    }elseif($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['black']['x'],$king_pos['black']['y'])){
+                        $_SESSION['error'] = "";
+                        $_SESSION['check'] = "Black king in check!";
+                        $this->black_in_check = true;
+                       return true;
+                    }
+                }
+            }
+        }
+        $_SESSION['error'] = "";
+        $this->white_in_check = false;
+        $this->black_in_check = false;
+        return false;
+    }
+
+    function get_king_pos(mixed $chessboard):mixed
+    {   $king_pos=null;
+        for ($x=1; $x < 9; $x++) { 
+            for ($y=1; $y < 9; $y++) { 
+              if(is_a($chessboard[$x][$y],'King') && $chessboard[$x][$y]->get_color()=="white"){
+                $king_pos['white']['x']=$x;
+                $king_pos['white']['y']=$y;
+              }  
+              if(is_a($chessboard[$x][$y],'King') && $chessboard[$x][$y]->get_color()=="black"){
+                $king_pos['black']['x']=$x;
+                $king_pos['black']['y']=$y;
+              } 
+            }    
+        }
+     return $king_pos;
+    }
+    
 }
