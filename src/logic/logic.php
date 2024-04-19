@@ -225,12 +225,16 @@ class Logic
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     { 
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
-            if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){                
+            if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){     
+                # move is legal           
                 $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $_SESSION['move_number'] = ($_SESSION['move_number']+1);
                 $this->is_check($this->chessboard);
-                
+                if($this->is_checkmate($this->chessboard)){
+                    print("GAME OVER!");
+                    exit;
+                }
             }
 
     
@@ -293,6 +297,16 @@ class Logic
             }    
         }
      return $king_pos;
+    }
+
+    function is_checkmate(mixed $chessboard):bool
+    {
+        if($this->is_check($chessboard)){
+            
+            return true;
+        }
+        return false;
+
     }
     
 }
