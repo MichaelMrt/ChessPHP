@@ -231,10 +231,7 @@ class Logic
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $_SESSION['move_number'] = ($_SESSION['move_number']+1);
                 $this->is_check($this->chessboard);
-                if($this->is_checkmate($this->chessboard)){
-                    print("GAME OVER!");
-                    exit;
-                }
+                $this->is_checkmate($this->chessboard);
             }
 
     
@@ -256,11 +253,11 @@ class Logic
 
 
     function is_check(mixed $chessboard):bool
-    {
+    {   $king_pos = $this->get_king_pos($chessboard);
         # check if king is in check
         for ($x=1; $x < 9; $x++) { 
             for ($y=1; $y < 9; $y++) { 
-                $king_pos = $this->get_king_pos($chessboard);
+                
                 if(is_a($chessboard[$x][$y],'ChessPiece')){
                     if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['white']['x'],$king_pos['white']['y'])){
                         $_SESSION['check'] = "White king in check!";
@@ -286,7 +283,7 @@ class Logic
     {   $king_pos=null;
         for ($x=1; $x < 9; $x++) { 
             for ($y=1; $y < 9; $y++) { 
-              if(is_a($chessboard[$x][$y],'King') && $chessboard[$x][$y]->get_color()=="white"){
+              if(is_a($chessboard[$x][$y],'King') && $chessboard[$x][$y]->get_color()=="white"){ #check if king is on board
                 $king_pos['white']['x']=$x;
                 $king_pos['white']['y']=$y;
               }  
@@ -301,11 +298,35 @@ class Logic
 
     function is_checkmate(mixed $chessboard):bool
     {
-        if($this->is_check($chessboard)){
-            
-            return true;
-        }
-        return false;
+        $move_out_of_check = false;
+        $this->is_check($chessboard);
+            if($this->black_in_check){
+                # check if black has a move             
+                # first scan all pieces on the board
+                for($x=1;$x<=8;$x++){
+                    for($y=1;$y<=8;$y++){
+                        if(is_a($chessboard[$x][$y],'ChessPiece')&&$chessboard[$x][$y]->get_color()=="black"){
+                             # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
+                             for($move_x=1;$move_x<=8;$move_x++){
+                                for($move_y=1;$move_y<=8;$move_y++){
+                                    $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
+                                     
+                                    if(!$this->is_check($future_board)){ # error beginning here
+                                        # no move out of check
+                                        $move_out_of_check = true;
+                                        print("GAME OVER");
+                                        exit;
+                                    } 
+                                }
+                            }
+                        }
+                    }
+                }
+               
+              
+            }
+        
+        return $move_out_of_check;
 
     }
     
