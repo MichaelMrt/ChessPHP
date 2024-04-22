@@ -293,6 +293,9 @@ class Logic
               } 
             }    
         }
+        if($king_pos==null){
+            print("NO KING FOUND");
+        }
      return $king_pos;
     }
 
@@ -310,12 +313,12 @@ class Logic
                              for($move_x=1;$move_x<=8;$move_x++){
                                 for($move_y=1;$move_y<=8;$move_y++){
                                     $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
-                                     
+                                    $this->debug_output_board($future_board);
+                                    print("<br>-----------------------------------<br>");
                                     if(!$this->is_check($future_board)){ # error beginning here
                                         # no move out of check
                                         $move_out_of_check = true;
-                                        print("GAME OVER");
-                                        exit;
+                                        print("THERE IS A LEGAL MOVE");
                                     } 
                                 }
                             }
