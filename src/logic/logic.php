@@ -142,7 +142,7 @@ class Logic
                     # rook on that square
                     $chessboard[$x][$y] = new Rook($decoded_json[$x][$y]['color'], $x, $y);
                 }else{
-                    echo "<p class='error'>Error: Chessboard is not defined!</p>";
+                    echo "<p class='error'>Error: Chesspiece is not defined!</p>";
                     exit;
                 } 
             }
