@@ -338,4 +338,18 @@ class Logic
 
     }
     
+    function healthCheck(mixed $chessboard){
+        for($x=1;$x<9;$x++){
+          for($y=1;$y<9;$y++){
+            if(is_a($chessboard[$x][$y],"ChessPiece")){
+                if($chessboard[$x][$y]->get_x()!=$x){
+                print("Error on board for x");
+                }
+                if($chessboard[$x][$y]->get_y()!=$y){
+                print("Error on board for y");
+                }
+        }
+          }
+        }
+      }
 }
