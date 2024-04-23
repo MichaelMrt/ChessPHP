@@ -316,7 +316,6 @@ class Logic
                                 # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
-                                       $this->healthCheck($chessboard);
                                            if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
                                                $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
                                                if(!$this->is_check($future_board)){ # error beginning here
@@ -328,13 +327,12 @@ class Logic
                                }
                            }
                         } 
-                        
+                         # only black moves need to be scanned when black is in check
                         if($this->black_in_check){
                             if(is_a($chessboard[$x][$y],'ChessPiece')&&$chessboard[$x][$y]->get_color()=="black"){
                                 # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
-                                       $this->healthCheck($chessboard);
                                            if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
                                                $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
                                                if(!$this->is_check($future_board)){ # error beginning here
@@ -359,19 +357,4 @@ class Logic
         return $move_out_of_check;
 
     }
-    
-    function healthCheck(mixed $chessboard){
-        for($x=1;$x<9;$x++){
-          for($y=1;$y<9;$y++){
-            if(is_a($chessboard[$x][$y],"ChessPiece")){
-                if($chessboard[$x][$y]->get_x()!=$x){
-                print("Error on board for x");
-                }
-                if($chessboard[$x][$y]->get_y()!=$y){
-                print("Error on board for y");
-                }
-        }
-          }
-        }
-      }
 }
