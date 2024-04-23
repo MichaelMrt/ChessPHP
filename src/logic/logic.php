@@ -315,7 +315,7 @@ class Logic
                              for($move_x=1;$move_x<=8;$move_x++){
                                 for($move_y=1;$move_y<=8;$move_y++){
                                         if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
-                                            $future_board = $chessboard[$x][$y]->move($chessboard,$move_x,$move_y); # error caused from this
+                                            $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
                                             if(!$this->is_check($future_board)){ # error beginning here
                                                 # no move out of check
                                                 $move_out_of_check = true;
@@ -328,9 +328,9 @@ class Logic
                 }
                
                 if($move_out_of_check==true){
-                    print("There is a legal move");
+                   $_SESSION['error'] = "There is a legal move<br>";
                 }else{
-                    print("checkmate! Game Over");
+                    $_SESSION['error'] = "Checkmate! Game Over<br>";
                 }
             }
            
