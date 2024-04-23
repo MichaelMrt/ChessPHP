@@ -79,6 +79,11 @@ abstract class ChessPiece implements JsonSerializable
     {
         return $this->y;
     }
+
+    public function get_type():String
+    {
+        return $this->type;
+    }
     # ---abstract methods---
     abstract function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool;
 
