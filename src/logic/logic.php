@@ -203,19 +203,21 @@ class Logic
       # make sure the next move does not result in check for the same color
       # => King cannot move into check
       if($this->whitesturn){
-        $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){
+        if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard,$move_to_x,$move_to_y)){
+            $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+            if($this->is_check($controll_board)){ #error here
                 if($this->white_in_check){
                     return false;
                 }
             }
       }elseif(!$this->whitesturn){
         $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){
+            if($this->is_check($controll_board)){ #error here
                 if($this->black_in_check){
                     return false;
                 }
             }
+        }
       }
 
         # all rules checked
