@@ -49,7 +49,7 @@ class Pawn extends ChessPiece
         
     }
 
-    public function check_target_square($chessboard,$move_to_x,$move_to_y):bool
+    public function check_target_square(mixed $chessboard,int $move_to_x, int $move_to_y):bool
     {
       # check if there is a piece on the move to square and if it is opposite color
       if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece') &&  $chessboard[$this->x][$this->y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
