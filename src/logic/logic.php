@@ -310,22 +310,43 @@ class Logic
                 # first scan all pieces on the board
                 for($x=1;$x<=8;$x++){
                     for($y=1;$y<=8;$y++){
-                        if(is_a($chessboard[$x][$y],'ChessPiece')&&$chessboard[$x][$y]->get_color()=="black"){
-                             # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
-                             for($move_x=1;$move_x<=8;$move_x++){
-                                for($move_y=1;$move_y<=8;$move_y++){
-                                    $this->healthCheck($chessboard);
-                                        if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
-                                            $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
-                                            if(!$this->is_check($future_board)){ # error beginning here
-                                                # no move out of check
-                                                $move_out_of_check = true;
-                                            } 
-                                    }
-                                }
-                            }
-                        }
-                    }
+                        # only white moves need to be scanned when white is in check
+                        if($this->white_in_check){
+                            if(is_a($chessboard[$x][$y],'ChessPiece')&&$chessboard[$x][$y]->get_color()=="white"){
+                                # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
+                                for($move_x=1;$move_x<=8;$move_x++){
+                                   for($move_y=1;$move_y<=8;$move_y++){
+                                       $this->healthCheck($chessboard);
+                                           if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
+                                               $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
+                                               if(!$this->is_check($future_board)){ # error beginning here
+                                                   # no move out of check
+                                                   $move_out_of_check = true;
+                                               } 
+                                       }
+                                   }
+                               }
+                           }
+                        } 
+                        
+                        if($this->black_in_check){
+                            if(is_a($chessboard[$x][$y],'ChessPiece')&&$chessboard[$x][$y]->get_color()=="black"){
+                                # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
+                                for($move_x=1;$move_x<=8;$move_x++){
+                                   for($move_y=1;$move_y<=8;$move_y++){
+                                       $this->healthCheck($chessboard);
+                                           if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
+                                               $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
+                                               if(!$this->is_check($future_board)){ # error beginning here
+                                                   # no move out of check
+                                                   $move_out_of_check = true;
+                                               } 
+                                       }
+                                   }
+                               }
+                           }
+                        }  
+                    }                    
                 }
                
                 if($move_out_of_check==true){
