@@ -205,14 +205,14 @@ class Logic
       if($this->whitesturn){
         if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard,$move_to_x,$move_to_y)){
             $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){ #error here
+            if($this->is_check($controll_board)){
                 if($this->white_in_check){
                     return false;
                 }
             }
-      }elseif(!$this->whitesturn){
+      }else{ # blacksturn
         $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){ #error here
+            if($this->is_check($controll_board)){ 
                 if($this->black_in_check){
                     return false;
                 }
