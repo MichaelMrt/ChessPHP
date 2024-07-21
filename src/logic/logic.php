@@ -15,11 +15,14 @@ class Logic
     
     function __construct()
     {   
+
         if(isset($_SESSION['chessboard'])) { # submit was hit without filling inputs
             #reconstruct chessboard from json
             $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
         } else { #creation of initial board 
             $_SESSION['whitesturn']=true;
+            $_SESSION['white_checkmated'] = false;
+            $_SESSION['black_checkmated'] = false;
             $this->chessboard = $this->create_board();
         }
 
@@ -309,21 +312,44 @@ class Logic
                              # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
                              for($move_x=1;$move_x<=8;$move_x++){
                                 for($move_y=1;$move_y<=8;$move_y++){
-                                    $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
+                                    $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); 
                                      
                                     if(!$this->is_check($future_board)){ # error beginning here
-                                        # no move out of check
+                                        # move out of check found
                                         $move_out_of_check = true;
-                                        print("GAME OVER");
-                                        exit;
+                                        print("Move out of check found!");
+                                    } 
+                                }
+                            }
+                        }
+                    }
+                }   
+                $_SESSION['black_checkmated'] = !$move_out_of_check;    
+            }
+            if($this->white_in_check){
+                # check if black has a move             
+                # first scan all pieces on the board
+                $move_out_of_check = false;
+                for($x=1;$x<=8;$x++){
+                    for($y=1;$y<=8;$y++){
+                        if(is_a($chessboard[$x][$y],'ChessPiece')&&$chessboard[$x][$y]->get_color()=="white"){
+                             # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
+                             for($move_x=1;$move_x<=8;$move_x++){
+                                for($move_y=1;$move_y<=8;$move_y++){
+                                    $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); 
+                                     
+                                    if(!$this->is_check($future_board)){ # error beginning here
+                                        # move out of check found
+                                        $move_out_of_check = true;
+                                        print("Move out of check found!");
                                     } 
                                 }
                             }
                         }
                     }
                 }
-               
-              
+                $_SESSION['white_checkmated'] = !$move_out_of_check;
+        
             }
         
         return $move_out_of_check;

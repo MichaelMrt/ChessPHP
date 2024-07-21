@@ -18,6 +18,8 @@ class Ui
               <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>            
               <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>
               <input name='move_number' type='hidden' value='".$_SESSION['move_number']."'></input>
+              <input name='white_checkmated' type='hidden' value='".$_SESSION['white_checkmated']."'></input>
+              <input name='black_checkmated' type='hidden' value='".$_SESSION['black_checkmated']."'></input>              
               ";  
 
         echo "<div class='square-container center'>";
@@ -78,7 +80,19 @@ class Ui
         for ($boardnumeration = 1; $boardnumeration < 9; $boardnumeration++) {
             echo "<div class='square'>$boardnumeration</div>";
         }
+
         echo "</div>";
         echo "</form>";
+
+        if(isset($_SESSION['white_checkmated'])||$_SESSION['black_checkmated']){
+            if($_SESSION['white_checkmated']){
+                print("<h1>\nCheckmate!\nBlack won</h1>");
+                exit;
+            }
+            if($_SESSION['black_checkmated']){
+                print("<h1>\nCheckmate!\nWhite won</h1>");
+                exit;
+            }
+    }
     }
 }

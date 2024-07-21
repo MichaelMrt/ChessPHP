@@ -33,13 +33,13 @@ class Knight extends ChessPiece
              $move_to_y==$this->y+2 && $move_to_x==$this->x-1||
              $move_to_y==$this->y-2 && $move_to_x==$this->x+1||
              $move_to_y==$this->y-2 && $move_to_x==$this->x-1){
-          if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece')){
-              if($chessboard[$this->x][$this->y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
-                return true;
-              }
-          }else{
-            return true;
-          }
+                if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece')){
+                    if($chessboard[$this->x][$this->y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
+                      return true;
+                    }
+                }else{
+                  return true;
+                }
         }
 
         $_SESSION['error'] = "<p class='error'>knights can't move like that</p>";
