@@ -41,7 +41,13 @@ class Controller
         if(!isset($_SESSION['check'])){
             $_SESSION['check'] = "";
         }
-       
+
+        if(!isset($_SESSION['checkmate'])){
+            $_SESSION['checkmate'] = "";
+        }else{
+            $_SESSION['error']="";
+        }
+
 
         # left div
         echo "
@@ -59,6 +65,7 @@ class Controller
 
         # middle/center
         echo "<div class='inner-div-center'>";
+        print( $_SESSION['checkmate']);
         $ui->print_board($logic->get_board());
         $logic->activate_inputs();
         echo "</div>";

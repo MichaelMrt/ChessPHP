@@ -304,7 +304,8 @@ class Logic
     function is_checkmate(mixed $chessboard):bool
     {
         $move_out_of_check = false;
-        
+        $white_checkmated = false;
+        $black_checkmated = false;
             if($this->is_check($chessboard)){
                 # check if black has a move             
                 # first scan all pieces on the board
@@ -317,14 +318,15 @@ class Logic
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
                                            if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
-                                               $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
-                                               if(!$this->is_check($future_board)){ # error beginning here
+                                               $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); 
+                                               if(!$this->is_check($future_board)){ 
                                                    # no move out of check
                                                    $move_out_of_check = true;
                                                } 
                                        }
                                    }
                                }
+                               $white_checkmated = !$move_out_of_check;
                            }
                         } 
                          # only black moves need to be scanned when black is in check
@@ -334,23 +336,30 @@ class Logic
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
                                            if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
-                                               $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); # error caused from this
-                                               if(!$this->is_check($future_board)){ # error beginning here
+                                               $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); 
+                                               if(!$this->is_check($future_board)){ 
                                                    # no move out of check
                                                    $move_out_of_check = true;
                                                } 
                                        }
                                    }
                                }
+                               $black_checkmated = !$move_out_of_check;
                            }
                         }  
                     }                    
                 }
                
                 if($move_out_of_check==true){
-                   $_SESSION['error'] = "There is a legal move<br>";
+                   $_SESSION['checkmate'] = "There is a legal move<br>";
                 }else{
-                    $_SESSION['error'] = "Checkmate! Game Over<br>";
+                    if($white_checkmated){
+                        $_SESSION['checkmate'] = "<h1>Checkmate! Black won!</h1><br>";
+                    }
+                    if($black_checkmated){
+                        $_SESSION['checkmate'] = "<h1>Checkmate! White won!</h1><br>";
+                    }
+                    
                 }
             }
            
