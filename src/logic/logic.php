@@ -243,17 +243,6 @@ class Logic
        
     }
 
-    function get_player_on_move():bool
-    {
-        return $this->whitesturn;
-    }
-
-    function get_rulesbroken_msg():String
-    {
-        return $this->error;
-    }
-
-
     function is_check(mixed $chessboard):bool
     {   $king_pos = $this->get_king_pos($chessboard);
         # check if king is in check
@@ -366,4 +355,15 @@ class Logic
         return $move_out_of_check;
 
     }
+
+    function get_player_on_move():bool
+    {
+        return $this->whitesturn;
+    }
+
+    function get_rulesbroken_msg():String
+    {
+        return $this->error;
+    }
+
 }
