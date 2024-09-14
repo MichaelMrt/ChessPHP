@@ -28,7 +28,7 @@ abstract class ChessPiece implements JsonSerializable
 
             if(is_a($chessboard[$current_x][$current_y],'King')){
                 # check for castling
-                if($this->color=='white' && $move_to_x==7 && $move_to_y=1){
+                if($this->color=='white' && $move_to_x==7 && $move_to_y==1){
                     if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
                       if(is_a($chessboard[8][1], 'Rook')){
                         $chessboard = $chessboard[5][1]->castle_rightside($chessboard);
