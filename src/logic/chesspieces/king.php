@@ -28,7 +28,7 @@ class King extends ChessPiece
       }
 
       # castling rightside as white
-      if($this->color=='white' && $move_to_x==7 && $move_to_y=1){
+      if($this->color=='white' && $move_to_x==7 && $move_to_y==1){
           if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
             if(is_a($chessboard[8][1], 'Rook')){
               $chessboard = $chessboard[8][1]->move($chessboard,6,1);
@@ -42,7 +42,7 @@ class King extends ChessPiece
         return false;
     }
 
-    function castle_rightside(mixed $chessboard){
+    function castle_rightside(mixed $chessboard):mixed {
       #$chessboard = $chessboard[8][1]->move($chessboard,6,1);
        # Copy the piece to the new position
        $chessboard[6][1] = $chessboard[8][1];
