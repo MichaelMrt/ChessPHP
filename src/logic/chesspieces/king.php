@@ -26,8 +26,33 @@ class King extends ChessPiece
           return true;
          }
       }
+
+      # castling rightside as white
+      if($this->color=='white' && $move_to_x==7 && $move_to_y=1){
+          if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
+            if(is_a($chessboard[8][1], 'Rook')){
+              $chessboard = $chessboard[8][1]->move($chessboard,6,1);
+              return true;
+            }
+          }
+      }
+
+
       $_SESSION['error'] = "<p class='error'>kings can't move like that</p>";
         return false;
+    }
+
+    function castle_rightside(mixed $chessboard){
+      #$chessboard = $chessboard[8][1]->move($chessboard,6,1);
+       # Copy the piece to the new position
+       $chessboard[6][1] = $chessboard[8][1];
+       # Delete old piece position
+       $chessboard[8][1] = "";
+       # Update position vars
+       $chessboard[6][1]->x = 6;
+       $chessboard[6][1]->y = 1;
+
+       return $chessboard;
     }
 }
 ?>

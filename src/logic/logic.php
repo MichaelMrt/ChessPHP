@@ -210,15 +210,17 @@ class Logic
                     return false;
                 }
             }
+      }
       }else{ # blacksturn
+        if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard,$move_to_x,$move_to_y)){
         $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
             if($this->is_check($controll_board)){ 
                 if($this->black_in_check){
                     return false;
                 }
             }
+         }
         }
-      }
 
         # all rules checked
         return true;
@@ -266,7 +268,8 @@ class Logic
                         $_SESSION['error'] = "";
                         $this->white_in_check = true;
                         return true;
-                    }elseif($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['black']['x'],$king_pos['black']['y'])){
+                    }
+                    if($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['black']['x'],$king_pos['black']['y'])){
                         $_SESSION['error'] = "";
                         $_SESSION['check'] = "Black king in check!";
                         $this->black_in_check = true;

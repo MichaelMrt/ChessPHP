@@ -21,10 +21,22 @@ abstract class ChessPiece implements JsonSerializable
 
     function move(mixed $chessboard, int $move_to_x, int $move_to_y):mixed
     {
-        
+
             # Coordinates from the current Piece position
             $current_x = $this->x;
             $current_y = $this->y;
+
+            if(is_a($chessboard[$current_x][$current_y],'King')){
+                # check for castling
+                if($this->color=='white' && $move_to_x==7 && $move_to_y=1){
+                    if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
+                      if(is_a($chessboard[8][1], 'Rook')){
+                        $chessboard = $chessboard[5][1]->castle_rightside($chessboard);
+                      }
+                    }
+                }
+            }
+
 
             # Copy the piece to the new position
             $chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
@@ -35,6 +47,8 @@ abstract class ChessPiece implements JsonSerializable
             # Update position vars
             $this->x = $move_to_x;
             $this->y = $move_to_y;
+
+            
         
         return $chessboard;
     }
@@ -43,7 +57,7 @@ abstract class ChessPiece implements JsonSerializable
     # used for checking positions in the future
     function test_move(mixed $chessboard, int $move_to_x, int $move_to_y):mixed
     {
-        
+
             # Coordinates from the current Piece position
             $current_x = $this->x;
             $current_y = $this->y;
