@@ -3,6 +3,9 @@
 Welcome to ChessPHP, a beginner-friendly open-source project to learn more about web development.
 Chess is universally understood, making it an ideal project to collaborate on.
 
+![image](https://github.com/user-attachments/assets/c2244aa3-bd5b-4adb-81d2-ec2bb382b85c)
+
+
 ## Project Structure
 ChessPHP follows a structured approach to separate concerns and make collaboration among contributors easier. The project is divided into three main components:
 
