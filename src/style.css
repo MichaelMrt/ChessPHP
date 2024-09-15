@@ -1,3 +1,9 @@
+body {
+    text-align: center;
+    background-color: grey;
+    font-family: Arial, sans-serif;
+}
+
 .center {
     max-width: fit-content;
     margin-left: auto;
@@ -16,9 +22,12 @@
     margin-right: auto;
 }
 
-.field {
-    width: 50px;
-    height: 50px;
+.square {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .white {
@@ -27,4 +36,14 @@
 
 .black {
     background-color: #b58863;
+}
+
+.highlight {
+    box-sizing: border-box;
+    border: 3px solid yellow;
+}
+
+.chesspiece{
+    width: 40px;
+    height: 40px;
 }

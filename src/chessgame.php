@@ -6,10 +6,11 @@
     <title>Chessboard</title>
 </head>
 <?php
-    require_once("chessboard.php");
+    require_once("logic/logic.php");
+    $logic = new logic();
 
     
-    $chessboard = new chessboard();
+    
 
     # footer
     echo "<div class='center'>
@@ -18,3 +19,22 @@
     </div>";
     
 ?>
+
+<script>
+    function highlight_square(id) {
+        
+        const square = document.getElementById(id);
+        
+        // if field is highlighted remove the highlight
+        if (square.classList.contains('highlight')) {
+            square.classList.remove('highlight');
+        } else {
+            // if not highlighted add highlight
+            document.querySelectorAll('.feld').forEach(f => f.classList.remove('highlight'));
+            square.classList.add('highlight');
+        }
+
+        // Output
+        console.log("Square clicked: " + id);
+    }
+</script>
