@@ -19,35 +19,24 @@ class Chessboard
 
     function print_board() : void
     {
-        $column_characters = ['boardnumeration','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-        echo "<div class='board'>";
-        // Generate the board
-        for ($row = 8; $row > 0; $row--) {
-            for ($column = 1; $column < 9; $column++) {
-
-                // Set background color
-                if (($row + $column) % 2 == 0) {
-                    $background_color = 'white';
-                } else {
-                    $background_color = 'black';
-                }
-
-                // Square ID
-                $square_id = $column_characters[$column].$row;
-
-                // get Icon
-                $piece = $this->chessboard[$column][$row];
-                if($piece instanceof ChessPiece){
-                    $chesspiece_icon = $piece->get_icon();
-                }else{
-                    $chesspiece_icon = '';
-                }
-
-                echo "<div id='$square_id' class='square $background_color' onclick='highlight_square(\"$square_id\")'>$chesspiece_icon</div>";
-            }
-        }
+       echo "<div class='board'>";
+        $this->render_board();
        echo "</div>";
     }   
+
+    private function render_board():void
+    {   
+        $column_characters = ['boardnumeration','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+        for ($row = 8; $row > 0; $row--) {
+            for ($column = 1; $column < 9; $column++) {
+                $piece = $this->chessboard[$column][$row];
+                $background_color = $this->get_square_background_color($row, $column);
+                $square_id = $column_characters[$column].$row;
+                $chesspiece_icon = $this->get_chesspiece_icon($piece);
+                $this->render_square($piece, $background_color, $square_id, $chesspiece_icon);
+            }
+        }
+    }
 
     private function create_board(): mixed
     {   
@@ -109,6 +98,33 @@ class Chessboard
         return $chessboard;
     }
 
+    private function get_square_background_color(int $row, int $column):string
+    {
+        if (($row + $column) % 2 == 0) {
+            $background_color = 'white';
+        } else {
+            $background_color = 'black';
+        }
+
+        return $background_color;
+    }
+
+    private function get_chesspiece_icon($piece):string
+    {
+        if($piece instanceof ChessPiece){
+            $chesspiece_icon = $piece->get_icon();
+        }else{
+            $chesspiece_icon = '';
+        }
+
+        return $chesspiece_icon;
+    }
+
+    private function render_square(mixed $piece, string $background_color, string $square_id, string $chesspiece_icon):void
+    {
+        $encoded_piece = json_encode($piece);
+        echo "<div id='$square_id' class='square $background_color' onclick='highlight_square(\"$square_id\",$encoded_piece)'>$chesspiece_icon</div>";
 
     }
+}
 ?>
