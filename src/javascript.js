@@ -16,7 +16,9 @@ function handle_SquareSelection(id, piece) {
             process_piece_on_square(square);
         }else{
             //No Piece on that square, but a beforehand a piece was selected, try to move there
-            //do something
+            selected_piece = handle_SquareSelection.highlighted_square.id
+            move_to = id
+            sendMove(selected_piece, move_to)
         }
     }
 
@@ -40,4 +42,23 @@ function process_highlighting(square){
         document.querySelectorAll('.square').forEach(f => f.classList.remove('highlight'));
         square.classList.add('highlight');
     }
+}
+
+function sendMove(selected_piece, move_to){
+    console.log("move:"+selected_piece+" "+move_to)
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'server.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            //Output server response
+            document.getElementById('ajax_response').innerHTML = xhr.responseText;
+        } else {
+            console.error('An error occured while sending the move: ' + xhr.statusText);
+        }
+    };
+
+    xhr.send('move=' + encodeURIComponent(move_to));
 }
