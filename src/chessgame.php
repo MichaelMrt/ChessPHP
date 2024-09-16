@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="javascript.js"></script>
     <title>Chessboard</title>
 </head>
 <body>
@@ -23,7 +24,6 @@
     get_played_move();
     $_SESSION['chess_game']->input_move(2,2,2,4);
 }       
-    
 
 
 function game_started():bool
@@ -46,6 +46,5 @@ function get_played_move() : string
     }
 }
 ?>
-<script src="javascript.js"></script>
 </body>
 </html>

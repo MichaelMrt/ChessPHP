@@ -6,12 +6,14 @@ abstract class ChessPiece implements JsonSerializable
     protected int $x;
     protected int $y;
     protected String $icon;
+    protected String $id;
     
     function __construct(String $color, int $x, int $y)
     {
         $this->color = $color;
         $this->x = $x;
         $this->y = $y;
+        $this->id = $x.$y;
     }
 
     function get_color():String

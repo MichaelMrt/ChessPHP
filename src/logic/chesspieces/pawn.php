@@ -10,7 +10,7 @@ class Pawn extends ChessPiece
       $this->type = 'pawn';
       
       if($color=='white'){
-        $this->icon ="<img src='../images/chesspieces/white-pawn.png' class='chesspiece'>";
+        $this->icon ="<img id='$this->id' src='../images/chesspieces/white-pawn.png' class='chesspiece'>";
       }elseif($color=='black'){
         $this->icon ="<img src='../images/chesspieces/black-pawn.png' class='chesspiece'>";
       }

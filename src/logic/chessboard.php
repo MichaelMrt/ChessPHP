@@ -132,5 +132,12 @@ class Chessboard
     {
         return $this->chessboard;
     }
+
+    public function update_board(mixed $chessboard ,$current_x, $current_y, $move_to_x, $move_to_y):void
+    {
+        $id=$current_x.$current_y;
+        //echo "<img src='../images/chesspieces/white-pawn.png' onload='test_print()'>";
+        //echo "<link rel='stylesheet' href='style.css' onload='test_print()'>";
+    }
 }
 ?>

@@ -44,12 +44,17 @@ class Logic
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
+                $this->chessboard_obj->update_board($this->chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
                 print("<br>Move legal");
+            }else{
+                print("<br>Illegal move");
             }
 
     
             // $_SESSION['chessboard'] = json_encode($this->chessboard);
             // $_SESSION['whitesturn'] = $this->whitesturn;
+        }else{
+            print("<br>Rules broken");
         }
        
     }
