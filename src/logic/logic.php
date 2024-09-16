@@ -16,7 +16,8 @@ class Logic
     
     function __construct()
     {   
-        $chessboard = new chessboard();
+        $chessboard_obj = new chessboard();
+        $this->chessboard = $chessboard_obj->get_board();
 
 
         // if(isset($_SESSION['chessboard'])) { # submit was hit without filling inputs
@@ -170,20 +171,23 @@ class Logic
     }
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
-    { 
+    {   
+        print("<br>".$current_x.$current_y.$move_to_x.$move_to_y);
+        $piece = $this->chessboard[$current_x][$current_y];
+        
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
-            if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){     
+            if($piece->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){     
                 # move is legal           
-                $this->chessboard = $this->chessboard[$current_x][$current_y]->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
+                $this->chessboard = $piece->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
-                $_SESSION['move_number'] = ($_SESSION['move_number']+1);
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
+                print("<br>Move legal");
             }
 
     
-            $_SESSION['chessboard'] = json_encode($this->chessboard);
-            $_SESSION['whitesturn'] = $this->whitesturn;
+            // $_SESSION['chessboard'] = json_encode($this->chessboard);
+            // $_SESSION['whitesturn'] = $this->whitesturn;
         }
        
     }

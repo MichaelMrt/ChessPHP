@@ -48,7 +48,7 @@ function sendMove(selected_piece, move_to){
     console.log("move:"+selected_piece+" "+move_to)
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'server.php', true);
+    xhr.open('POST', 'chessgame.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function() {

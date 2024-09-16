@@ -127,5 +127,10 @@ class Chessboard
         echo "<div id='$square_id' class='square $background_color' onclick='handle_SquareSelection(\"$square_id\",$encoded_piece)'>$chesspiece_icon</div>";
 
     }
+
+    public function get_board():mixed
+    {
+        return $this->chessboard;
+    }
 }
 ?>
