@@ -123,7 +123,7 @@ class Chessboard
     private function render_square(mixed $piece, string $background_color, string $square_id, string $chesspiece_icon):void
     {
         $encoded_piece = json_encode($piece);
-        echo "<div id='$square_id' class='square $background_color' onclick='highlight_square(\"$square_id\",$encoded_piece)'>$chesspiece_icon</div>";
+        echo "<div id='$square_id' class='square $background_color' onclick='handle_SquareSelection(\"$square_id\",$encoded_piece)'>$chesspiece_icon</div>";
 
     }
 }
