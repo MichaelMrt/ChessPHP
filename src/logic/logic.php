@@ -6,6 +6,41 @@ require_once("chesspieces/bishop.php");
 require_once("chesspieces/knight.php");
 require_once("chesspieces/rook.php");
 require_once("chessboard.php");
+
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    get_played_move();
+    $_SESSION['chess_game']->input_move(2,2,2,4);
+
+
+    $move = isset($_POST['move']) ? $_POST['move'] : '';
+    if(isset($move)){
+        $move=$_POST['move'];
+    }else{
+        $move = 'Error while processing the move';
+    }
+    return $move;
+}
+
+function game_started():bool
+{
+    return $_SERVER['REQUEST_METHOD'] === 'POST';
+}
+
+function get_played_move() : string 
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $move = isset($_POST['move']) ? $_POST['move'] : '';
+        if(isset($move)){
+            $move=$_POST['move'];
+        }else{
+            $move = 'Error while processing the move';
+        }
+            return $move;
+    }
+}
+
 class Logic
 {
     protected Chessboard $chessboard_obj;
@@ -34,7 +69,6 @@ class Logic
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     {   
-        print("<br>".$current_x.$current_y.$move_to_x.$move_to_y);
         $piece = $this->chessboard[$current_x][$current_y];
         
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
@@ -45,16 +79,16 @@ class Logic
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
                 $this->chessboard_obj->update_board($this->chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
-                print("<br>Move legal");
+                echo json_encode(['status' => 'legal', 'from' =>'d2', 'to' => 'd4']);
             }else{
-                print("<br>Illegal move");
+                echo json_encode(['status' => 'illegal', 'message' => 'Illegaler Zug']);
             }
 
     
-            // $_SESSION['chessboard'] = json_encode($this->chessboard);
+             $_SESSION['chessboard'] = json_encode($this->chessboard);
             // $_SESSION['whitesturn'] = $this->whitesturn;
         }else{
-            print("<br>Rules broken");
+        //rules borken        
         }
        
     }

@@ -3,6 +3,7 @@ function handle_SquareSelection(id, piece) {
     const square = document.getElementById(id);
     const piece_on_square = piece!='';
     console.log(piece);
+    console.log("Square clicked: " + id);
 
     if(handle_SquareSelection.square_selected==undefined){ //No Square highlighted yet
         if(piece_on_square){ 
@@ -21,9 +22,6 @@ function handle_SquareSelection(id, piece) {
             sendMove(selected_piece, move_to)
         }
     }
-
-
-    console.log("Square clicked: " + id);
 }
 
 function process_piece_on_square(square){
@@ -48,17 +46,24 @@ function sendMove(selected_piece, move_to){
     console.log("move:"+selected_piece+" "+move_to)
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'chessgame.php', true);
+    xhr.open('POST', 'logic/logic.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function() {
         if (xhr.status === 200) {
             //Output server response
+            console.log(xhr.responseText);
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+            if (response.status === 'legal') {
+                console.log("Move is legal");
+            }else {
+                console.log("Move is illegal");
+                }
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
-        } else {
+        }else {
             console.error('An error occured while sending the move: ' + xhr.statusText);
         }
     };
-
     xhr.send('move=' + encodeURIComponent(move_to));
 }
