@@ -65,5 +65,5 @@ function sendMove(selected_piece, move_to){
             console.error('An error occured while sending the move: ' + xhr.statusText);
         }
     };
-    xhr.send('move_to=' + encodeURIComponent(move_to));
+    xhr.send('move_to=' + encodeURIComponent(move_to)+'&selected_piece_pos='+encodeURIComponent(selected_piece));
 }

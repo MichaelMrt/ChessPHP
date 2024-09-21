@@ -27,12 +27,11 @@ class Chessboard
 
     private function render_board():void
     {   
-        $column_characters = ['boardnumeration','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
         for ($row = 8; $row > 0; $row--) {
             for ($column = 1; $column < 9; $column++) {
                 $piece = $this->chessboard[$column][$row];
                 $background_color = $this->get_square_background_color($row, $column);
-                $square_id = $column_characters[$column].$row;
+                $square_id = $column.$row;
                 $chesspiece_icon = $this->get_chesspiece_icon($piece);
                 $this->render_square($piece, $background_color, $square_id, $chesspiece_icon);
             }
