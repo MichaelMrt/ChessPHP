@@ -73,14 +73,14 @@ class Logic
                 $this->chessboard_obj->update_board($this->chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
                 echo json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);
             }else{
-                echo json_encode(['status' => 'illegal', 'message' => 'Illegaler Zug', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);
+                echo json_encode(['status' => 'illegal', 'message' => 'Illegal move', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);
             }
 
     
              $_SESSION['chessboard'] = json_encode($this->chessboard);
             // $_SESSION['whitesturn'] = $this->whitesturn;
         }else{
-        //rules borken        
+            echo json_encode(['status' => 'illegal', 'message' => 'Game rules broken', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         }
        
     }
