@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['chess_game']->input_move(2,2,2,4);
 
 
-    $move = isset($_POST['move']) ? $_POST['move'] : '';
+    $move = isset($_POST['move_to']) ? $_POST['move_to'] : '';
     if(isset($move)){
-        $move=$_POST['move'];
+        $move=$_POST['move_to'];
     }else{
         $move = 'Error while processing the move';
     }
@@ -31,9 +31,9 @@ function game_started():bool
 function get_played_move() : string 
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $move = isset($_POST['move']) ? $_POST['move'] : '';
+        $move = isset($_POST['move_to']) ? $_POST['move_to'] : '';
         if(isset($move)){
-            $move=$_POST['move'];
+            $move=$_POST['move_to'];
         }else{
             $move = 'Error while processing the move';
         }
