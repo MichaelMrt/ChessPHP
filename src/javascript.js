@@ -58,7 +58,7 @@ function sendMove(selected_piece, move_to){
             if (response.status === 'legal') {
                 console.log("Move is legal");
             }else {
-                console.log("Move is illegal");
+                console.log("Move is illegal"+"selected_piece: "+selected_piece+" move_to:"+move_to);
                 }
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
         }else {

@@ -10,23 +10,11 @@ require_once("chessboard.php");
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    get_played_move();
-    $_SESSION['chess_game']->input_move(2,2,2,4);
-
-
-    $move = isset($_POST['move_to']) ? $_POST['move_to'] : '';
-    if(isset($move)){
-        $move=$_POST['move_to'];
-    }else{
-        $move = 'Error while processing the move';
-    }
-    return $move;
+    $move = get_played_move();
+    $_SESSION['chess_game']->input_move(4,2,4,4); //hardcoded
 }
 
-function game_started():bool
-{
-    return $_SERVER['REQUEST_METHOD'] === 'POST';
-}
+
 
 function get_played_move() : string 
 {
@@ -79,9 +67,9 @@ class Logic
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
                 $this->chessboard_obj->update_board($this->chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
-                echo json_encode(['status' => 'legal', 'from' =>'d2', 'to' => 'd4']);
+                echo json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);
             }else{
-                echo json_encode(['status' => 'illegal', 'message' => 'Illegaler Zug']);
+                echo json_encode(['status' => 'illegal', 'message' => 'Illegaler Zug', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);
             }
 
     
