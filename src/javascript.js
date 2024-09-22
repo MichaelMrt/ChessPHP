@@ -5,31 +5,23 @@ function handle_SquareSelection(id, piece) {
     console.log(piece);
     console.log("Square clicked: " + id);
 
-    // after a legal move
-    if(handle_SquareSelection.square_selected==false){ 
-        handle_SquareSelection.square_selected=undefined;       
-    }
-
-    //if a square is selected already
-    if(handle_SquareSelection.square_selected==true){
-        console.log("is selected");
-        var selected_piece_id = handle_SquareSelection.highlighted_square.id;
-        var move_to_id = id;
-        process_highlighting(square);
-        sendMove(selected_piece_id, move_to_id);
-    }
-
     //if no square is selected yet
     if(handle_SquareSelection.square_selected==undefined){ 
         document.querySelectorAll('.square').forEach(f => f.classList.remove('highlight'));
-
         if(piece_on_square){ 
             select_square(square);
         }else{
             console.log("No Piece on that square");
         }
+    }else if(handle_SquareSelection.square_selected==true){ //if a square is selected
+        var selected_piece_id = handle_SquareSelection.highlighted_square.id;
+        var move_to_id = id;
+        process_highlighting(square);
+        sendMove(selected_piece_id, move_to_id);
+        handle_SquareSelection.square_selected=undefined
     }
 }
+
 
 function select_square(square){
     console.log("Piece on that square");
@@ -65,10 +57,8 @@ function sendMove(selected_piece_id, move_to_id){
             if (response.status === 'legal') {
                 console.log("Move is legal");
                 movePiece(selected_piece_id, move_to_id)
-                handle_SquareSelection.square_selected=false;
             }else {
                 console.log("Move is illegal! "+"selected_piece_id: "+selected_piece_id+" move_to_id:"+move_to_id);
-                handle_SquareSelection.square_selected=undefined;    
             }
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
         }else {
