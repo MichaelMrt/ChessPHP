@@ -70,21 +70,45 @@ function sendMove(selected_piece_id, move_to_id){
 }
 
 function movePiece(selected_piece_id, move_to_id){
+
     var selected_square = document.getElementById(selected_piece_id);
-    chesspiece_icon = selected_square.innerHTML;
-    selected_square.innerHTML='';
-
     var move_to_square = document.getElementById(move_to_id);
-    move_to_square.innerHTML = chesspiece_icon;
+    var chesspiece_img = selected_square.querySelector('img');
 
-    // Update onclick
-    var move_to_x = String(move_to_id).charAt(0);
-    var move_to_y = String(move_to_id).charAt(1);
+    transition_chesspiece(selected_square, move_to_square, chesspiece_img);
 
-    selected_square_attribute = selected_square.getAttribute("onclick");
-    var newOnclickValue = selected_square_attribute.replace(/"x":\d+/, `"x":${move_to_x}`).replace(/"y":\d+/, `"y":${move_to_y}`);
-        newOnclickValue = newOnclickValue.replace(selected_piece_id, move_to_id);
-        
-    move_to_square.setAttribute("onclick",newOnclickValue);
-    selected_square.removeAttribute("onclick");
+    // Move the chesspiece_icon from square to square
+    setTimeout(function(){
+        chesspiece_img.style.transform = ''; // reset transformation
+
+        chesspiece_icon = selected_square.innerHTML;
+        selected_square.innerHTML='';
+        move_to_square.innerHTML = chesspiece_icon;
+    
+        // Update onclick attribute
+        var move_to_x = String(move_to_id).charAt(0);
+        var move_to_y = String(move_to_id).charAt(1);
+    
+        selected_square_attribute = selected_square.getAttribute("onclick");
+        var newOnclickValue = selected_square_attribute.replace(/"x":\d+/, `"x":${move_to_x}`).replace(/"y":\d+/, `"y":${move_to_y}`);
+            newOnclickValue = newOnclickValue.replace(selected_piece_id, move_to_id);
+            
+        move_to_square.setAttribute("onclick",newOnclickValue);
+        selected_square.removeAttribute("onclick");
+ 
+    }, 500); 
+
+}
+
+function transition_chesspiece(selected_square, move_to_square, chesspiece_img){
+// Calculate position from selected_square and move_to_square
+var selected_square_rect = selected_square.getBoundingClientRect();
+var move_to_square_rect = move_to_square.getBoundingClientRect();
+
+// Calculate the differenz of the positions
+var deltaX = move_to_square_rect.left - selected_square_rect.left;
+var deltaY = move_to_square_rect.top - selected_square_rect.top;
+
+// Set the position to absolute to move the img
+chesspiece_img.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 }
