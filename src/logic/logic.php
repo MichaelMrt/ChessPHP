@@ -23,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function get_played_move() : string 
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $move = isset($_POST['move_to']) ? $_POST['move_to'] : '';
+        $move = isset($_POST['move_to_id']) ? $_POST['move_to_id'] : '';
         if(isset($move)){
-            $move=$_POST['selected_piece_pos'].$_POST['move_to'];
+            $move=$_POST['selected_piece_id'].$_POST['move_to_id'];
         }else{
             $move = 'Error while processing the move';
         }

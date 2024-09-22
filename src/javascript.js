@@ -17,9 +17,9 @@ function handle_SquareSelection(id, piece) {
             process_piece_on_square(square);
         }else{
             //No Piece on that square, but a beforehand a piece was selected, try to move there
-            selected_piece = handle_SquareSelection.highlighted_square.id
-            move_to = id
-            sendMove(selected_piece, move_to)
+            selected_piece_id = handle_SquareSelection.highlighted_square.id
+            move_to_id = id
+            sendMove(selected_piece_id, move_to_id)
         }
     }
 }
@@ -42,8 +42,8 @@ function process_highlighting(square){
     }
 }
 
-function sendMove(selected_piece, move_to){
-    console.log("move:"+selected_piece+" "+move_to)
+function sendMove(selected_piece_id, move_to_id){
+    console.log("move:"+selected_piece_id+" "+move_to_id)
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'logic/logic.php', true);
@@ -58,12 +58,12 @@ function sendMove(selected_piece, move_to){
             if (response.status === 'legal') {
                 console.log("Move is legal");
             }else {
-                console.log("Move is illegal"+"selected_piece: "+selected_piece+" move_to:"+move_to);
+                console.log("Move is illegal"+"selected_piece_id: "+selected_piece+" move_to_id:"+move_to_id);
                 }
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
         }else {
             console.error('An error occured while sending the move: ' + xhr.statusText);
         }
     };
-    xhr.send('move_to=' + encodeURIComponent(move_to)+'&selected_piece_pos='+encodeURIComponent(selected_piece));
+    xhr.send('move_to_id=' + encodeURIComponent(move_to_id)+'&selected_piece_id='+encodeURIComponent(selected_piece_id));
 }
