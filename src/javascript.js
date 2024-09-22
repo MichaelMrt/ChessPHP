@@ -9,7 +9,7 @@ function handle_SquareSelection(id, piece) {
         if(piece_on_square){ 
             process_piece_on_square(square);
         }else{
-            console.log("No Piece on that square")
+            console.log("No Piece on that square");
         }
     }else{ // A square is highlighted already
         if(piece_on_square){ 
@@ -17,7 +17,9 @@ function handle_SquareSelection(id, piece) {
             process_piece_on_square(square);
         }else{
             //No Piece on that square, but a beforehand a piece was selected, try to move there
+            handle_SquareSelection.highlighted_square.classList.remove('highlight'); 
             selected_piece_id = handle_SquareSelection.highlighted_square.id
+            handle_SquareSelection.square_selected=true;
             move_to_id = id
             sendMove(selected_piece_id, move_to_id)
         }
@@ -57,8 +59,9 @@ function sendMove(selected_piece_id, move_to_id){
             console.log(response);
             if (response.status === 'legal') {
                 console.log("Move is legal");
+                movePiece(selected_piece_id, move_to_id)
             }else {
-                console.log("Move is illegal"+"selected_piece_id: "+selected_piece+" move_to_id:"+move_to_id);
+                console.log("Move is illegal! "+"selected_piece_id: "+selected_piece_id+" move_to_id:"+move_to_id);
                 }
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
         }else {
@@ -66,4 +69,13 @@ function sendMove(selected_piece_id, move_to_id){
         }
     };
     xhr.send('move_to_id=' + encodeURIComponent(move_to_id)+'&selected_piece_id='+encodeURIComponent(selected_piece_id));
+}
+
+function movePiece(selected_piece_id, move_to_id){
+    var selected_square = document.getElementById(selected_piece_id);
+    chesspiece_icon = selected_square.innerHTML;
+    selected_square.innerHTML='';
+
+    var move_to_square = document.getElementById(move_to_id);
+    move_to_square.innerHTML = chesspiece_icon;
 }
