@@ -134,9 +134,14 @@ class Chessboard
 
     public function update_board(mixed $chessboard ,$current_x, $current_y, $move_to_x, $move_to_y):void
     {
-        $id=$current_x.$current_y;
-        //echo "<img src='../images/chesspieces/white-pawn.png' onload='test_print()'>";
-        //echo "<link rel='stylesheet' href='style.css' onload='test_print()'>";
+        $this->chessboard = $chessboard;
+    }
+
+    private function log_board(){
+        $this->chessboard;
+        $myfile = fopen("logs.log", "w") or die("Unable to open file!");
+        fwrite($myfile, json_encode($this->chessboard));
+        fclose($myfile);
     }
 }
 ?>

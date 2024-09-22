@@ -10,6 +10,7 @@ function handle_SquareSelection(id, piece) {
         document.querySelectorAll('.square').forEach(f => f.classList.remove('highlight'));
         if(piece_on_square){ 
             select_square(square);
+            handle_SquareSelection.piece = piece;
         }else{
             console.log("No Piece on that square");
         }
@@ -75,4 +76,15 @@ function movePiece(selected_piece_id, move_to_id){
 
     var move_to_square = document.getElementById(move_to_id);
     move_to_square.innerHTML = chesspiece_icon;
+
+    // Update onclick
+    var move_to_x = String(move_to_id).charAt(0);
+    var move_to_y = String(move_to_id).charAt(1);
+
+    selected_square_attribute = selected_square.getAttribute("onclick");
+    var newOnclickValue = selected_square_attribute.replace(/"x":\d+/, `"x":${move_to_x}`).replace(/"y":\d+/, `"y":${move_to_y}`);
+        newOnclickValue = newOnclickValue.replace(selected_piece_id, move_to_id);
+        
+    move_to_square.setAttribute("onclick",newOnclickValue);
+    selected_square.removeAttribute("onclick");
 }
