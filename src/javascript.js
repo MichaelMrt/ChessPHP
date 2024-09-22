@@ -107,11 +107,10 @@ function update_onclick_attribute(selected_square, move_to_square, selected_piec
             var move_to_y = String(move_to_id).charAt(1);
         
             selected_square_attribute = selected_square.getAttribute("onclick");
-            var newOnclickValue = selected_square_attribute.replace(/"x":\d+/, `"x":${move_to_x}`).replace(/"y":\d+/, `"y":${move_to_y}`);
-                newOnclickValue = newOnclickValue.replace(selected_piece_id, move_to_id);
-                
-            move_to_square.setAttribute("onclick",newOnclickValue);
-            selected_square.removeAttribute("onclick");
+            var moveToOnclickValue = selected_square_attribute.replace(/"x":\d+/, `"x":${move_to_x}`).replace(/"y":\d+/, `"y":${move_to_y}`);
+                moveToOnclickValue = moveToOnclickValue.replace(selected_piece_id, move_to_id);
+            move_to_square.setAttribute("onclick",moveToOnclickValue);
+            selected_square.setAttribute("onclick",`handle_SquareSelection(${selected_piece_id},'')`);
 }
 
 

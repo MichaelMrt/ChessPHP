@@ -13,7 +13,6 @@ abstract class ChessPiece implements JsonSerializable
         $this->color = $color;
         $this->x = $x;
         $this->y = $y;
-        $this->id = $x.$y;
     }
 
     function get_color():String
