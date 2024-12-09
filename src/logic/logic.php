@@ -89,11 +89,6 @@ class Logic
     {
         return $this->chessboard;
     }
-
-    function check_inputs_filled(): bool
-    {
-        return !empty($_SESSION['piece_coordinates']) && !empty($_SESSION['move_to_coordinates']);
-    }
  
 
     function check_rules(int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
