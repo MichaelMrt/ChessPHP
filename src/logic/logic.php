@@ -54,7 +54,6 @@ class Logic
         $piece = $this->chessboard[$current_x][$current_y];
         
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
-            if($piece->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){     
                 # move is legal           
                 $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
@@ -62,13 +61,7 @@ class Logic
                 $this->is_checkmate($this->chessboard);
                 $this->chessboard_obj->update_board($this->chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
                 echo json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);
-            }else{
-                echo json_encode(['status' => 'illegal', 'message' => 'Illegal move', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);
-            }
-
-    
-             $_SESSION['chessboard'] = json_encode($this->chessboard);
-            // $_SESSION['whitesturn'] = $this->whitesturn;
+            
         }else{
             #echo json_encode(['status' => 'illegal', 'message' => 'Game rules broken', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         }
@@ -101,6 +94,12 @@ class Logic
 
       if($this->self_check($current_x, $current_y, $move_to_x, $move_to_y)){
         echo json_encode(['status' => 'illegal', 'message' => 'Cannot move into check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+        return false;
+      }
+
+      $piece = $this->chessboard[$current_x][$current_y];
+      if($piece->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)==false){
+        echo json_encode(['status' => 'illegal', 'message' => 'Piece cannot move like that', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
       }
 
