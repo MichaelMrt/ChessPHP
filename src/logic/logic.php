@@ -70,7 +70,7 @@ class Logic
              $_SESSION['chessboard'] = json_encode($this->chessboard);
             // $_SESSION['whitesturn'] = $this->whitesturn;
         }else{
-            echo json_encode(['status' => 'illegal', 'message' => 'Game rules broken', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+            #echo json_encode(['status' => 'illegal', 'message' => 'Game rules broken', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         }
        
     }
@@ -89,26 +89,16 @@ class Logic
     function check_rules(int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
 
-        # check if it is whites turn
-        if($this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="black"){
-            $this->error .= "<p class='error'>It is whites move</p>";
-            return false;
-        }
-
-        # check if it is blacks turn
-        if(!$this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="white"){
-            $this->error .=  "<p class='error'>It is blacks move</p>";
-            return false;
-        }
+       if($this->wrong_turn_order($current_x,$current_y)){
+        echo json_encode(['status' => 'illegal', 'message' => 'Wrong move order', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+        return false;
+       }
 
         # look for checks and finds out if the next move stops the check
-      if($this->is_check($this->chessboard)){
-            $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){
-                # In check and the move doesn't block the check or move out of it
-                return false;
-            }
-      } 
+      if($this->still_check($current_x, $current_y, $move_to_x, $move_to_y)){
+        echo json_encode(['status' => 'illegal', 'message' => 'Still in check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+        return false;
+      }
 
       # make sure the next move does not result in check for the same color
       # => King cannot move into check
@@ -260,5 +250,30 @@ class Logic
            
         return $move_out_of_check;
 
+    }
+
+    function wrong_turn_order($current_x, $current_y){
+         # check if white moves only his pieces
+         if($this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="black"){
+            return true;
+        }
+
+        # check if black only moves his pieces
+        if(!$this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="white"){
+            return true;
+        }
+
+        return false;
+    }
+
+    function still_check($current_x, $current_y, $move_to_x, $move_to_y){
+        # When a player is in check he has to make sure his next move stops the check
+      if($this->is_check($this->chessboard)){
+        $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+        if($this->is_check($controll_board)){
+            return true;
+        }
+     } 
+     return false;
     }
 }
