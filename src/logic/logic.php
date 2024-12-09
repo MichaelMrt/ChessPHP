@@ -46,16 +46,6 @@ class Logic
     {   
         $this->chessboard_obj = new chessboard();
         $this->chessboard = $this->chessboard_obj->get_board();
-
-
-        // if(isset($_SESSION['chessboard'])) { # submit was hit without filling inputs
-        //     #reconstruct chessboard from json
-        //     $this->chessboard = $this->reconstruct_chessboard_from_json($_SESSION['chessboard']);
-        // } else { #creation of initial board 
-        //     $_SESSION['whitesturn']=true;
-        //     $this->chessboard = $this->create_board();
-        // }
-        //$_SESSION['chessboard'] = json_encode($this->chessboard);
     }
 
 
