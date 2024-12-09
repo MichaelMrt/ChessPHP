@@ -84,11 +84,6 @@ class Logic
         print_r($chessboard);
         echo "</pre>";
     }
-
-    function get_board(): mixed
-    {
-        return $this->chessboard;
-    }
  
 
     function check_rules(int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
