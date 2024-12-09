@@ -94,48 +94,7 @@ class Logic
     {
         return !empty($_SESSION['piece_coordinates']) && !empty($_SESSION['move_to_coordinates']);
     }
-
-    function reconstruct_chessboard_from_json(String $encoded_json): mixed
-    {
-        $this->whitesturn = $_SESSION['whitesturn'];
-        $decoded_json = json_decode($encoded_json, true);
-
-        for ($x = 1; $x < 9; $x++) {
-            for ($y = 1; $y < 9; $y++) {
-                
-                if (!isset($decoded_json[$x][$y]['type'])) {
-                    # no pawn on that square
-                    $chessboard[$x][$y] = "";
-                } elseif($decoded_json[$x][$y]['type'] == 'pawn') {
-                    # pawn on that square
-                    $chessboard[$x][$y] = new Pawn($decoded_json[$x][$y]['color'], $x, $y);
-                } elseif($decoded_json[$x][$y]['type'] == 'king'){
-                    # king on that square
-                    $chessboard[$x][$y] = new King($decoded_json[$x][$y]['color'], $x, $y);
-                } 
-                elseif($decoded_json[$x][$y]['type'] == 'queen'){
-                    # queen on that square
-                    $chessboard[$x][$y] = new Queen($decoded_json[$x][$y]['color'], $x, $y);
-                } 
-                elseif($decoded_json[$x][$y]['type'] == 'bishop'){
-                    # bishop on that square
-                    $chessboard[$x][$y] = new Bishop($decoded_json[$x][$y]['color'], $x, $y);
-                } 
-                elseif($decoded_json[$x][$y]['type'] == 'knight'){
-                    # knight on that square
-                    $chessboard[$x][$y] = new Knight($decoded_json[$x][$y]['color'], $x, $y);
-                } 
-                elseif($decoded_json[$x][$y]['type'] == 'rook'){
-                    # rook on that square
-                    $chessboard[$x][$y] = new Rook($decoded_json[$x][$y]['color'], $x, $y);
-                }else{
-                    echo "<p class='error'>Error: Chesspiece is not defined!</p>";
-                    exit;
-                } 
-            }
-        }
-        return $chessboard;
-    }
+ 
 
     function activate_inputs():void
     {
