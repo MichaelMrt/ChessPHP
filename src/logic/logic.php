@@ -94,35 +94,16 @@ class Logic
         return false;
        }
 
-        # look for checks and finds out if the next move stops the check
       if($this->still_check($current_x, $current_y, $move_to_x, $move_to_y)){
         echo json_encode(['status' => 'illegal', 'message' => 'Still in check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
       }
 
-      # make sure the next move does not result in check for the same color
-      # => King cannot move into check
-      if($this->whitesturn){
-        if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard,$move_to_x,$move_to_y)){
-            $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){
-                if($this->white_in_check){
-                    return false;
-                }
-            }
+      if($this->self_check($current_x, $current_y, $move_to_x, $move_to_y)){
+        echo json_encode(['status' => 'illegal', 'message' => 'Cannot move into check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+        return false;
       }
-      }else{ # blacksturn
-        if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard,$move_to_x,$move_to_y)){
-        $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){ 
-                if($this->black_in_check){
-                    return false;
-                }
-            }
-         }
-        }
 
-        # all rules checked
         return true;
     }
 
@@ -274,6 +255,32 @@ class Logic
             return true;
         }
      } 
+     return false;
+    }
+
+
+    function self_check($current_x, $current_y, $move_to_x, $move_to_y){
+      # make sure the next move does not result in check for the same color
+      # => King cannot move into check
+      if($this->whitesturn){
+        if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard,$move_to_x,$move_to_y)){ #Todo kann eventuell raus
+            $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+            if($this->is_check($controll_board)){
+                if($this->white_in_check){
+                    return true;
+                }
+            }
+      }
+      }else{ # blacksturn
+        if($this->chessboard[$current_x][$current_y]->check_move_legal($this->chessboard,$move_to_x,$move_to_y)){
+        $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+            if($this->is_check($controll_board)){ 
+                if($this->black_in_check){
+                    return true;
+                }
+            }
+         }
+        }
      return false;
     }
 }
