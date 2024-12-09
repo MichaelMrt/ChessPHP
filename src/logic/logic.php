@@ -96,25 +96,6 @@ class Logic
     }
  
 
-    function activate_inputs():void
-    {
-        echo "<h3>Format to pick piece is xy</h3>";
-
-        $encoded_json = json_encode($this->chessboard);
-        echo "<form method='post' action='chessgame.php'>
-                <label>Enter coordinates of the piece you want to move</label>
-                <input class='textinput' name='pickedsquare' type='text'>
-                <br><br>
-                <label>Move to coordinates</label>
-                <input class='textinput' name='movetosquare' type='text'>
-                <br>
-                <input name='chessboard' type='hidden' value='" . $encoded_json . "'></input>
-                <input name='whitesturn' type='hidden' value='".$_SESSION['whitesturn']."'></input>
-                <div><input type='submit' class='submit' value='Submit move'></div>
-                </form>
-             ";
-    }
-
     function check_rules(int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
         # check if selected square has a piece
