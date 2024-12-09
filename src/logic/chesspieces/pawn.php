@@ -43,8 +43,6 @@ class Pawn extends ChessPiece
                  (($current_x+1 == $move_to_x) or ($current_x-1 == $move_to_x))) and $this->check_target_square($chessboard,$move_to_x,$move_to_y)){
                 return true;
         }
-            #echo "<p class='error'>pawns can't move like that</p>";
-            $_SESSION['error'] = "<p class='error'>pawns can't move like that</p>";
             return false;
         
     }
