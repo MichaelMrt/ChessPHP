@@ -113,11 +113,6 @@ class Logic
         return $this->whitesturn;
     }
 
-    function get_rulesbroken_msg():String
-    {
-        return $this->error;
-    }
-
 
     function is_check(mixed $chessboard):bool
     {   $king_pos = $this->get_king_pos($chessboard);
