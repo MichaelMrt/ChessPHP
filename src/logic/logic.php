@@ -66,7 +66,7 @@ class Logic
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
             if($piece->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)){     
                 # move is legal           
-                $this->chessboard = $piece->move($this->chessboard, (int) $move_to_x, (int) $move_to_y);
+                $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
