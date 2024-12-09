@@ -88,13 +88,6 @@ class Logic
 
     function check_rules(int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
-        # check if selected square has a piece
-        if(is_a($this->chessboard[$current_x][$current_y], "ChessPiece")){
-
-        }else{
-             $_SESSION['error'] = "Not a Chess piece on that Square";
-            return false;
-        }
 
         # check if it is whites turn
         if($this->whitesturn && $this->chessboard[$current_x][$current_y]->get_color()=="black"){
