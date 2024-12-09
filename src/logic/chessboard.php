@@ -9,7 +9,6 @@ require_once("chessboard.php");
 
 class Chessboard
 {
-    private bool $whites_turn=true;
     public mixed $chessboard;
     function __construct()
     {   
@@ -40,7 +39,6 @@ class Chessboard
 
     private function create_board(): mixed
     {   
-        $this->whites_turn = true;
         #Creates an 8x8 array
         for ($x = 1; $x < 9; $x++) {
             for ($y = 1; $y < 9; $y++) {
