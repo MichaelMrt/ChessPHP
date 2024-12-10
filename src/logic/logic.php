@@ -59,7 +59,7 @@ class Logic
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
-                $this->chessboard_obj->update_board($this->chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
+                $this->is_castling();
                 echo $this->gamestatus_json;
         }
     }
@@ -267,5 +267,12 @@ class Logic
             }
         }
      return false;
+    }
+
+    function is_castling(){
+        if($this->chessboard_obj->get_castling_status()){
+            $this->gamestatus_json = json_encode(['status' => 'legal', 'message' => 'Castlemove', 'castling' =>"castling"]);    
+            $this->chessboard_obj->set_castling_status(false);
+        }
     }
 }

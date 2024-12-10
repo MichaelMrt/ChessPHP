@@ -61,6 +61,10 @@ function sendMove(selected_piece_id, move_to_id){
             }else {
                 console.log("Move is illegal! "+"selected_piece_id: "+selected_piece_id+" move_to_id:"+move_to_id);
             }
+            if(response.castling=='castling'){
+                console.log("Castling accepted");
+                movePiece(81,61);
+            }
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
         }else {
             console.error('An error occured while sending the move: ' + xhr.statusText);

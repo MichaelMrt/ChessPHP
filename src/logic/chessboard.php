@@ -10,6 +10,8 @@ require_once("chessboard.php");
 class Chessboard
 {
     public mixed $chessboard;
+    public $castling=false;
+
     function __construct()
     {   
         $this->chessboard = $this->create_board();
@@ -126,16 +128,16 @@ class Chessboard
 
     function move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
     {
-            $piece = $chessboard[$current_x][$current_y];
+            $this->check_castling($current_x, $current_y, $move_to_x, $move_to_y);
+            $piece = $this->chessboard[$current_x][$current_y];
             $piece->update_position($move_to_x,$move_to_y);
-   
             # Copy the piece to the new position
-            $chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
+            $this->chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
 
             # Delete old piece position
-            $chessboard[$current_x][$current_y] = "";
+            $this->chessboard[$current_x][$current_y] = "";
 
-        return $chessboard;
+        return $this->chessboard;
     }
 
     function test_move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
@@ -154,16 +156,31 @@ class Chessboard
         return $this->chessboard;
     }
 
-    public function update_board(mixed $chessboard ,$current_x, $current_y, $move_to_x, $move_to_y):void
-    {
-        $this->chessboard = $chessboard;
-    }
 
     private function log_board(){
         $this->chessboard;
         $myfile = fopen("logs.log", "w") or die("Unable to open file!");
         fwrite($myfile, json_encode($this->chessboard));
         fclose($myfile);
+    }
+
+    function check_castling( $current_x, $current_y, $move_to_x, $move_to_y){
+        $this->check_short_castle_white($current_x, $current_y, $move_to_x, $move_to_y);
+    }
+
+    function check_short_castle_white($current_x, $current_y, $move_to_x, $move_to_y){
+        if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1){
+            $this->move($this->chessboard,8,1,6,1);
+            $this->castling=true;
+        }
+    }
+
+    function get_castling_status(){
+        return $this->castling;
+    }
+
+    function set_castling_status($bool){
+         $this->castling = $bool;
     }
 }
 ?>
