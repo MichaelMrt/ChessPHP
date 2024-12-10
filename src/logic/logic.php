@@ -41,6 +41,7 @@ class Logic
     protected String $error="";
     protected bool $white_in_check=false;
     protected bool $black_in_check=false;
+    protected $gamestatus_json;
     
     function __construct()
     {   
@@ -53,14 +54,14 @@ class Logic
     {   
         
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
-                # move is legal           
+                # move is legal
+                $this->gamestatus_json = json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);           
                 $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
                 $this->chessboard_obj->update_board($this->chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
-                echo json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);
-            
+                echo $this->gamestatus_json;
         }else{
             #echo json_encode(['status' => 'illegal', 'message' => 'Game rules broken', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         }
@@ -121,10 +122,12 @@ class Logic
                 if(is_a($chessboard[$x][$y],'ChessPiece')){
                     if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['white']['x'],$king_pos['white']['y'])){
                         $this->white_in_check = true;
+                        $this->gamestatus_json = json_encode(['status' => 'legal','check' => 'white in check']);           
                         return true;
                     }
                     if($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['black']['x'],$king_pos['black']['y'])){
                         $this->black_in_check = true;
+                        $this->gamestatus_json = json_encode(['status' => 'legal','check' => 'black in check']);
                        return true;
                     }
                 }
