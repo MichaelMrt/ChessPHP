@@ -51,7 +51,6 @@ class Logic
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     {   
-        $piece = $this->chessboard[$current_x][$current_y];
         
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
                 # move is legal           
