@@ -208,13 +208,15 @@ class Logic
                 }
                
                 if($move_out_of_check==true){
-                   $_SESSION['checkmate'] = "There is a legal move<br>";
+                    $gamestatus_array = json_decode($this->gamestatus_json, true);
+                    $gamestatus_array['info'] = "There is a legal move";
+                    $this->gamestatus_json = json_encode($gamestatus_array);
                 }else{
                     if($white_checkmated){
-                        $_SESSION['checkmate'] = "<h1>Checkmate! Black won!</h1><br>";
+                        $this->gamestatus_json = json_encode(['status' => 'legal','checkmate' => 'white is checkmated - black wins']);
                     }
                     if($black_checkmated){
-                        $_SESSION['checkmate'] = "<h1>Checkmate! White won!</h1><br>";
+                        $this->gamestatus_json = json_encode(['status' => 'legal','checkmate' => 'black checkmated - white wins']);
                     }
                     
                 }
