@@ -138,6 +138,16 @@ class Chessboard
         return $chessboard;
     }
 
+    function test_move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
+    {
+            # Copy the piece to the new position
+            $chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
+
+            # Delete old piece position
+            $chessboard[$current_x][$current_y] = "";
+        return $chessboard;
+    }
+
 
     public function get_board():mixed
     {

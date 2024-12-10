@@ -175,7 +175,7 @@ class Logic
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
                                            if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
-                                               $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); 
+                                               $future_board = $this->chessboard_obj->test_move($chessboard, $x, $y, $move_x, $move_y); 
                                                if(!$this->is_check($future_board)){ 
                                                    # no move out of check
                                                    $move_out_of_check = true;
@@ -193,7 +193,7 @@ class Logic
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
                                            if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
-                                               $future_board = $chessboard[$x][$y]->test_move($chessboard,$move_x,$move_y); 
+                                               $future_board = $this->chessboard_obj->test_move($chessboard, $x, $y, $move_x, $move_y); 
                                                if(!$this->is_check($future_board)){ 
                                                    # no move out of check
                                                    $move_out_of_check = true;
@@ -243,7 +243,7 @@ class Logic
     function still_check($current_x, $current_y, $move_to_x, $move_to_y){
         # When a player is in check he has to make sure his next move stops the check
       if($this->is_check($this->chessboard)){
-        $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+        $controll_board = $this->chessboard_obj->test_move($this->chessboard, (int) $current_x, (int) $current_y, (int) $move_to_x, (int) $move_to_y);   
         if($this->is_check($controll_board)){
             return true;
         }
@@ -256,7 +256,7 @@ class Logic
       # make sure the next move does not result in check for the same color
       # => King cannot move into check
       if($this->whitesturn){
-            $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+            $controll_board = $this->chessboard_obj->test_move($this->chessboard, (int) $current_x, (int) $current_y, (int) $move_to_x, (int) $move_to_y);   
             if($this->is_check($controll_board)){
                 if($this->white_in_check){
                     return true;
@@ -264,7 +264,7 @@ class Logic
             }
       
       }else{ # blacksturn
-        $controll_board = $this->chessboard[$current_x][$current_y]->test_move($this->chessboard, (int) $move_to_x, (int) $move_to_y);   
+        $controll_board = $this->chessboard_obj->test_move($this->chessboard, (int) $current_x, (int) $current_y, (int) $move_to_x, (int) $move_to_y);   
             if($this->is_check($controll_board)){ 
                 if($this->black_in_check){
                     return true;
