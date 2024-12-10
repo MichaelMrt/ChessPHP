@@ -14,7 +14,6 @@ class Chessboard
     {   
         $this->chessboard = $this->create_board();
         $this->print_board();
-        echo "<div id='ajax_response'></div>";
     }
 
     function print_board() : void

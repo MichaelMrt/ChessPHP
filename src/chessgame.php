@@ -14,6 +14,7 @@
     $logic = new logic(); //start game
     $_SESSION['chess_game'] = $logic;
 
+    echo "<div id='ajax_response'></div>";
     # footer
     echo "<div class='center'>
     <h1>footer</h1>
