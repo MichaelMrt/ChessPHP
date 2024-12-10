@@ -38,7 +38,6 @@ class Logic
     protected Chessboard $chessboard_obj;
     protected mixed $chessboard;
     protected bool $whitesturn=true; // has to be removed
-    protected String $error="";
     protected bool $white_in_check=false;
     protected bool $black_in_check=false;
     protected $gamestatus_json;
@@ -62,12 +61,8 @@ class Logic
                 $this->is_checkmate($this->chessboard);
                 $this->chessboard_obj->update_board($this->chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
                 echo $this->gamestatus_json;
-        }else{
-            #echo json_encode(['status' => 'illegal', 'message' => 'Game rules broken', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         }
-       
     }
-
 
 
     #just for testing purpose
