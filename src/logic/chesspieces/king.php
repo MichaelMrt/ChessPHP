@@ -27,7 +27,7 @@ class King extends ChessPiece
          }
       }
 
-      # castling rightside as white
+      # castling short as white
       if($this->color=='white' && $move_to_x==7 && $move_to_y==1){
           if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
             if(is_a($chessboard[8][1], 'Rook')){
@@ -35,6 +35,15 @@ class King extends ChessPiece
             }
           }
       }
+
+      # castling long as white
+      if($this->color=='white' && $move_to_x==3 && $move_to_y==1){
+        if(!is_a($chessboard[2][1], 'Chesspiece') && !is_a($chessboard[3][1],'Chesspiece')&& !is_a($chessboard[4][1],'Chesspiece')){
+          if(is_a($chessboard[8][1], 'Rook')){
+            return true;
+          }
+        }
+    }
 
 
       $_SESSION['error'] = "<p class='error'>kings can't move like that</p>";

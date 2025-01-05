@@ -128,7 +128,6 @@ class Chessboard
 
     function move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
     {
-            $this->check_castling($current_x, $current_y, $move_to_x, $move_to_y);
             $piece = $this->chessboard[$current_x][$current_y];
             $piece->update_position($move_to_x,$move_to_y);
             # Copy the piece to the new position
@@ -164,23 +163,5 @@ class Chessboard
         fclose($myfile);
     }
 
-    function check_castling( $current_x, $current_y, $move_to_x, $move_to_y){
-        $this->check_short_castle_white($current_x, $current_y, $move_to_x, $move_to_y);
-    }
-
-    function check_short_castle_white($current_x, $current_y, $move_to_x, $move_to_y){
-        if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1){
-            $this->move($this->chessboard,8,1,6,1);
-            $this->castling=true;
-        }
-    }
-
-    function get_castling_status(){
-        return $this->castling;
-    }
-
-    function set_castling_status($bool){
-         $this->castling = $bool;
-    }
 }
 ?>

@@ -61,9 +61,13 @@ function sendMove(selected_piece_id, move_to_id){
             }else {
                 console.log("Move is illegal! "+"selected_piece_id: "+selected_piece_id+" move_to_id:"+move_to_id);
             }
-            if(response.castling=='castling'){
+            if(response.castling=='white_castling_short'){
                 console.log("Castling accepted");
                 movePiece(81,61);
+            }
+            if(response.castling=='white_castling_long'){
+                console.log("Castling accepted");
+                movePiece(11,41);
             }
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
         }else {
