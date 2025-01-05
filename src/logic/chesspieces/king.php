@@ -45,6 +45,24 @@ class King extends ChessPiece
         }
     }
 
+    # castling short as black
+    if($this->color=='black' && $move_to_x==7 && $move_to_y==8){
+      if(!is_a($chessboard[6][8], 'Chesspiece') && !is_a($chessboard[7][8],'Chesspiece')){
+        if(is_a($chessboard[8][8], 'Rook')){
+          return true;
+        }
+      }
+    }
+
+    # castling long as black
+    if($this->color=='black' && $move_to_x==3 && $move_to_y==8){
+      if(!is_a($chessboard[2][8], 'Chesspiece') && !is_a($chessboard[3][8],'Chesspiece')&& !is_a($chessboard[4][8],'Chesspiece')){
+        if(is_a($chessboard[8][8], 'Rook')){
+          return true;
+        }
+      }
+    }
+
 
       $_SESSION['error'] = "<p class='error'>kings can't move like that</p>";
         return false;

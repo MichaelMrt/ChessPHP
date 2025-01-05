@@ -272,8 +272,11 @@ class Logic
     function handle_castling($chessboard, $current_x, $current_y, $move_to_x, $move_to_y){
         $this->check_short_castle_white($current_x, $current_y, $move_to_x, $move_to_y);
         $this->check_long_castle_white($current_x, $current_y, $move_to_x, $move_to_y);
+        $this->check_short_castle_black($current_x, $current_y, $move_to_x, $move_to_y);
+        $this->check_long_castle_black($current_x, $current_y, $move_to_x, $move_to_y);
               
     }
+
 
     function check_short_castle_white($current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1){
@@ -282,10 +285,27 @@ class Logic
         }
     }
 
+
     function check_long_castle_white($current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==3 && $move_to_y==1){
             $this->chessboard = $this->chessboard_obj->move($this->chessboard,1,1,4,1);
             $this->gamestatus_json = json_encode(['status' => 'legal', 'message' => 'Castlemove', 'castling' =>"white_castling_long"]); 
+        }
+    }
+
+
+    function check_short_castle_black($current_x, $current_y, $move_to_x, $move_to_y){
+        if($current_x==5 && $current_y==8 && $move_to_x==7 && $move_to_y==8){
+            $this->chessboard = $this->chessboard_obj->move($this->chessboard,8,8,6,8);
+            $this->gamestatus_json = json_encode(['status' => 'legal', 'message' => 'Castlemove', 'castling' =>"black_castling_short"]); 
+        }
+    }
+
+    
+    function check_long_castle_black($current_x, $current_y, $move_to_x, $move_to_y){
+        if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8){
+            $this->chessboard = $this->chessboard_obj->move($this->chessboard,1,8,4,8);
+            $this->gamestatus_json = json_encode(['status' => 'legal', 'message' => 'Castlemove', 'castling' =>"black_castling_long"]); 
         }
     }
 }
