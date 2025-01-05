@@ -2,61 +2,58 @@
 require_once("chess_piece.php");
 
 class Pawn extends ChessPiece
-{   
+{
 
-    function __construct(String $color, int $x, int $y)
-    {
-      parent::__construct($color, $x, $y);
-      $this->type = 'pawn';
-      
-      if($color=='white'){
-        $this->icon ="<img src='../images/chesspieces/white-pawn.png' class='chesspiece'>";
-      }elseif($color=='black'){
-        $this->icon ="<img src='../images/chesspieces/black-pawn.png' class='chesspiece'>";
-      }
+  function __construct(String $color, int $x, int $y)
+  {
+    parent::__construct($color, $x, $y);
+    $this->type = 'pawn';
 
+    if ($color == 'white') {
+      $this->icon = "<img src='../images/chesspieces/white-pawn.png' class='chesspiece'>";
+    } elseif ($color == 'black') {
+      $this->icon = "<img src='../images/chesspieces/black-pawn.png' class='chesspiece'>";
     }
+  }
 
-    function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
-    {
-        # Coordinates from the current Piece position
-        $current_x = $this->x;
-        $current_y = $this->y;
-        
-        #check if there is nothing on the move_to_field
-        if($chessboard[$move_to_x][$move_to_y] == ""){
-            #check if pawn is moving two fields forwards, check which color is moving, according to the color check if it is the start position of the pawn, x position should stay the same
-            if(((($current_y-2 == $move_to_y) and ($this->color == "black") and ($current_y == 7) and !is_a($chessboard[$current_x][$current_y-1],"ChessPiece"))  or  
-                (($current_y+2 == $move_to_y) and ($this->color == "white") and ($current_y == 2) and !is_a($chessboard[$current_x][$current_y+1],"ChessPiece"))) and 
-                  $current_x == $move_to_x){
-                return true;
-            #check if pawn is only moving one field forwards
-            }elseif(((($current_y-1 == $move_to_y) and ($this->color == "black"))  or  
-                     (($current_y+1 == $move_to_y) and ($this->color == "white"))) and 
-                       $current_x == $move_to_x and $this->check_target_square($chessboard,$move_to_x,$move_to_y))
-                       {
-                    return true;
-            }
-        #check if pawn is moving one field diagonal
-        }elseif((((($current_y-1 == $move_to_y) and ($this->color == "black"))  or  
-                 (($current_y+1 == $move_to_y) and ($this->color == "white"))) and 
-                 (($current_x+1 == $move_to_x) or ($current_x-1 == $move_to_x))) and $this->check_target_square($chessboard,$move_to_x,$move_to_y)){
-                return true;
-        }
-            return false;
-        
-    }
+  
+  function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y): bool
+  {
+    # Coordinates from the current Piece position
+    $current_x = $this->x;
+    $current_y = $this->y;
 
-    public function check_target_square(mixed $chessboard,int $move_to_x, int $move_to_y):bool
-    {
-      # check if there is a piece on the move to square and if it is opposite color
-      if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece') &&  $chessboard[$this->x][$this->y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
-        return true;
-       }elseif(!is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece')){
-        return true;
-       }else{
-        return false;
-       }
-    }
+    return $this->check_moving_onesquare_forwards($current_x, $current_y, $move_to_x, $move_to_y) or
+      $this->check_moving_twosquares_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
+      $this->check_diagonal_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
+  }
 
+
+  function check_moving_onesquare_forwards($current_x, $current_y, $move_to_x, $move_to_y)
+  {
+    $is_white_move = $this->color == "white" && $current_y + 1 == $move_to_y;
+    $is_black_move = $this->color == "black" && $current_y - 1 == $move_to_y;
+    $same_file = $current_x == $move_to_x;
+    return $is_white_move || $is_black_move && $same_file;
+  }
+
+
+  function check_moving_twosquares_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)
+  {
+    $is_white_move = $this->color == "white" && $current_y == 2 && $move_to_y == 4 && $chessboard[$current_x][$current_y + 1] == "";
+    $is_black_move = $this->color == "black" && $current_y == 7 && $move_to_y == 5 && $chessboard[$current_x][$current_y - 1] == "";
+    $same_file = $current_x == $move_to_x;
+    return $is_white_move || $is_black_move && $same_file;
+  }
+
+
+  function check_diagonal_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)
+  {
+    $is_takes_move = is_a($chessboard[$move_to_x][$move_to_y], "ChessPiece");
+    $is_black_move = $this->color == "black" && $move_to_x - 1 == $move_to_x;
+    $is_white_move = $this->color == "white" && $current_y + 1 == $current_y;
+    $is_diagonal_move = abs($current_x - $move_to_x) == 1;
+
+    return ($is_black_move || $is_white_move) && ($is_diagonal_move && $is_takes_move);
+  }
 }
