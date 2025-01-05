@@ -27,44 +27,44 @@ class King extends ChessPiece
          }
       }
 
+      if($this->has_moved==false){
       # castling short as white
-      if($this->color=='white' && $move_to_x==7 && $move_to_y==1){
-          if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
-            if(is_a($chessboard[8][1], 'Rook')){
+        if($this->color=='white' && $move_to_x==7 && $move_to_y==1){
+            if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
+              if(is_a($chessboard[8][1], 'Rook') && $chessboard[8][1]->has_moved==false){
+                return true;
+              }
+            }
+        }
+
+        # castling long as white
+        if($this->color=='white' && $move_to_x==3 && $move_to_y==1){
+          if(!is_a($chessboard[2][1], 'Chesspiece') && !is_a($chessboard[3][1],'Chesspiece')&& !is_a($chessboard[4][1],'Chesspiece')){
+            if(is_a($chessboard[8][1], 'Rook') && $chessboard[8][1]->has_moved==false){
               return true;
             }
           }
       }
 
-      # castling long as white
-      if($this->color=='white' && $move_to_x==3 && $move_to_y==1){
-        if(!is_a($chessboard[2][1], 'Chesspiece') && !is_a($chessboard[3][1],'Chesspiece')&& !is_a($chessboard[4][1],'Chesspiece')){
-          if(is_a($chessboard[8][1], 'Rook')){
+      # castling short as black
+      if($this->color=='black' && $move_to_x==7 && $move_to_y==8){
+        if(!is_a($chessboard[6][8], 'Chesspiece') && !is_a($chessboard[7][8],'Chesspiece')){
+          if(is_a($chessboard[8][8], 'Rook') && $chessboard[8][8]->has_moved==false){
             return true;
           }
         }
-    }
+      }
 
-    # castling short as black
-    if($this->color=='black' && $move_to_x==7 && $move_to_y==8){
-      if(!is_a($chessboard[6][8], 'Chesspiece') && !is_a($chessboard[7][8],'Chesspiece')){
-        if(is_a($chessboard[8][8], 'Rook')){
-          return true;
+      # castling long as black
+      if($this->color=='black' && $move_to_x==3 && $move_to_y==8){
+        if(!is_a($chessboard[2][8], 'Chesspiece') && !is_a($chessboard[3][8],'Chesspiece')&& !is_a($chessboard[4][8],'Chesspiece')){
+          if(is_a($chessboard[8][8], 'Rook') && $chessboard[8][8]->has_moved==false){
+            return true;
+          }
         }
       }
-    }
+  }
 
-    # castling long as black
-    if($this->color=='black' && $move_to_x==3 && $move_to_y==8){
-      if(!is_a($chessboard[2][8], 'Chesspiece') && !is_a($chessboard[3][8],'Chesspiece')&& !is_a($chessboard[4][8],'Chesspiece')){
-        if(is_a($chessboard[8][8], 'Rook')){
-          return true;
-        }
-      }
-    }
-
-
-      $_SESSION['error'] = "<p class='error'>kings can't move like that</p>";
         return false;
     }
 

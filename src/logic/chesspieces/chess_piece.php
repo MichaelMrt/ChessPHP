@@ -7,6 +7,7 @@ abstract class ChessPiece implements JsonSerializable
     protected int $y;
     protected String $icon;
     protected String $id;
+    protected bool $has_moved = false;
     
     function __construct(String $color, int $x, int $y)
     {
@@ -32,6 +33,7 @@ abstract class ChessPiece implements JsonSerializable
     public function update_position($pos_x, $pos_y){
         $this->x = $pos_x;
         $this->y = $pos_y;
+        $this->has_moved = true;
     }
 
     public function get_icon():String
