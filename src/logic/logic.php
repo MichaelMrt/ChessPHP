@@ -59,7 +59,6 @@ class Logic
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
-                $this->handle_castling($this->chessboard, $current_x, $current_y,$move_to_x,$move_to_y);
                 echo $this->gamestatus_json;
         }
     }
@@ -98,7 +97,8 @@ class Logic
         return false;
       }
 
-        return true;
+      $this->handle_castling($this->chessboard, $current_x, $current_y,$move_to_x,$move_to_y);
+      return true;
     }
 
 
@@ -301,11 +301,40 @@ class Logic
         }
     }
 
-    
+
     function check_long_castle_black($current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8){
             $this->chessboard = $this->chessboard_obj->move($this->chessboard,1,8,4,8);
             $this->gamestatus_json = json_encode(['status' => 'legal', 'message' => 'Castlemove', 'castling' =>"black_castling_long"]); 
         }
+    }
+
+    
+    function white_piece_can_move_to_square($target_x, $target_y){
+        # first scan all pieces on the board
+        for($x=1;$x<=8;$x++){
+            for($y=1;$y<=8;$y++){
+                    if(is_a($this->chessboard[$x][$y],'ChessPiece')&&$this->chessboard[$x][$y]->get_color()=="white"){
+                        if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$target_x,$target_y)){
+                            return true;
+                        }
+                } 
+            }                    
+        }
+        return false;
+    }
+
+    function black_piece_can_move_to_square($target_x, $target_y){
+        # first scan all pieces on the board
+        for($x=1;$x<=8;$x++){
+            for($y=1;$y<=8;$y++){
+                    if(is_a($this->chessboard[$x][$y],'ChessPiece')&&$this->chessboard[$x][$y]->get_color()=="black"){
+                        if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$target_x,$target_y)){
+                            return true;
+                        }
+                } 
+            }                    
+        }
+        return false;
     }
 }
