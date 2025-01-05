@@ -4,6 +4,12 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+}
+
 .center {
     max-width: fit-content;
     margin-left: auto;

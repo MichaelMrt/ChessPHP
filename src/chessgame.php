@@ -10,11 +10,22 @@
 <body>
 <?php
     require_once("logic/logic.php");
-    
+
+    echo "<div class='container'>";
+
+    echo "<div class='center'> <h1> Info <h1></div>";
+
     $logic = new logic(); //start game
     $_SESSION['chess_game'] = $logic;
 
+    echo "<div class='center'> <h1>Moves</h1>";
+    echo "<p id='movehistory'>test</p>";
+    echo  "</div>";
+
+    echo "</div>";
+
     echo "<div id='ajax_response'></div>";
+    
     # footer
     echo "<div class='center'>
     <h1>footer</h1>
