@@ -5,7 +5,6 @@ class Pawn extends ChessPiece
 {
   public $check_enpassant = false;
   public $enpassant_possible = false;
-  public $chessboard;
 
   function __construct(String $color, int $x, int $y)
   {
@@ -47,8 +46,6 @@ class Pawn extends ChessPiece
     $is_white_move = $this->color == "white" && $current_y == 2 && $move_to_y == 4 && $chessboard[$current_x][$current_y + 1] == "";
     $is_black_move = $this->color == "black" && $current_y == 7 && $move_to_y == 5 && $chessboard[$current_x][$current_y - 1] == "";
     $same_file = $current_x == $move_to_x;
-    $this->check_enpassant = true;
-    $this->chessboard = $chessboard;
     return ($is_white_move || $is_black_move) && $same_file;
   }
 
@@ -66,20 +63,7 @@ class Pawn extends ChessPiece
   function update_position($pos_x, $pos_y)
   {
     parent::update_position($pos_x, $pos_y);
-
-    if($this->check_enpassant==true){
-      $right= $this->chessboard[$pos_x+1][$pos_y];
-      $left = $this->chessboard[$pos_x-1][$pos_y];
-      if($right instanceof Pawn && $right->color != $this->color){
-        print($right);
-        $right->set_enpassant_possible();
-      }
-      
-      if($left instanceof Pawn && $left->color != $this->color){
-        $left->set_enpassant_possible();
-      }
-      $this->check_enpassant = false;
-    }
+    $this->check_enpassant = false;
   }
 
   function set_enpassant_possible()
@@ -90,6 +74,9 @@ class Pawn extends ChessPiece
   function check_enpassant($chessboard, $current_x, $current_y, $move_to_x, $move_to_y){
     if($this->enpassant_possible){
       if($move_to_x == $this->x+1 && $move_to_y == $this->y+1){
+        return true;
+      }
+      if($move_to_x == $this->x-1 && $move_to_y == $this->y+1){
         return true;
       }
 

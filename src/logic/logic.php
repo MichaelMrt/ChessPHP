@@ -52,10 +52,13 @@ class Logic
 
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     {   
-        
+        if($this->chessboard[$current_x][$current_y]==""){
+            throw new Exception("No piece on this square");
+        }
         if($this->check_rules($current_x, $current_y,$move_to_x,$move_to_y)){           
                 # move is legal
                 $this->gamestatus_json = json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y", 'castling' => $this->castling_status]);
+                $this->handle_enpassant($current_x, $current_y, $move_to_x, $move_to_y);
                 $this->castling_status = "none";           
                 $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
@@ -413,4 +416,26 @@ class Logic
 
         return $legal;
     }
+
+    function handle_enpassant($current_x, $current_y, $move_to_x, $move_to_y){
+        $current_square = $this->chessboard[$current_x][$current_y];
+        $left_square = $this->chessboard[$move_to_x-1][$move_to_y];
+        $right_square = $this->chessboard[$move_to_x+1][$move_to_y];
+        $move_to_square = $this->chessboard[$move_to_x][$move_to_y];
+
+        if($current_square instanceof Pawn && abs($current_y-$move_to_y)==2){
+            if($right_square instanceof Pawn){
+                $right_square->set_enpassant_possible();
+            }
+            if($left_square instanceof Pawn){
+                $left_square->set_enpassant_possible();
+            }
+        }
+
+        if($current_square instanceof Pawn && abs($current_x-$move_to_x)==1 && $move_to_square==""){
+            $this->chessboard_obj->remove_piece($move_to_x, $current_y);
+            $this->gamestatus_json = json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y",
+             'castling' => $this->castling_status, 'enpassant' => 'true', 'remove_piece' => "$move_to_x$current_y"]);
+        }
+    }   
 }

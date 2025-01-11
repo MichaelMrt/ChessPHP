@@ -80,6 +80,11 @@ function sendMove(selected_piece_id, move_to_id){
                 movePiece(18,48);
             }
 
+            // En passant
+            if(response.enpassant=='true'){
+                remove_piece(document.getElementById(response.remove_piece));
+            }
+
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
         }else {
             console.error('An error occured while sending the move: ' + xhr.statusText);
@@ -137,4 +142,9 @@ function move_html_img(selected_square, move_to_square){
     chesspiece_icon = selected_square.innerHTML;
     selected_square.innerHTML='';
     move_to_square.innerHTML = chesspiece_icon;
+}
+
+
+function remove_piece(square){
+    square.innerHTML='';
 }

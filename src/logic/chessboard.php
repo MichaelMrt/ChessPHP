@@ -163,5 +163,10 @@ class Chessboard
         fclose($myfile);
     }
 
+    public function remove_piece(int $x, int $y):void
+    {
+        $this->chessboard[$x][$y] = "";
+    }
+
 }
 ?>
