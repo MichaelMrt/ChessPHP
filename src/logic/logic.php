@@ -156,7 +156,13 @@ class Logic
             }    
         }
         if($king_pos==null){
-            print("NO KING FOUND");
+            throw new Exception("King is not on the board");
+        }
+        if($king_pos['white']==null){
+            throw new Exception("White King is not on the board");
+        }	
+        if($king_pos['black']==null){
+            throw new Exception("Black King is not on the board");
         }
      return $king_pos;
     }
