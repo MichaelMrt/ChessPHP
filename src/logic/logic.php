@@ -425,10 +425,10 @@ class Logic
 
         if($current_square instanceof Pawn && abs($current_y-$move_to_y)==2){
             if($right_square instanceof Pawn){
-                $right_square->set_enpassant_possible();
+                $right_square->set_enpassant_left_possible();
             }
             if($left_square instanceof Pawn){
-                $left_square->set_enpassant_possible();
+                $left_square->set_enpassant_right_possible();
             }
         }
 

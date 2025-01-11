@@ -4,7 +4,8 @@ require_once("chess_piece.php");
 class Pawn extends ChessPiece
 {
   public $check_enpassant = false;
-  public $enpassant_possible = false;
+  public $enpassant_left_possible = false;
+  public $enpassant_right_possible = false;
 
   function __construct(String $color, int $x, int $y)
   {
@@ -66,21 +67,39 @@ class Pawn extends ChessPiece
     $this->check_enpassant = false;
   }
 
-  function set_enpassant_possible()
+  function set_enpassant_left_possible()
   {
-    $this->enpassant_possible = true;
+    $this->enpassant_left_possible = true;
+  }
+
+  function set_enpassant_right_possible()
+  {
+    $this->enpassant_right_possible = true;
   }
 
   function check_enpassant($chessboard, $current_x, $current_y, $move_to_x, $move_to_y){
-    if($this->enpassant_possible){
-      if($move_to_x == $this->x+1 && $move_to_y == $this->y+1){
-        return true;
+    if($this->color == "white"){
+      if($this->enpassant_left_possible){
+        if($move_to_x == $this->x-1 && $move_to_y == $this->y+1){
+          return true;
+        }
       }
-      if($move_to_x == $this->x-1 && $move_to_y == $this->y+1){
-        return true;
+      if($this->enpassant_right_possible){
+        if($move_to_x == $this->x+1 && $move_to_y == $this->y+1){
+          return true;
+        }
       }
-
-
+   }else{
+      if($this->enpassant_left_possible){
+        if($move_to_x == $this->x-1 && $move_to_y == $this->y-1){
+          return true;
+        }
+      }
+      if($this->enpassant_right_possible){
+        if($move_to_x == $this->x+1 && $move_to_y == $this->y-1){
+          return true;
+        }
+      }
     }
     return false;
   }
