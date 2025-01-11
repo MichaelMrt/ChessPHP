@@ -88,7 +88,7 @@ class Pawn extends ChessPiece
     return $this->enpassant_right_possible;
   }
 
-  function check_enpassant($chessboard, $current_x, $current_y, $move_to_x, $move_to_y){
+  function check_enpassant($move_to_x, $move_to_y){
     if($this->color == "white"){
       if($this->enpassant_left_possible){
         if($move_to_x == $this->x-1 && $move_to_y == $this->y+1){
