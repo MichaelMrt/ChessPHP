@@ -418,10 +418,20 @@ class Logic
     }
 
     function handle_enpassant($current_x, $current_y, $move_to_x, $move_to_y){
+        
         $current_square = $this->chessboard[$current_x][$current_y];
-        $left_square = $this->chessboard[$move_to_x-1][$move_to_y];
-        $right_square = $this->chessboard[$move_to_x+1][$move_to_y];
         $move_to_square = $this->chessboard[$move_to_x][$move_to_y];
+
+        if($move_to_x-1>0){
+            $left_square = $this->chessboard[$move_to_x-1][$move_to_y];
+        }else{
+            $left_square = null;
+        }
+        if($move_to_x+1<9){
+            $right_square = $this->chessboard[$move_to_x+1][$move_to_y];
+        }else{
+            $right_square = null;
+        }
 
         if($current_square instanceof Pawn && abs($current_y-$move_to_y)==2){
             if($right_square instanceof Pawn){
