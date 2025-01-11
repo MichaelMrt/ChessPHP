@@ -67,14 +67,25 @@ class Pawn extends ChessPiece
     $this->check_enpassant = false;
   }
 
-  function set_enpassant_left_possible()
+  function set_enpassant_left_possible($bool)
   {
-    $this->enpassant_left_possible = true;
+    $this->enpassant_left_possible = $bool;
   }
 
-  function set_enpassant_right_possible()
+  function set_enpassant_right_possible($bool)
   {
-    $this->enpassant_right_possible = true;
+    $this->enpassant_right_possible = $bool;
+  }
+
+
+  function get_enpassant_left_possible()
+  {
+    return $this->enpassant_left_possible;
+  }
+
+  function get_enpassant_right_possible()
+  {
+    return $this->enpassant_right_possible;
   }
 
   function check_enpassant($chessboard, $current_x, $current_y, $move_to_x, $move_to_y){

@@ -418,9 +418,40 @@ class Logic
     }
 
     function handle_enpassant($current_x, $current_y, $move_to_x, $move_to_y){
-        
         $current_square = $this->chessboard[$current_x][$current_y];
         $move_to_square = $this->chessboard[$move_to_x][$move_to_y];
+
+
+        if($current_square instanceof Pawn && abs($current_x-$move_to_x)==1 && $move_to_square==""){
+            $this->chessboard_obj->remove_piece($move_to_x, $current_y);
+            $this->gamestatus_json = json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y",
+             'castling' => $this->castling_status, 'enpassant' => 'true', 'remove_piece' => "$move_to_x$current_y"]);
+        }
+
+        for($x=1;$x<=8;$x++){
+            for($y=1;$y<=8;$y++){
+                if($this->chessboard[$x][$y] instanceof Pawn){
+                    if($this->chessboard[$x][$y]->get_color()=="black" && $this->whitesturn){
+                        if($this->chessboard[$x][$y]->get_enpassant_left_possible()==true){
+                           $this->chessboard[$x][$y]->set_enpassant_left_possible(false);
+                        }
+                        if($this->chessboard[$x][$y]->get_enpassant_right_possible()==true){
+                            $this->chessboard[$x][$y]->set_enpassant_right_possible(false);
+                        }
+                    }elseif($this->chessboard[$x][$y]->get_color()=="white" && !$this->whitesturn){
+                        if($this->chessboard[$x][$y]->get_enpassant_left_possible()==true){
+                            $this->chessboard[$x][$y]->set_enpassant_left_possible(false);
+                        }
+                        if($this->chessboard[$x][$y]->get_enpassant_right_possible()==true){
+                            $this->chessboard[$x][$y]->set_enpassant_right_possible(false);
+                        }
+                    }
+                }
+            }                    
+        }
+
+
+
 
         if($move_to_x-1>0){
             $left_square = $this->chessboard[$move_to_x-1][$move_to_y];
@@ -435,17 +466,15 @@ class Logic
 
         if($current_square instanceof Pawn && abs($current_y-$move_to_y)==2){
             if($right_square instanceof Pawn){
-                $right_square->set_enpassant_left_possible();
+                $right_square->set_enpassant_left_possible(true);
             }
             if($left_square instanceof Pawn){
-                $left_square->set_enpassant_right_possible();
+                $left_square->set_enpassant_right_possible(true);
             }
         }
 
-        if($current_square instanceof Pawn && abs($current_x-$move_to_x)==1 && $move_to_square==""){
-            $this->chessboard_obj->remove_piece($move_to_x, $current_y);
-            $this->gamestatus_json = json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y",
-             'castling' => $this->castling_status, 'enpassant' => 'true', 'remove_piece' => "$move_to_x$current_y"]);
-        }
+
+
+        
     }   
 }
