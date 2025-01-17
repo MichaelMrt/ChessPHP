@@ -6,6 +6,8 @@ require_once("chesspieces/bishop.php");
 require_once("chesspieces/knight.php");
 require_once("chesspieces/rook.php");
 require_once("chessboard.php");
+require_once("bot.php");
+
 
 session_start();
 
@@ -68,7 +70,7 @@ class Logic
                 $this->is_checkmate($this->chessboard);
                 if($this->gamemode=="solo"){
                     $status = json_decode($this->gamestatus_json, true);
-                    $status['new'] = 'yes';
+                    $status['weight'] = evaluate_board($this->chessboard);
                     $this->gamestatus_json = json_encode($status);
                 }
                 echo $this->gamestatus_json;

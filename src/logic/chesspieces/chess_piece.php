@@ -8,7 +8,7 @@ abstract class ChessPiece implements JsonSerializable
     protected String $icon;
     protected String $id;
     protected bool $has_moved = false;
-    protected int $weight;
+    protected $weight;
     
     function __construct(String $color, int $x, int $y)
     {
