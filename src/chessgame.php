@@ -11,10 +11,23 @@
 <?php
     require_once("logic/logic.php");
 
+    if( isset($_GET['gamemode'])){
+        $gamemode = $_GET['gamemode'];
+    }else{
+        $gamemode = "solo";
+    }
+
+    if( isset($_GET['color'])){
+        $color = $_GET['color'];
+    }else
+        $color = "white";
+
+    echo $gamemode ." ". $color;
     echo "<div class='container'>";
 
     echo "<div class='center'> <h1> Info <h1></div>";
 
+    
     $logic = new logic(); //start game
     $_SESSION['chess_game'] = $logic;
 
