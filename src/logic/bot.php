@@ -30,22 +30,35 @@ function evaluate_board($chessboard){
 }
 
 
-function minimax($chessboard_obj,$chessboard, $depth, $color){
-     $legal_moves = $chessboard_obj->get_legal_moves($color);
-    // $random = random_int(0,count($legal_moves));
-    // $random_move = $legal_moves[$random];
+function minimax($chessboard_obj,$chessboard, $depth,$score, $isBotMove){
 
+
+    $legal_moves = $chessboard_obj->get_legal_moves($isBotMove);
+    $best_score = -100000;
+
+    if(count($legal_moves)==0 || $depth==0){
+        return $best_score;
+    }
+
+    
 
     for($i = 0; $i < count($legal_moves); $i++){
         $current_x = $legal_moves[$i][0];
         $current_y = $legal_moves[$i][1];
         $move_to_x = $legal_moves[$i][2];
         $move_to_y = $legal_moves[$i][3];
-        $new_board = $chessboard_obj->test_move($chessboard,$current_x,$current_y,$move_to_x,$move_to_y);
-        $score[$i] = $current_x.$current_y.$move_to_x.$move_to_y.":".evaluate_board($new_board);   
+        $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
+        $score = evaluate_board($new_board);
+
+        $scores_tracker[$i] = $current_x.$current_y.$move_to_x.$move_to_y." ".$score;
+
+        if($score > $best_score){
+            $best_score = $score;
+        }
+        $score = minimax($chessboard_obj, $new_board, $depth-1, $score, !$isBotMove);   
     }
 
 
-    return $score;
-}
+    return $scores_tracker;
+   }
 ?>
