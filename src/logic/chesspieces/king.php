@@ -1,8 +1,9 @@
 <?php
 class King extends ChessPiece
 {
-    function __construct(String $color, int $x, int $y)
-    {
+  protected $weight = 60000;
+  function __construct(String $color, int $x, int $y)
+  {
       parent::__construct($color, $x, $y);
       $this->type = 'king';
 
@@ -11,9 +12,9 @@ class King extends ChessPiece
       }elseif($color=='black'){
         $this->icon ="<img src='../images/chesspieces/black-king.png' class='chesspiece'>";
       }
-    }
+  }
 
-    function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
+  function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
     {
       $distance_x = sqrt(pow(($move_to_x-$this->x),2)); 
       $distance_y = sqrt(pow(($move_to_y-$this->y),2)); 

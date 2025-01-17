@@ -6,7 +6,7 @@ class Queen extends ChessPiece
 
     use RookTrait;
     use BishopTrait;
-
+    protected $weight = 900;
     function __construct(String $color, int $x, int $y)
     {
       parent::__construct($color, $x, $y);

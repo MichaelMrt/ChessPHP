@@ -1,6 +1,7 @@
 <?php
 class Knight extends ChessPiece
 {
+  protected $weight = 280;
     function __construct(String $color, int $x, int $y)
     {
       parent::__construct($color, $x, $y);

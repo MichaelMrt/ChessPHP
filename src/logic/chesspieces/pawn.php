@@ -6,6 +6,7 @@ class Pawn extends ChessPiece
   public $check_enpassant = false;
   public $enpassant_left_possible = false;
   public $enpassant_right_possible = false;
+  protected $weight = 100;
 
   function __construct(String $color, int $x, int $y)
   {

@@ -4,7 +4,7 @@ require_once('traits.php');
 class Rook extends ChessPiece
 {   
     use RookTrait;
-
+    protected $weight = 500;
     function __construct(String $color, int $x, int $y)
     {
       parent::__construct($color, $x, $y);
