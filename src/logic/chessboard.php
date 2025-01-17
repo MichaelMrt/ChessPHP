@@ -146,6 +146,7 @@ class Chessboard
 
             # Delete old piece position
             $chessboard[$current_x][$current_y] = "";
+            $chessboard[$current_x][$current_y] = "";
         return $chessboard;
     }
 

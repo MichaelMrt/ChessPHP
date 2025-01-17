@@ -63,7 +63,8 @@ class Logic
                 # move is legal
                 $this->gamestatus_json = json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y", 'castling' => $this->castling_status]);
                 $this->handle_enpassant($current_x, $current_y, $move_to_x, $move_to_y);
-                $this->castling_status = "none";           
+                $this->castling_status = "none";  
+                $old_board = $this->chessboard;         
                 $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard);
@@ -72,7 +73,7 @@ class Logic
                     $status = json_decode($this->gamestatus_json, true);
                     $status['weight'] = evaluate_board($this->chessboard);
 
-                    $status['botmove'] = minimax($this->chessboard_obj, 1, $this->whitesturn);
+                    $status['botmove'] = minimax($this->chessboard_obj,$old_board, 1, $this->whitesturn);
                     $this->gamestatus_json = json_encode($status);
                 }
                 echo $this->gamestatus_json;
