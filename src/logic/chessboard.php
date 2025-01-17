@@ -168,5 +168,29 @@ class Chessboard
         $this->chessboard[$x][$y] = "";
     }
 
+    function get_legal_moves($whitesturn){
+        $legal_moves = [];
+        if($whitesturn){
+            $color = "white";
+        }else{
+            $color = "black";
+        }
+
+        for($x=1;$x<=8;$x++){
+            for($y=1;$y<=8;$y++){
+                if(is_a($this->chessboard[$x][$y],'ChessPiece') && $this->chessboard[$x][$y]->get_color()==$color){
+                    for($move_x=1;$move_x<=8;$move_x++){
+                        for($move_y=1;$move_y<=8;$move_y++){
+                            if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$move_x,$move_y)){
+                                $legal_moves[] = [$x,$y,$move_x,$move_y];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $legal_moves;
+    }
+
 }
 ?>

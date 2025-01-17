@@ -85,6 +85,17 @@ function sendMove(selected_piece_id, move_to_id){
                 remove_piece(document.getElementById(response.remove_piece));
             }
 
+            //Bot move
+            if(response.botmove!=null){
+                console.log("ACHTUNG");
+                console.log(response.botmove);
+                console.log(String(response.botmove[0])+String(response.botmove[1]), String(response.botmove[2])+String(response.botmove[3]));
+                selected_piece_id = String(response.botmove[0])+String(response.botmove[1]);
+                move_to_id = String(response.botmove[2])+String(response.botmove[3]);
+                movePiece(selected_piece_id, move_to_id);
+            }
+
+
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
         }else {
             console.error('An error occured while sending the move: ' + xhr.statusText);

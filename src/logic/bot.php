@@ -27,4 +27,13 @@ function evaluate_board($chessboard){
 }
         return $white_score - $black_score;
 }
+
+
+function minimax($chessboard_obj, $depth, $color){
+    $legal_moves = $chessboard_obj->get_legal_moves($color);
+    $random = random_int(0,count($legal_moves));
+    $random_move = $legal_moves[$random];
+
+    return $random_move;
+}
 ?>
