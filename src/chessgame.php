@@ -28,7 +28,7 @@
     echo "<div class='center'> <h1> Info <h1></div>";
 
     
-    $logic = new logic(); //start game
+    $logic = new logic($gamemode); //start game
     $_SESSION['chess_game'] = $logic;
 
     echo "<div class='center'> <h1>Moves</h1>";

@@ -42,11 +42,13 @@ class Logic
     protected bool $black_in_check=false;
     protected $gamestatus_json;
     protected string $castling_status = "none";
+    protected string $gamemode;
     
-    function __construct()
+    function __construct($gamemode)
     {   
         $this->chessboard_obj = new chessboard();
         $this->chessboard = $this->chessboard_obj->get_board();
+        $this->gamemode = $gamemode;
     }
 
 
@@ -64,6 +66,11 @@ class Logic
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
+                if($this->gamemode=="solo"){
+                    $status = json_decode($this->gamestatus_json, true);
+                    $status['new'] = 'yes';
+                    $this->gamestatus_json = json_encode($status);
+                }
                 echo $this->gamestatus_json;
         }
     }
