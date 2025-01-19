@@ -30,17 +30,15 @@ function evaluate_board($chessboard){
 }
 
 
-function minimax($chessboard_obj, $chessboard, $depth,$score, $isBotMove, $botcolor){
+function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMove, $botcolor){
 
     
 
     if($botcolor=='white'){
         $whitesmove = true;
         $best_score = -100000;
-        $worst_score = 100000;
     }else{
         $best_score = 100000;
-        $worst_score = -100000;
         $whitesmove = false;
     }
 
@@ -50,7 +48,7 @@ function minimax($chessboard_obj, $chessboard, $depth,$score, $isBotMove, $botco
 
 
     if(count($legal_moves)==0 || $depth==0){
-        return $best_score;
+        return $previous_score;
     }
 
     for($i = 0; $i < count($legal_moves); $i++){
@@ -60,22 +58,22 @@ function minimax($chessboard_obj, $chessboard, $depth,$score, $isBotMove, $botco
         $move_to_y = $legal_moves[$i][3];
         $move = $current_x.$current_y.$move_to_x.$move_to_y;
         $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
-        $score = evaluate_board($new_board);
-        $scores_tracker[$i] = $current_x.$current_y.$move_to_x.$move_to_y." ".$score;
+        $new_score = $previous_score+evaluate_board($new_board);
+        $node_score = minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove, $botcolor);   
+        $score = 0;
 
         if($botcolor=='white'){
-            if($score > $best_score){
-                $best_score = $score;
+            if($node_score > $best_score){
+                $best_score = $node_score;
             }
         }else{
-            if($score < $best_score){ //Smaller score is better for black
-                $best_score = $score;
+            if($node_score < $best_score){ //Smaller score is better for black
+                $best_score = $node_score;
                 $best_move = $move;
             }
         }
         
 
-        $score = minimax($chessboard_obj, $new_board, $depth-1, $score, !$isBotMove, $botcolor);   
     }
 
 
