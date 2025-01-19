@@ -46,7 +46,7 @@ function sendMove(selected_piece_id, move_to_id){
     console.log("move:"+selected_piece_id+" "+move_to_id)
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'logic/logic.php', true);
+    xhr.open('POST', 'logic/process_move.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function() {
