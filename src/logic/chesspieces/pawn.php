@@ -27,19 +27,21 @@ class Pawn extends ChessPiece
     $current_x = $this->x;
     $current_y = $this->y;
 
-    return $this->check_moving_onesquare_forwards($current_x, $current_y, $move_to_x, $move_to_y) or
+    return ($this->check_moving_onesquare_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
       $this->check_moving_twosquares_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
       $this->check_diagonal_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
-      $this->check_enpassant($move_to_x, $move_to_y);
+      $this->check_enpassant($move_to_x, $move_to_y)) and
+      $this->check_target_square($chessboard, $move_to_x, $move_to_y);
   }
 
 
-  function check_moving_onesquare_forwards($current_x, $current_y, $move_to_x, $move_to_y)
+  function check_moving_onesquare_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)
   {
     $is_white_move = $this->color == "white" && $current_y + 1 == $move_to_y;
     $is_black_move = $this->color == "black" && $current_y - 1 == $move_to_y;
     $same_file = $current_x == $move_to_x;
-    return ($is_white_move || $is_black_move) && $same_file;
+    $target_square_empty = $this->target_square_empty($chessboard, $move_to_x, $move_to_y);
+    return ($is_white_move || $is_black_move) && $same_file && $target_square_empty;
   }
 
 
@@ -48,7 +50,8 @@ class Pawn extends ChessPiece
     $is_white_move = $this->color == "white" && $current_y == 2 && $move_to_y == 4 && $chessboard[$current_x][$current_y + 1] == "";
     $is_black_move = $this->color == "black" && $current_y == 7 && $move_to_y == 5 && $chessboard[$current_x][$current_y - 1] == "";
     $same_file = $current_x == $move_to_x;
-    return ($is_white_move || $is_black_move) && $same_file;
+    $target_square_empty = $this->target_square_empty($chessboard, $move_to_x, $move_to_y);
+    return ($is_white_move || $is_black_move) && $same_file && $target_square_empty;
   }
 
 
@@ -114,5 +117,15 @@ class Pawn extends ChessPiece
       }
     }
     return false;
+  }
+
+
+  function target_square_empty($chessboard, $move_to_x, $move_to_y): bool
+  {
+    if ($chessboard[$move_to_x][$move_to_y] == "") {
+      return true;
+    }else{
+      return false;
+    }
   }
 }

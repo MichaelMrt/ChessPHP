@@ -152,7 +152,7 @@ function remove_piece(square){
 }
 
 async function get_bot_move(){
-    await new Promise(r => setTimeout(r, 500));
+    //await new Promise(r => setTimeout(r, 500));
     console.log("BOT REQUESTED MOVE");
 
     var xhr = new XMLHttpRequest();
