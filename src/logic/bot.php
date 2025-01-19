@@ -34,12 +34,14 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
 
     
 
-    if($botcolor=='white'){
-        $whitesmove = true;
-        $best_score = -100000;
-    }else{
-        $best_score = 100000;
+    if($isBotMove==true){
         $whitesmove = false;
+        $best_score = 100000;
+    }
+
+    if($isBotMove==false){
+        $best_score = -100000;
+        $whitesmove = true;
     }
 
     $legal_moves = $chessboard_obj->get_legal_moves($whitesmove);
@@ -60,14 +62,14 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
         $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
         $new_score = $previous_score+evaluate_board($new_board);
         $node_score = minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove, $botcolor);   
-        $score = 0;
 
-        if($botcolor=='white'){
-            if($node_score > $best_score){
+        if($isBotMove){ // Maximize for bot
+            if($node_score < $best_score){
                 $best_score = $node_score;
+                $best_move = $move;
             }
         }else{
-            if($node_score < $best_score){ //Smaller score is better for black
+            if($node_score > $best_score){ // Minimize for bot
                 $best_score = $node_score;
                 $best_move = $move;
             }
