@@ -84,18 +84,10 @@ function sendMove(selected_piece_id, move_to_id){
             if(response.enpassant=='true'){
                 remove_piece(document.getElementById(response.remove_piece));
             }
-
-            //Bot move
-            if(response.botmove!=null){
-                console.log(response.botmove);
-                // console.log(String(response.botmove[0])+String(response.botmove[1]), String(response.botmove[2])+String(response.botmove[3]));
-                // selected_piece_id = String(response.botmove[0])+String(response.botmove[1]);
-                // move_to_id = String(response.botmove[2])+String(response.botmove[3]);
-                // movePiece(selected_piece_id, move_to_id);
-            }
-
-
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
+
+            get_bot_move();
+
         }else {
             console.error('An error occured while sending the move: ' + xhr.statusText);
         }
@@ -157,4 +149,56 @@ function move_html_img(selected_square, move_to_square){
 
 function remove_piece(square){
     square.innerHTML='';
+}
+
+async function get_bot_move(){
+    await new Promise(r => setTimeout(r, 500));
+    console.log("BOT REQUESTED MOVE");
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'logic/process_bot_move.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            //Output server response
+            console.log(xhr.responseText);
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+            if (response.status === 'legal') {
+                console.log("Move is legal");
+                movePiece(response.from, response.to)
+            }else {
+                console.log("Move is illegal!");
+            }
+
+            // Castling
+            if(response.castling=='white_castling_short'){
+                console.log("Castling accepted");
+                movePiece(81,61);
+            }
+            else if(response.castling=='white_castling_long'){
+                console.log("Castling accepted");
+                movePiece(11,41);
+            }
+            else if(response.castling=='black_castling_short'){
+                console.log("Castling accepted");
+                movePiece(88,68);
+            }
+            else if(response.castling=='black_castling_long'){
+                console.log("Castling accepted");
+                movePiece(18,48);
+            }
+
+            // En passant
+            if(response.enpassant=='true'){
+                remove_piece(document.getElementById(response.remove_piece));
+            }
+
+            document.getElementById('ajax_response').innerHTML = xhr.responseText;
+        }else {
+            console.error('An error occured while sending the move: ' + xhr.statusText);
+        }
+    };
+    xhr.send('move_to_id=' + 'test'+'&selected_piece_id='+'test');
 }
