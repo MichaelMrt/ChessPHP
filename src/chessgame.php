@@ -31,7 +31,7 @@
 
     
     $logic = new logic($gamemode); //start game
-    $_SESSION['chess_game'] = $logic;
+    $_SESSION['chess_logic'] = $logic;
 
     echo "<div class='center'> <h1>Moves</h1>";
     echo "<p id='movehistory'>test</p>";

@@ -37,7 +37,7 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
     }
     
     if($isBotMove==true){
-        $best_score = 200000;
+        $best_score = 100000;
     }
     if($isBotMove==false){
         $best_score = -100000;

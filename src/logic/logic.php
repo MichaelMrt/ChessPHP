@@ -471,6 +471,14 @@ class Logic
         }
     }
 
+    function get_chessboard():mixed
+    {
+        return $this->chessboard;
+    }
 
+    function get_chessboard_obj():Chessboard
+    {
+        return $this->chessboard_obj;
+    }
 
 }
