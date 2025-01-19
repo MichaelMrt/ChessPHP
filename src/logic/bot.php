@@ -30,28 +30,26 @@ function evaluate_board($chessboard){
 }
 
 
-function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMove, $botcolor){
+function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMove){
 
+    $legal_moves = $chessboard_obj->get_legal_moves(!$isBotMove);
+    $best_move = null;
+
+
+    if(count($legal_moves)==0 || $depth==0){
+        return [null, $previous_score];
+    }
     
 
     if($isBotMove==true){
-        $whitesmove = false;
-        $best_score = 100000;
+        $best_score = 200000;
     }
 
     if($isBotMove==false){
         $best_score = -100000;
-        $whitesmove = true;
     }
 
-    $legal_moves = $chessboard_obj->get_legal_moves($whitesmove);
-    $best_move = null;
 
-
-
-    if(count($legal_moves)==0 || $depth==0){
-        return $previous_score;
-    }
 
     for($i = 0; $i < count($legal_moves); $i++){
         $current_x = $legal_moves[$i][0];
@@ -61,24 +59,26 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
         $move = $current_x.$current_y.$move_to_x.$move_to_y;
         $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
         $new_score = $previous_score+evaluate_board($new_board);
-        $node_score = minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove, $botcolor);   
+        $node_score = minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove);   
 
-        if($isBotMove){ // Maximize for bot
-            if($node_score < $best_score){
-                $best_score = $node_score;
-                $best_move = $move;
-            }
-        }else{
-            if($node_score > $best_score){ // Minimize for bot
-                $best_score = $node_score;
+        if($isBotMove==true){ // Maximize for bot
+            //print("MAXIMIZE:".strval($node_score[1]).":".$best_score.":Move:".$node_score[0]."\n");
+            if($node_score[1] < $best_score){
+                $best_score = $node_score[1];
                 $best_move = $move;
             }
         }
-        
 
+        if($isBotMove==false){ // Minimize for player
+            if($node_score[1] > $best_score){ // Minimize for bot
+               // print("MINIMIZE:".strval($node_score[1]).":".$best_score.":Move:".$node_score[0]."\n");
+                $best_score = $node_score[1];
+                $best_move = $move;
+            }
+        }
     }
 
 
-    return $best_move." ".$best_score;
+    return [$best_move, $best_score];
    }
 ?>
