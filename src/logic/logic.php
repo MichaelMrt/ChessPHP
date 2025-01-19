@@ -71,8 +71,7 @@ class Logic
                 if($this->gamemode=="solo"&&$this->whitesturn==false){
                     $status = json_decode($this->gamestatus_json, true);
                     $status['weight'] = evaluate_board($this->chessboard);
-
-                    $status['botmove'] = minimax($this->chessboard_obj,$this->chessboard, 1, 0, true, 'black');
+                    $status['botmove'] = minimax($this->chessboard_obj,$this->chessboard, 3, 0, true);
                     $this->gamestatus_json = json_encode($status);
                 }
                 echo $this->gamestatus_json;
