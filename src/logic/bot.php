@@ -1,6 +1,7 @@
 <?php
 require_once('piece_square_tables.php');
-$counter=0;
+class bot{
+protected $counter=0;
 // evaluate chessboard position: Positive score for white, negative score for black
 function evaluate_board($chessboard){
     global $pst_white;
@@ -32,6 +33,7 @@ function evaluate_board($chessboard){
 function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMove){
     $legal_moves = $_SESSION['chess_logic']->get_legal_moves($chessboard,!$isBotMove);
     //print(count($legal_moves))."\n";
+    $this->counter++;
     if(count($legal_moves)==0 || $depth==0){
         return [null, $previous_score];
     }
@@ -50,8 +52,8 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
         $move_to_y = $legal_moves[$i][3];
         $move = $current_x.$current_y.$move_to_x.$move_to_y;
         $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
-        $new_score = evaluate_board($new_board);
-        $node_score = minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove); // evaluate node  
+        $new_score = $this->evaluate_board($new_board);
+        $node_score = $this->minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove); // evaluate node  
 
         if($isBotMove==true){ // Maximize for bot
             if($node_score[1] < $best_score){
@@ -69,4 +71,9 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
     }
     return [$best_move, $best_score];
    }
+
+   function get_counter(){
+    return $this->counter;
+   }
+}
 ?>
