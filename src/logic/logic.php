@@ -53,6 +53,8 @@ class Logic
                 $this->is_check($this->chessboard);
                 $this->is_checkmate($this->chessboard);
                 echo $this->gamestatus_json;
+        }else{
+            echo $this->gamestatus_json;
         }
     }
 
@@ -70,23 +72,23 @@ class Logic
     {
 
        if($this->wrong_turn_order($current_x,$current_y)){
-        echo json_encode(['status' => 'illegal', 'message' => 'Wrong move order', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+        $this->gamestatus_json =  json_encode(['status' => 'illegal', 'message' => 'Wrong move order', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
        }
 
       if($this->still_check($current_x, $current_y, $move_to_x, $move_to_y)){
-        echo json_encode(['status' => 'illegal', 'message' => 'Still in check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+        $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Still in check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
       }
 
       if($this->self_check($current_x, $current_y, $move_to_x, $move_to_y)){
-        echo json_encode(['status' => 'illegal', 'message' => 'Cannot move into check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+        $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Cannot move into check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
       }
 
       $piece = $this->chessboard[$current_x][$current_y];
-      if($piece->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)==false){
-        echo json_encode(['status' => 'illegal', 'message' => 'Piece cannot move like that', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+      if($piece->check_move_legal($this->chessboard,$current_x,$current_y, (int) $move_to_x, (int) $move_to_y)==false){
+        $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Piece cannot move like that', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
       }
 
@@ -114,12 +116,12 @@ class Logic
             for ($y=1; $y < 9; $y++) { 
                 
                 if(is_a($chessboard[$x][$y],'ChessPiece')){
-                    if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['white']['x'],$king_pos['white']['y'])){
+                    if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['white']['x'],$king_pos['white']['y'])){
                         $this->white_in_check = true;
                         $this->gamestatus_json = json_encode(['status' => 'legal','check' => 'white in check']);           
                         return true;
                     }
-                    if($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$king_pos['black']['x'],$king_pos['black']['y'])){
+                    if($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['black']['x'],$king_pos['black']['y'])){
                         $this->black_in_check = true;
                         $this->gamestatus_json = json_encode(['status' => 'legal','check' => 'black in check']);
                        return true;
@@ -174,7 +176,7 @@ class Logic
                                 # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
-                                           if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
+                                           if($this->chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$move_x,$move_y)){
                                                $future_board = $this->chessboard_obj->test_move($chessboard, $x, $y, $move_x, $move_y); 
                                                if(!$this->is_check($future_board)){ 
                                                    # no move out of check
@@ -192,7 +194,7 @@ class Logic
                                 # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
-                                           if($this->chessboard[$x][$y]->check_move_legal($chessboard,$move_x,$move_y)){
+                                           if($this->chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$move_x,$move_y)){
                                                $future_board = $this->chessboard_obj->test_move($chessboard, $x, $y, $move_x, $move_y); 
                                                if(!$this->is_check($future_board)){ 
                                                    # no move out of check
@@ -319,7 +321,7 @@ class Logic
         for($x=1;$x<=8;$x++){
             for($y=1;$y<=8;$y++){
                     if(is_a($this->chessboard[$x][$y],'ChessPiece')&&$this->chessboard[$x][$y]->get_color()=="white"){
-                        if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$target_x,$target_y)){
+                        if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$x,$y,$target_x,$target_y)){
                             return true;
                         }
                 } 
@@ -334,7 +336,7 @@ class Logic
         for($x=1;$x<=8;$x++){
             for($y=1;$y<=8;$y++){
                     if(is_a($this->chessboard[$x][$y],'ChessPiece')&&$this->chessboard[$x][$y]->get_color()=="black"){
-                        if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$target_x,$target_y)){
+                        if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$x,$y,$target_x,$target_y)){
                             return true;
                         }
                 } 
@@ -481,4 +483,60 @@ class Logic
         return $this->chessboard_obj;
     }
 
+    function check_rules_bot(int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
+
+    //    if($this->wrong_turn_order($current_x,$current_y)){
+    //     return false;
+    //    }
+
+    //   if($this->still_check($current_x, $current_y, $move_to_x, $move_to_y)){
+    //     return false;
+    //   }
+
+    //   if($this->self_check($current_x, $current_y, $move_to_x, $move_to_y)){
+    //     return false;
+    //   }
+
+    //   $piece = $this->chessboard[$current_x][$current_y];
+    //   if($piece->check_move_legal($this->chessboard, (int) $move_to_x, (int) $move_to_y)==false){
+    //     return false;
+    //   }
+
+    //   if($this->is_castling_move($current_x, $current_y, $move_to_x, $move_to_y)){
+    //     if($this->castling_legal($current_x, $current_y, $move_to_x, $move_to_y)==false){
+    //         return false;
+    //     }
+    //   }
+      return true;
+    }
+
+    function get_legal_moves($chessboard, $whitesturn){
+        $legal_moves = [];
+        if($whitesturn){
+            $color = "white";
+        }else{
+            $color = "black";
+        }
+
+        for($x=1;$x<=8;$x++){
+            for($y=1;$y<=8;$y++){
+                if(is_a($chessboard[$x][$y],'ChessPiece') && $chessboard[$x][$y]->get_color()==$color){
+                    for($move_x=1;$move_x<=8;$move_x++){
+                        for($move_y=1;$move_y<=8;$move_y++){
+                            if($chessboard[$x][$y]->check_move_legal($chessboard,$x, $y, $move_x,$move_y) ){
+                                if($this->check_rules_bot($x,$y,$move_x,$move_y)){
+                                    $legal_moves[] = [$x,$y,$move_x,$move_y];
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // var_dump($legal_moves);
+        return $legal_moves;
+    }
 }

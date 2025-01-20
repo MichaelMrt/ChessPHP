@@ -1,6 +1,6 @@
 <?php
 require_once('piece_square_tables.php');
-
+$counter=0;
 // evaluate chessboard position: Positive score for white, negative score for black
 function evaluate_board($chessboard){
     global $pst_white;
@@ -30,8 +30,8 @@ function evaluate_board($chessboard){
 
 
 function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMove){
-    $legal_moves = $chessboard_obj->get_legal_moves(!$isBotMove);
-
+    $legal_moves = $_SESSION['chess_logic']->get_legal_moves($chessboard,!$isBotMove);
+    //print(count($legal_moves))."\n";
     if(count($legal_moves)==0 || $depth==0){
         return [null, $previous_score];
     }

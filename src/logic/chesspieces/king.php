@@ -14,14 +14,14 @@ class King extends ChessPiece
       }
   }
 
-  function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
+  function check_move_legal(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
-      $distance_x = sqrt(pow(($move_to_x-$this->x),2)); 
-      $distance_y = sqrt(pow(($move_to_y-$this->y),2)); 
+      $distance_x = sqrt(pow(($move_to_x-$current_x),2)); 
+      $distance_y = sqrt(pow(($move_to_y-$current_y),2)); 
 
       if($distance_x <= 1 && $distance_y <= 1){
         # check if there is a piece on the move to square and if it is opposite color
-         if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece') &&  $chessboard[$this->x][$this->y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
+         if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece') &&  $chessboard[$current_x][$current_y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
           return true;
          }elseif(!is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece')){
           return true;

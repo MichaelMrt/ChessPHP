@@ -21,17 +21,14 @@ class Pawn extends ChessPiece
   }
 
   
-  function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y): bool
+  function check_move_legal(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y): bool
   {
-    # Coordinates from the current Piece position
-    $current_x = $this->x;
-    $current_y = $this->y;
 
     return ($this->check_moving_onesquare_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
       $this->check_moving_twosquares_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
       $this->check_diagonal_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
       $this->check_enpassant($move_to_x, $move_to_y)) and
-      $this->check_target_square($chessboard, $move_to_x, $move_to_y);
+      $this->check_target_square($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
   }
 
 

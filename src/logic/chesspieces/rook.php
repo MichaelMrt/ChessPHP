@@ -17,9 +17,9 @@ class Rook extends ChessPiece
       }
     }
 
-    function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
+    function check_move_legal(mixed $chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
-       if($this->check_legal_rookmove($chessboard, $this->x,$this->y,$move_to_x,$move_to_y)){
+       if($this->check_legal_rookmove($chessboard, $current_x,$current_y,$move_to_x,$move_to_y)){
           return true;
        }
        
