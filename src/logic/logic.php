@@ -29,15 +29,6 @@ class Logic
     }
 
 
-    function test($x,$y):void
-    {
-        if($this->chessboard[$x][$y]==""){
-            
-        }else{
-            print("PIECE ON THIS SQUARE:".$x." ".$y."\n");
-        }
-    }
-
     function input_move(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
     {   
         if($this->chessboard[$current_x][$current_y]==""){
