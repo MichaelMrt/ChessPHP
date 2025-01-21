@@ -16,21 +16,21 @@ class Chessboard
     function __construct()
     {   
         $this->chessboard = $this->create_board();
-        $this->print_board();
+        $this->print_board($this->chessboard);
     }
 
-    function print_board() : void
+    function print_board($chessboard) : void
     {
        echo "<div class='board'>";
-        $this->render_board();
+        $this->render_board($chessboard);
        echo "</div>";
     }   
 
-    private function render_board():void
+    private function render_board($chessboard):void
     {   
         for ($row = 8; $row > 0; $row--) {
             for ($column = 1; $column < 9; $column++) {
-                $piece = $this->chessboard[$column][$row];
+                $piece = $chessboard[$column][$row];
                 $background_color = $this->get_square_background_color($row, $column);
                 $square_id = $column.$row;
                 $chesspiece_icon = $this->get_chesspiece_icon($piece);
