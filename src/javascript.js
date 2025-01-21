@@ -152,6 +152,7 @@ function remove_piece(square){
 }
 
 async function get_bot_move(){
+    const startTime = Date.now();
     //await new Promise(r => setTimeout(r, 500));
     console.log("BOT REQUESTED MOVE");
 
@@ -161,6 +162,9 @@ async function get_bot_move(){
 
     xhr.onload = function() {
         if (xhr.status === 200) {
+            const endTime = Date.now();
+            const duration = endTime - startTime; 
+            console.log(`Bot-request duration: ${duration} ms`);
             //Output server response
             console.log(xhr.responseText);
             var response = JSON.parse(xhr.responseText);
