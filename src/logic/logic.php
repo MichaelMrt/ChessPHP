@@ -61,6 +61,8 @@ class Logic
 
     function check_rules($chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y, $whitesturn):bool
     {
+        $this->castling_status="test";
+
         if($chessboard[$current_x][$current_y]==""){
             throw new Exception("No piece on this square");
         }
@@ -95,7 +97,7 @@ class Logic
 
       if($this->is_castling_move($current_x, $current_y, $move_to_x, $move_to_y)){
         if($this->castling_legal($chessboard,$current_x, $current_y, $move_to_x, $move_to_y)==false){
-            echo json_encode(['status' => 'illegal', 'message' => 'Castling through check is  illegal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+            echo json_encode(['status' => 'illegal', 'message' => 'Castling illegal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
             return false;
         }
       }
@@ -285,9 +287,11 @@ class Logic
 
     function check_short_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1 && $this->not_castling_through_check_white_short()){
-            $this->chessboard = $this->chessboard_obj->move($chessboard,8,1,6,1);
-            $this->castling_status = "white_castling_short";
-            return true; 
+            if($chessboard[6][1]=="" && $chessboard[7][1]==""){
+                $this->chessboard = $this->chessboard_obj->move($chessboard,8,1,6,1);
+                $this->castling_status = "white_castling_short";
+                return true; 
+            }
         }
         return false;
     }
@@ -295,9 +299,11 @@ class Logic
 
     function check_long_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==3 && $move_to_y==1 && $this->not_castling_through_check_white_long()){
-              
-            $this->castling_status = "white_castling_long";
-            return true;
+            if($chessboard[2][1]=="" && $chessboard[3][1]=="" && $chessboard[4][1]==""){
+                $this->$chessboard = $this->chessboard_obj->move($chessboard,1,1,4,1);
+                $this->castling_status = "white_castling_long";
+                return true;
+            }
         }
         return false;
     }
@@ -305,9 +311,12 @@ class Logic
 
     function check_short_castle_black($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==8 && $move_to_x==7 && $move_to_y==8 && $this->not_castling_through_check_black_short()){
-            $chessboard = $this->chessboard_obj->move($chessboard,8,8,6,8);
-            $this->castling_status = "black_castling_short";
-            return true; 
+            if($chessboard[6][8]=="" && $chessboard[7][8]==""){
+                $chessboard = $this->chessboard_obj->move($chessboard,8,8,6,8);
+                $this->castling_status = "black_castling_short";
+                #print("OGAOGA");
+                return true; 
+            }
         }
         return false;
     }
@@ -315,9 +324,11 @@ class Logic
 
     function check_long_castle_black($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8 && $this->not_castling_through_check_black_long()){
-            $chessboard = $this->chessboard_obj->move($chessboard,1,8,4,8);
-            $this->castling_status = "black_castling_long";
-            return true;
+            if($chessboard[2][8]=="" && $chessboard[3][8]=="" && $chessboard[4][8]==""){
+                $chessboard = $this->chessboard_obj->move($chessboard,1,8,4,8);
+                $this->castling_status = "black_castling_long";
+                return true;
+            }
         }
         return false;
     }
