@@ -119,12 +119,18 @@ class Logic
                 if(is_a($chessboard[$x][$y],'ChessPiece')){
                     if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['white']['x'],$king_pos['white']['y'])){
                         $this->white_in_check = true;
-                        $this->gamestatus_json = json_encode(['status' => 'legal','check' => 'white in check']);           
+                        //$this->gamestatus_json = json_encode(['check' => 'white in check']);     
+                        $gamestatus = json_decode($this->gamestatus_json, true);
+                        $gamestatus['check'] = 'white in check';
+                        $this->gamestatus_json = json_encode($gamestatus);      
                         return true;
                     }
                     if($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['black']['x'],$king_pos['black']['y'])){
                         $this->black_in_check = true;
-                        $this->gamestatus_json = json_encode(['status' => 'legal','check' => 'black in check']);
+                        //$this->gamestatus_json = json_encode(['check' => 'black in check']);
+                        $gamestatus = json_decode($this->gamestatus_json, true);
+                        $gamestatus['check'] = 'black in check';
+                        $this->gamestatus_json = json_encode($gamestatus);
                        return true;
                     }
                 }
@@ -279,7 +285,7 @@ class Logic
 
     function check_short_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1 && $this->not_castling_through_check_white_short()){
-            $this->chessboard = $this->chessboard_obj->move($this->chessboard,8,1,6,1);
+            $this->chessboard = $this->chessboard_obj->move($chessboard,8,1,6,1);
             $this->castling_status = "white_castling_short";
             return true; 
         }
@@ -289,7 +295,7 @@ class Logic
 
     function check_long_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==3 && $move_to_y==1 && $this->not_castling_through_check_white_long()){
-            $chessboard = $this->chessboard_obj->move($chessboard,1,1,4,1);
+              
             $this->castling_status = "white_castling_long";
             return true;
         }
