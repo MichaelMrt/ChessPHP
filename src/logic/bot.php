@@ -27,7 +27,7 @@ function evaluate_board($chessboard){
             }
         }
     }
-    return $white_score - $black_score;
+    return $black_score-$white_score;
 }
 
 
@@ -35,17 +35,13 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
     $legal_moves = $_SESSION['chess_logic']->get_legal_moves($chessboard,$isBotMove);
     $this->counter++;
     //print(count($legal_moves))."\n";
-    if(count($legal_moves)==0 || $depth==0){
-        
-    return [null, $previous_score];
-    }
-    
-    if($isBotMove==true){
-        $best_score = 100000;
-    }
-    if($isBotMove==false){
-        $best_score = -100000;
-    }
+    if(count($legal_moves)==0 || $depth==0){    
+        return [null, $previous_score];
+    } 
+
+    $max_value = -PHP_INT_MAX;
+    $min_value = PHP_INT_MAX;
+    $best_move = null;
 
     for($i = 0; $i < count($legal_moves); $i++){ // Loop through all legal moves
         $current_x = $legal_moves[$i][0];
@@ -55,24 +51,30 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
         $move = $current_x.$current_y.$move_to_x.$move_to_y;
         $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
         $new_score = $this->evaluate_board($new_board);
-        $node_score = $this->minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove); // evaluate node  
+        $node_score = $this->minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove); // evaluate node
+        
+       // print($node_score[1].":".$move."\n");
 
         if($isBotMove==true){ // Maximize for bot
-            if($node_score[1] < $best_score){
-                $best_score = $node_score[1];
+            if($node_score[1] > $max_value){
+                $max_value = $node_score[1];
                 $best_move = $move;
             }
-        }
-
-        if($isBotMove==false){ // Minimize for bot
-            if($node_score[1] > $best_score){ 
-                $best_score = $node_score[1];
+        }else{ // Minimize for bot
+            if($node_score[1] < $min_value){ 
+                $min_value = $node_score[1];
                 $best_move = $move;
             }
         }
     }
-    return [$best_move, $best_score];
-   }
+
+        if($isBotMove){
+            //print($max_value.":".$best_move."\n");
+            return [$best_move, $max_value];
+        }else{
+            return [$best_move, $min_value];
+        }
+    }
 
    function get_counter(){
     return $this->counter;
