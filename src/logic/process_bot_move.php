@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $chessboard_obj = $_SESSION['chess_logic']->get_chessboard_obj();
     $chessboard = $_SESSION['chess_logic']->get_chessboard();
     $bot = new bot();
-    $best_node = $bot->minimax($chessboard_obj, $chessboard, 3, 0, true);
+    $best_node = $bot->minimax($chessboard_obj, $chessboard, 3, 0, -100000, 100000, true);
     $best_move = $best_node[0];
     $counter = $bot->get_counter();
     //print($counter);

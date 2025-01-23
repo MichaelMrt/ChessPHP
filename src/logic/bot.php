@@ -31,7 +31,7 @@ function evaluate_board($chessboard){
 }
 
 
-function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMove){
+function minimax($chessboard_obj, $chessboard, $depth, $previous_score,$alpha,$beta ,$isBotMove){
     $legal_moves = $_SESSION['chess_logic']->get_legal_moves($chessboard,$isBotMove);
     $this->counter++;
     //print(count($legal_moves))."\n";
@@ -51,25 +51,36 @@ function minimax($chessboard_obj, $chessboard, $depth, $previous_score, $isBotMo
         $move = $current_x.$current_y.$move_to_x.$move_to_y;
         $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
         $new_score = $this->evaluate_board($new_board);
-        $node_score = $this->minimax($chessboard_obj, $new_board, $depth-1, $new_score, !$isBotMove); // evaluate node
-        
-       // print($node_score[1].":".$move."\n");
+        $node_data = $this->minimax($chessboard_obj, $new_board, $depth-1, $new_score,$alpha,$beta, !$isBotMove); // evaluate node
+        //print($node_score[1].":".$move."\n");
+        $node_bestscore = $node_data[1];
+
 
         if($isBotMove==true){ // Maximize for bot
-            if($node_score[1] > $max_value){
-                $max_value = $node_score[1];
+            if($node_bestscore > $max_value){
+                $max_value = $node_bestscore;
                 $best_move = $move;
+            }
+            if($node_bestscore > $alpha){
+                $alpha = $node_bestscore;
             }
         }else{ // Minimize for bot
-            if($node_score[1] < $min_value){ 
-                $min_value = $node_score[1];
+            if($node_bestscore < $min_value){ 
+                $min_value = $node_bestscore;
                 $best_move = $move;
             }
+            if($node_bestscore < $beta){
+                $beta = $node_bestscore;
+            }
+        }
+
+         // Prune branch
+         if($alpha >= $beta){
+            break;
         }
     }
 
         if($isBotMove){
-            //print($max_value.":".$best_move."\n");
             return [$best_move, $max_value];
         }else{
             return [$best_move, $min_value];
