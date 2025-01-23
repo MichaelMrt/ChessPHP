@@ -110,7 +110,7 @@ class Logic
 
       if($this->is_castling_move($current_x, $current_y, $move_to_x, $move_to_y)){
         if($this->castling_legal($chessboard,$current_x, $current_y, $move_to_x, $move_to_y)==false){
-            echo json_encode(['status' => 'illegal', 'message' => 'Castling illegal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+            $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Castling illegal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
             return false;
         }
       }
@@ -300,10 +300,12 @@ class Logic
 
     function check_short_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1 && $this->not_castling_through_check_white_short()){
-            if($chessboard[6][1]=="" && $chessboard[7][1]==""){
-                $chessboard = $this->chessboard_obj->test_move($chessboard,8,1,6,1);
-                $this->castling_status = "white_castling_short";
-                return true; 
+            if($chessboard[6][1]=="" && $chessboard[7][1]=="" && $chessboard[5][1] instanceof King){
+                if($chessboard[5][1]->get_has_moved_status()==false){
+                    $chessboard = $this->chessboard_obj->test_move($chessboard,8,1,6,1);
+                    $this->castling_status = "white_castling_short";
+                    return true;
+                }
             }
         }
         return false;
@@ -312,10 +314,12 @@ class Logic
 
     function check_long_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==3 && $move_to_y==1 && $this->not_castling_through_check_white_long()){
-            if($chessboard[2][1]=="" && $chessboard[3][1]=="" && $chessboard[4][1]==""){
-                $this->$chessboard = $this->chessboard_obj->test_move($chessboard,1,1,4,1);
-                $this->castling_status = "white_castling_long";
-                return true;
+            if($chessboard[2][1]=="" && $chessboard[3][1]=="" && $chessboard[4][1]=="" && $chessboard[5][1] instanceof King){
+                if($chessboard[5][1]->get_has_moved_status()==false){
+                    $this->$chessboard = $this->chessboard_obj->test_move($chessboard,1,1,4,1);
+                    $this->castling_status = "white_castling_long";
+                    return true;
+                }
             }
         }
         return false;
@@ -324,11 +328,12 @@ class Logic
 
     function check_short_castle_black($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==8 && $move_to_x==7 && $move_to_y==8 && $this->not_castling_through_check_black_short()){
-            if($chessboard[6][8]=="" && $chessboard[7][8]==""){
-                $chessboard = $this->chessboard_obj->test_move($chessboard,8,8,6,8);
-                $this->castling_status = "black_castling_short";
-                #print("OGAOGA");
-                return true; 
+            if($chessboard[6][8]=="" && $chessboard[7][8]=="" && $chessboard[5][8] instanceof King){
+                if($chessboard[5][8]->get_has_moved_status()==false){
+                    $chessboard = $this->chessboard_obj->test_move($chessboard,8,8,6,8);
+                    $this->castling_status = "black_castling_short";
+                    return true;
+                }
             }
         }
         return false;
@@ -337,10 +342,12 @@ class Logic
 
     function check_long_castle_black($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8 && $this->not_castling_through_check_black_long()){
-            if($chessboard[2][8]=="" && $chessboard[3][8]=="" && $chessboard[4][8]==""){
-                $chessboard = $this->chessboard_obj->test_move($chessboard,1,8,4,8);
-                $this->castling_status = "black_castling_long";
-                return true;
+            if($chessboard[2][8]=="" && $chessboard[3][8]=="" && $chessboard[4][8]=="" && $chessboard[5][8] instanceof King){
+                if($chessboard[5][1]->get_has_moved_status()==false){
+                    $chessboard = $this->chessboard_obj->test_move($chessboard,1,8,4,8);
+                    $this->castling_status = "black_castling_long";
+                    return true;
+                }
             }
         }
         return false;
