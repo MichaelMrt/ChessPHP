@@ -96,8 +96,6 @@ class Logic
           return false;
         }
 
-
-
       if($this->still_check($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)){
         $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Still in check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
@@ -107,8 +105,6 @@ class Logic
         $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Cannot move into check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
       }
-
-
 
       if($this->is_castling_move($current_x, $current_y, $move_to_x, $move_to_y)){
         if($this->castling_legal($chessboard,$current_x, $current_y, $move_to_x, $move_to_y)==false){
@@ -136,7 +132,6 @@ class Logic
                 if($chessboard[$x][$y] instanceof ChessPiece){
                     if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['white']['x'],$king_pos['white']['y'])){
                         $this->white_in_check = true;
-                        //$this->gamestatus_json = json_encode(['check' => 'white in check']);     
                         $gamestatus = json_decode($this->gamestatus_json, true);
                         $gamestatus['check'] = 'white in check';
                         $this->gamestatus_json = json_encode($gamestatus);      
@@ -144,7 +139,6 @@ class Logic
                     }
                     if($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['black']['x'],$king_pos['black']['y'])){
                         $this->black_in_check = true;
-                        //$this->gamestatus_json = json_encode(['check' => 'black in check']);
                         $gamestatus = json_decode($this->gamestatus_json, true);
                         $gamestatus['check'] = 'black in check';
                         $this->gamestatus_json = json_encode($gamestatus);
