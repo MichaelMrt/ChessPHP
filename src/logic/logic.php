@@ -74,7 +74,7 @@ class Logic
 
     function check_rules($chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y, $whitesturn):bool
     {
-        $this->castling_status="test";
+        $this->castling_status="None";
 
         if($chessboard[$current_x][$current_y]==""){
             throw new Exception("No piece on this square");
@@ -158,9 +158,20 @@ class Logic
 
     function get_king_pos(mixed $chessboard):mixed
     {   $king_pos=null;
+
+        // Optimization: Check if Kings are on their homesquare 
+        if($chessboard[5][1] instanceof King && $chessboard[5][1]->get_color() == 'white'){
+            $king_pos['white']['x']=5;
+            $king_pos['white']['y']=1;
+        }
+        if($chessboard[5][8] instanceof King && $chessboard[5][8]->get_color() == 'black'){
+            $king_pos['black']['x']=5;
+            $king_pos['black']['y']=8;
+        }
+
+        // Scan the whole board to find the King
         for ($x=1; $x < 9; $x++) { 
             for ($y=1; $y < 9; $y++) { 
-            
               if($chessboard[$x][$y] instanceof King && $chessboard[$x][$y]->get_color()=="white"){ #check if king is on board
                 $king_pos['white']['x']=$x;
                 $king_pos['white']['y']=$y;
@@ -168,6 +179,9 @@ class Logic
               if($chessboard[$x][$y] instanceof King && $chessboard[$x][$y]->get_color()=="black"){
                 $king_pos['black']['x']=$x;
                 $king_pos['black']['y']=$y;
+              }
+              if(isset($king_pos['white']) && isset($king_pos['black'])){
+                break;
               } 
             }    
         }
