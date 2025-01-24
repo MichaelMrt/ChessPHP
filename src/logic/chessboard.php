@@ -101,9 +101,9 @@ class Chessboard
     private function get_square_background_color(int $row, int $column):string
     {
         if (($row + $column) % 2 == 0) {
-            $background_color = 'white';
-        } else {
             $background_color = 'black';
+        } else {
+            $background_color = 'white';
         }
 
         return $background_color;
