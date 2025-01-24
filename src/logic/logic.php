@@ -85,16 +85,18 @@ class Logic
             return false;
         }
 
+        if($this->wrong_turn_order($chessboard,$current_x,$current_y,$whitesturn)){
+            $this->gamestatus_json =  json_encode(['status' => 'illegal', 'message' => 'Wrong move order', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
+            return false;
+        }
+
         $piece = $chessboard[$current_x][$current_y];
         if($piece->check_move_legal($chessboard,$current_x,$current_y, (int) $move_to_x, (int) $move_to_y)==false){
           $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Piece cannot move like that', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
           return false;
         }
 
-       if($this->wrong_turn_order($chessboard,$current_x,$current_y,$whitesturn)){
-        $this->gamestatus_json =  json_encode(['status' => 'illegal', 'message' => 'Wrong move order', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
-        return false;
-       }
+
 
       if($this->still_check($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)){
         $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Still in check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
