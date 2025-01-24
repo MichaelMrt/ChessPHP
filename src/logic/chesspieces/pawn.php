@@ -54,7 +54,7 @@ class Pawn extends ChessPiece
 
   function check_diagonal_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)
   {
-    $is_takes_move = is_a($chessboard[$move_to_x][$move_to_y], "ChessPiece");
+    $is_takes_move = $chessboard[$move_to_x][$move_to_y] instanceof ChessPiece;
     $is_black_move = $this->color == "black" && $current_y - 1 == $move_to_y;
     $is_white_move = $this->color == "white" && $current_y + 1 == $move_to_y;
     $is_diagonal_move = abs($current_x - $move_to_x) == 1;

@@ -21,9 +21,9 @@ class King extends ChessPiece
 
       if($distance_x <= 1 && $distance_y <= 1){
         # check if there is a piece on the move to square and if it is opposite color
-         if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece') &&  $chessboard[$current_x][$current_y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
+         if($chessboard[$move_to_x][$move_to_y] instanceof ChessPiece &&  $chessboard[$current_x][$current_y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
           return true;
-         }elseif(!is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece')){
+         }elseif(!$chessboard[$move_to_x][$move_to_y] instanceof ChessPiece){
           return true;
          }
       }
@@ -31,8 +31,8 @@ class King extends ChessPiece
       if($this->has_moved==false){
       # castling short as white
         if($this->color=='white' && $move_to_x==7 && $move_to_y==1){
-            if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
-              if(is_a($chessboard[8][1], 'Rook') && $chessboard[8][1]->has_moved==false){
+            if(!$chessboard[6][1] instanceof ChessPiece && !$chessboard[7][1] instanceof ChessPiece){
+              if($chessboard[8][1] instanceof Rook && $chessboard[8][1]->has_moved==false){
                 return true;
               }
             }
@@ -40,8 +40,8 @@ class King extends ChessPiece
 
         # castling long as white
         if($this->color=='white' && $move_to_x==3 && $move_to_y==1){
-          if(!is_a($chessboard[2][1], 'Chesspiece') && !is_a($chessboard[3][1],'Chesspiece')&& !is_a($chessboard[4][1],'Chesspiece')){
-            if(is_a($chessboard[1][1], 'Rook') && $chessboard[8][1]->has_moved==false){
+          if(!$chessboard[2][1] instanceof ChessPiece && !$chessboard[3][1] instanceof ChessPiece && !$chessboard[4][1] instanceof ChessPiece){
+            if($chessboard[1][1] instanceof Rook && $chessboard[8][1]->has_moved==false){
               return true;
             }
           }
@@ -49,8 +49,8 @@ class King extends ChessPiece
 
       # castling short as black
       if($this->color=='black' && $move_to_x==7 && $move_to_y==8){
-        if(!is_a($chessboard[6][8], 'Chesspiece') && !is_a($chessboard[7][8],'Chesspiece')){
-          if(is_a($chessboard[8][8], 'Rook') && $chessboard[8][8]->has_moved==false){
+        if(!$chessboard[6][8] instanceof ChessPiece && !$chessboard[7][8] instanceof ChessPiece){
+          if($chessboard[8][8] instanceof Rook && $chessboard[8][8]->has_moved==false){
             return true;
           }
         }
@@ -58,8 +58,8 @@ class King extends ChessPiece
 
       # castling long as black
       if($this->color=='black' && $move_to_x==3 && $move_to_y==8){
-        if(!is_a($chessboard[2][8], 'Chesspiece') && !is_a($chessboard[3][8],'Chesspiece')&& !is_a($chessboard[4][8],'Chesspiece')){
-          if(is_a($chessboard[1][8], 'Rook') && $chessboard[8][8]->has_moved==false){
+        if(!$chessboard[2][8] instanceof ChessPiece && !$chessboard[3][8] instanceof ChessPiece && !$chessboard[4][8] instanceof ChessPiece){
+          if($chessboard[1][8] instanceof Rook && $chessboard[8][8]->has_moved==false){
             return true;
           }
         }

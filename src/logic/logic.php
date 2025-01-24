@@ -131,7 +131,7 @@ class Logic
         for ($x=1; $x < 9; $x++) { 
             for ($y=1; $y < 9; $y++) { 
                 
-                if(is_a($chessboard[$x][$y],'ChessPiece')){
+                if($chessboard[$x][$y] instanceof ChessPiece){
                     if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['white']['x'],$king_pos['white']['y'])){
                         $this->white_in_check = true;
                         //$this->gamestatus_json = json_encode(['check' => 'white in check']);     
@@ -160,11 +160,12 @@ class Logic
     {   $king_pos=null;
         for ($x=1; $x < 9; $x++) { 
             for ($y=1; $y < 9; $y++) { 
-              if(is_a($chessboard[$x][$y],'King') && $chessboard[$x][$y]->get_color()=="white"){ #check if king is on board
+            
+              if($chessboard[$x][$y] instanceof King && $chessboard[$x][$y]->get_color()=="white"){ #check if king is on board
                 $king_pos['white']['x']=$x;
                 $king_pos['white']['y']=$y;
               }  
-              if(is_a($chessboard[$x][$y],'King') && $chessboard[$x][$y]->get_color()=="black"){
+              if($chessboard[$x][$y] instanceof King && $chessboard[$x][$y]->get_color()=="black"){
                 $king_pos['black']['x']=$x;
                 $king_pos['black']['y']=$y;
               } 
@@ -194,7 +195,7 @@ class Logic
                     for($y=1;$y<=8;$y++){
                         # only white moves need to be scanned when white is in check
                         if($this->white_in_check){
-                            if(is_a($chessboard[$x][$y],'ChessPiece')&&$chessboard[$x][$y]->get_color()=="white"){
+                            if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()=="white"){
                                 # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
@@ -212,7 +213,7 @@ class Logic
                         } 
                          # only black moves need to be scanned when black is in check
                         if($this->black_in_check){
-                            if(is_a($chessboard[$x][$y],'ChessPiece')&&$chessboard[$x][$y]->get_color()=="black"){
+                            if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()=="black"){
                                 # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
@@ -358,7 +359,7 @@ class Logic
         # first scan all pieces on the board
         for($x=1;$x<=8;$x++){
             for($y=1;$y<=8;$y++){
-                    if(is_a($this->chessboard[$x][$y],'ChessPiece')&&$this->chessboard[$x][$y]->get_color()=="white"){
+                    if($this->chessboard[$x][$y] instanceof ChessPiece && $this->chessboard[$x][$y]->get_color()=="white"){
                         if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$x,$y,$target_x,$target_y)){
                             return true;
                         }
@@ -373,7 +374,7 @@ class Logic
         # first scan all pieces on the board
         for($x=1;$x<=8;$x++){
             for($y=1;$y<=8;$y++){
-                    if(is_a($this->chessboard[$x][$y],'ChessPiece')&&$this->chessboard[$x][$y]->get_color()=="black"){
+                    if($this->chessboard[$x][$y] instanceof ChessPiece && $this->chessboard[$x][$y]->get_color()=="black"){
                         if($this->chessboard[$x][$y]->check_move_legal($this->chessboard,$x,$y,$target_x,$target_y)){
                             return true;
                         }
@@ -531,7 +532,7 @@ class Logic
 
         for($x=1;$x<=8;$x++){
             for($y=1;$y<=8;$y++){
-                if(is_a($chessboard[$x][$y],'ChessPiece') && $chessboard[$x][$y]->get_color()==$color){
+                if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()==$color){
                     for($move_x=1;$move_x<=8;$move_x++){
                         for($move_y=1;$move_y<=8;$move_y++){
                             if($chessboard[$x][$y]->check_move_legal($chessboard,$x, $y, $move_x,$move_y) ){

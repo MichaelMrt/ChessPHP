@@ -34,7 +34,7 @@ class Knight extends ChessPiece
              $move_to_y==$current_y+2 && $move_to_x==$current_x-1||
              $move_to_y==$current_y-2 && $move_to_x==$current_x+1||
              $move_to_y==$current_y-2 && $move_to_x==$current_x-1){
-          if(is_a($chessboard[$move_to_x][$move_to_y],'Chesspiece')){
+          if($chessboard[$move_to_x][$move_to_y] instanceof ChessPiece){
               if($chessboard[$current_x][$current_y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
                 return true;
               }

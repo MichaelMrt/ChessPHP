@@ -13,7 +13,7 @@ function evaluate_board($chessboard){
         for($y = 1; $y < 9; $y++){
             if($chessboard[$x][$y]!=""){
                     $field = $chessboard[$x][$y];
-                if(is_a($field,'Chesspiece')){
+                if($field instanceof ChessPiece){
                     $type = $field->get_type();
                     $piece_y = 8 - $y;
                     if($field->get_color()=='white'){

@@ -14,9 +14,9 @@ trait RookTrait
             if ($current_x < $move_to_x) {
                 for ($i = 1; $i <= $distance_x; $i++) {
                     # check if there is a piece on the way
-                   if($distance_x==$i && is_a($chessboard[$current_x + $i][$current_y], 'Chesspiece') && $chessboard[$current_x+$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                   if($distance_x==$i && $chessboard[$current_x + $i][$current_y] instanceof ChessPiece && $chessboard[$current_x+$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
                         return true;
-                    }elseif(!is_a($chessboard[$current_x + $i][$current_y], 'Chesspiece')){
+                    }elseif(!$chessboard[$current_x + $i][$current_y] instanceof ChessPiece){
                        
                     }else{
                         return false;
@@ -26,9 +26,9 @@ trait RookTrait
             } elseif ($move_to_x < $current_x) {
                 for ($i = 1; $i <= $distance_x; $i++) {
                     # check if there is a piece on the way
-                    if($distance_x==$i && is_a($chessboard[$current_x - $i][$current_y], 'Chesspiece') && $chessboard[$current_x-$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                    if($distance_x==$i && $chessboard[$current_x - $i][$current_y] instanceof ChessPiece && $chessboard[$current_x-$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
                         return true;
-                    }elseif(!is_a($chessboard[$current_x - $i][$current_y], 'Chesspiece')){
+                    }elseif(!$chessboard[$current_x - $i][$current_y] instanceof ChessPiece){
 
                     }else{
                         return false;
@@ -45,9 +45,9 @@ trait RookTrait
                 
                 for ($i=1; $i<= $distance_y; $i++) { 
                     # check if there is a piece on the way
-                    if($distance_y==$i && is_a($chessboard[$current_x][$current_y+$i], 'Chesspiece') && $chessboard[$current_x][$current_y+$i]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                    if($distance_y==$i && $chessboard[$current_x][$current_y+$i] instanceof ChessPiece && $chessboard[$current_x][$current_y+$i]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
                         return true;
-                    }elseif(!is_a($chessboard[$current_x][$current_y+$i], 'Chesspiece')){
+                    }elseif(!$chessboard[$current_x][$current_y+$i] instanceof ChessPiece){
 
                     }else{
                         return false;
@@ -57,9 +57,9 @@ trait RookTrait
             }elseif ($move_to_y<$current_y) {
                 for ($i=1; $i<= $distance_y; $i++) { 
                     # check if there is a piece on the way
-                    if($distance_y==$i && is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece') && $chessboard[$current_x][$current_y-$i]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                    if($distance_y==$i && $chessboard[$current_x][$current_y-$i] instanceof ChessPiece && $chessboard[$current_x][$current_y-$i]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
                         return true;
-                    }elseif(!is_a($chessboard[$current_x][$current_y-$i], 'Chesspiece')){
+                    }elseif(!$chessboard[$current_x][$current_y-$i] instanceof ChessPiece){
 
                     }else{
                         return false;
@@ -83,52 +83,52 @@ trait BishopTrait{
             # top right - check if piece on the way
             if($current_x<$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
-                    if(is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
+                    if($chessboard[$current_x+$i][$current_y+$i] instanceof ChessPiece){
                         if($i==$distance  && $chessboard[$current_x+$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
                         }else{
                             return false;
                         }
-                    }elseif($i==$distance && !is_a($chessboard[$current_x+$i][$current_y+$i],'Chesspiece')){
+                    }elseif($i==$distance && !$chessboard[$current_x+$i][$current_y+$i] instanceof ChessPiece){
                         return true;
                     }
                 }
             # top left
             }elseif($current_x>$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
-                    if(is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
+                    if($chessboard[$current_x-$i][$current_y+$i] instanceof ChessPiece){
                         if($i==$distance  && $chessboard[$current_x-$i][$current_y+$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
                         }else{
                             return false;
                         }
-                    }elseif($i==$distance && !is_a($chessboard[$current_x-$i][$current_y+$i],'Chesspiece')){
+                    }elseif($i==$distance && !$chessboard[$current_x-$i][$current_y+$i] instanceof ChessPiece){
                         return true;
                     }
                 }
             # bottom left
             }elseif($current_x>$move_to_x && $current_y>$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
-                    if(is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
+                    if($chessboard[$current_x-$i][$current_y-$i] instanceof ChessPiece){
                         if($i==$distance && $chessboard[$current_x-$i][$current_y-$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
                         }else{
                             return false;
                         }
-                    }elseif($i==$distance && !is_a($chessboard[$current_x-$i][$current_y-$i],'Chesspiece')){
+                    }elseif($i==$distance && !$chessboard[$current_x-$i][$current_y-$i] instanceof ChessPiece){
                         return true;
                     }
                 }
             # bottom right
             }elseif($current_x<$move_to_x && $current_y>$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
-                    if(is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
+                    if($chessboard[$current_x+$i][$current_y-$i] instanceof ChessPiece){
                         if($i==$distance  && $chessboard[$current_x+$i][$current_y-$i]->get_color()!= $chessboard[$current_x][$current_y]->get_color()){
                             return true;
                         }else{
                             return false;
                         }
-                    }elseif($i==$distance && !is_a($chessboard[$current_x+$i][$current_y-$i],'Chesspiece')){
+                    }elseif($i==$distance && !$chessboard[$current_x+$i][$current_y-$i] instanceof ChessPiece){
                         return true;
                     }
                 }
