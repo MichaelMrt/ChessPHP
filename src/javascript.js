@@ -58,6 +58,7 @@ function sendMove(selected_piece_id, move_to_id){
             if (response.status === 'legal') {
                 console.log("Move is legal");
                 movePiece(selected_piece_id, move_to_id)
+                get_bot_move();
             }else {
                 console.log("Move is illegal! "+"selected_piece_id: "+selected_piece_id+" move_to_id:"+move_to_id);
             }
@@ -86,8 +87,6 @@ function sendMove(selected_piece_id, move_to_id){
             }
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
 
-            get_bot_move();
-
         }else {
             console.error('An error occured while sending the move: ' + xhr.statusText);
         }
@@ -109,7 +108,6 @@ function movePiece(selected_piece_id, move_to_id){
         move_html_img(selected_square, move_to_square)
         update_onclick_attribute(selected_square, move_to_square, selected_piece_id, move_to_id)
     }, 500); 
-
 }
 
 
