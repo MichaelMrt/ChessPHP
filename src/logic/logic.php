@@ -37,6 +37,12 @@ class Logic
                 $this->gamestatus_json = json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y", 'castling' => $this->castling_status]);
                 $this->handle_enpassant($current_x, $current_y, $move_to_x, $move_to_y);
 
+                if($this->chessboard[$move_to_x][$move_to_y] instanceof ChessPiece){
+                    $status = json_decode($this->gamestatus_json, true);
+                    $status['movetype'] = 'capture';
+                    $this->gamestatus_json = json_encode($status);
+                }
+
                 if($this->castling_status=="white_castling_short"){
                     $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,1,6,1);
                 }
