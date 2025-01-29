@@ -314,6 +314,9 @@ class Logic
         $this->gamestatus_json = $gamestatus_backup;
         if($legal_moves_amount==0){
             $status = json_decode($this->gamestatus_json, true);
+            if($status['checkmate']!=""){
+                return;
+            }
             $status['stalemate'] = "The Game ends in a draw!";
             $this->gamestatus_json = json_encode($status);
         }
