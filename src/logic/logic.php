@@ -15,8 +15,6 @@ class Logic
     protected Chessboard $chessboard_obj;
     protected mixed $chessboard;
     protected bool $whitesturn=true; // has to be removed
-    protected bool $white_in_check=false;
-    protected bool $black_in_check=false;
     protected $gamestatus_json;
     protected string $castling_status = "none";
     protected string $gamemode;
@@ -54,7 +52,8 @@ class Logic
                 $this->castling_status = "none";  
                 $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
                 $this->whitesturn = !$this->whitesturn; # swap turns
-                $this->is_check($this->chessboard);
+                $this->is_check($this->chessboard, "white");
+                $this->is_check($this->chessboard, "black");
                 $this->is_checkmate($this->chessboard);
                 echo $this->gamestatus_json;
         }else{
@@ -96,7 +95,13 @@ class Logic
           return false;
         }
 
-      if($this->still_check($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)){
+        if($whitesturn){
+            $color = "white";
+        }else{
+            $color = "black";
+        }
+
+      if($this->still_check($chessboard, $current_x, $current_y, $move_to_x, $move_to_y, $color)){
         $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Still in check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
       }
@@ -123,32 +128,30 @@ class Logic
     }
 
 
-    function is_check(mixed $chessboard):bool
+    function is_check(mixed $chessboard, $color):bool
     {   $king_pos = $this->get_king_pos($chessboard);
+
+        if($color == 'white'){
+            $opponent_color = 'black';
+        }elseif($color == 'black'){
+            $opponent_color = 'white';
+        }else{
+            throw new Exception("unkown color");
+        }
+
         # check if king is in check
         for ($x=1; $x < 9; $x++) { 
             for ($y=1; $y < 9; $y++) { 
-                
                 if($chessboard[$x][$y] instanceof ChessPiece){
-                    if($chessboard[$x][$y]->get_color()=="black" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['white']['x'],$king_pos['white']['y'])){
-                        $this->white_in_check = true;
+                    if($chessboard[$x][$y]->get_color()==$opponent_color && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos[$color]['x'],$king_pos[$color]['y'])){
                         $gamestatus = json_decode($this->gamestatus_json, true);
-                        $gamestatus['check'] = 'white in check';
+                        $gamestatus['check'] = ''.$color.' in check';
                         $this->gamestatus_json = json_encode($gamestatus);      
                         return true;
                     }
-                    if($chessboard[$x][$y]->get_color()=="white" && $chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$king_pos['black']['x'],$king_pos['black']['y'])){
-                        $this->black_in_check = true;
-                        $gamestatus = json_decode($this->gamestatus_json, true);
-                        $gamestatus['check'] = 'black in check';
-                        $this->gamestatus_json = json_encode($gamestatus);
-                       return true;
-                    }
-                }
             }
         }
-        $this->white_in_check = false;
-        $this->black_in_check = false;
+    }
         return false;
     }
 
@@ -198,20 +201,20 @@ class Logic
         $move_out_of_check = false;
         $white_checkmated = false;
         $black_checkmated = false;
-            if($this->is_check($chessboard)){
+            
                 # check if black has a move             
                 # first scan all pieces on the board
-                for($x=1;$x<=8;$x++){
-                    for($y=1;$y<=8;$y++){
+        for($x=1;$x<=8;$x++){
+            for($y=1;$y<=8;$y++){
                         # only white moves need to be scanned when white is in check
-                        if($this->white_in_check){
-                            if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()=="white"){
-                                # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
-                                for($move_x=1;$move_x<=8;$move_x++){
+                if($this->is_check($chessboard, "white")){
+                    if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()=="white"){
+                        # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
+                            for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
                                            if($this->chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$move_x,$move_y)){
                                                $future_board = $this->chessboard_obj->test_move($chessboard, $x, $y, $move_x, $move_y); 
-                                               if(!$this->is_check($future_board)){ 
+                                               if(!$this->is_check($future_board, "white")){ 
                                                    # no move out of check
                                                    $move_out_of_check = true;
                                                } 
@@ -221,15 +224,17 @@ class Logic
                                $white_checkmated = !$move_out_of_check;
                            }
                         } 
+
+
                          # only black moves need to be scanned when black is in check
-                        if($this->black_in_check){
+                        if($this->is_check($chessboard, "black")){
                             if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()=="black"){
                                 # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
                                 for($move_x=1;$move_x<=8;$move_x++){
                                    for($move_y=1;$move_y<=8;$move_y++){
                                            if($this->chessboard[$x][$y]->check_move_legal($chessboard,$x,$y,$move_x,$move_y)){
                                                $future_board = $this->chessboard_obj->test_move($chessboard, $x, $y, $move_x, $move_y); 
-                                               if(!$this->is_check($future_board)){ 
+                                               if(!$this->is_check($future_board, "black")){ 
                                                    # no move out of check
                                                    $move_out_of_check = true;
                                                } 
@@ -258,8 +263,8 @@ class Logic
                         $this->gamestatus_json	 = json_encode($status);
                     }
                     
-                }
-            }
+        }
+            
            
         return $move_out_of_check;
 
@@ -279,11 +284,11 @@ class Logic
         return false;
     }
 
-    function still_check($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
+    function still_check($chessboard,$current_x, $current_y, $move_to_x, $move_to_y, $color){
         # When a player is in check he has to make sure his next move stops the check
-      if($this->is_check($chessboard)){
+      if($this->is_check($chessboard, $color)){
         $controll_board = $this->chessboard_obj->test_move($chessboard, (int) $current_x, (int) $current_y, (int) $move_to_x, (int) $move_to_y);   
-        if($this->is_check($controll_board)){
+        if($this->is_check($controll_board, $color)){
             return true;
         }
      } 
@@ -296,18 +301,14 @@ class Logic
       # => King cannot move into check
       if($this->whitesturn){
             $controll_board = $this->chessboard_obj->test_move($chessboard, (int) $current_x, (int) $current_y, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){
-                if($this->white_in_check){
+            if($this->is_check($controll_board, "white")){
                     return true;
-                }
             }
       
       }else{ # blacksturn
         $controll_board = $this->chessboard_obj->test_move($chessboard, (int) $current_x, (int) $current_y, (int) $move_to_x, (int) $move_to_y);   
-            if($this->is_check($controll_board)){ 
-                if($this->black_in_check){
+            if($this->is_check($controll_board, "black")){ 
                     return true;
-                }
             }
         }
      return false;
