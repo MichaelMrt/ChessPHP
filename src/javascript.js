@@ -126,7 +126,7 @@ function transition_chesspiece(selected_square, move_to_square, chesspiece_img){
 var selected_square_rect = selected_square.getBoundingClientRect();
 var move_to_square_rect = move_to_square.getBoundingClientRect();
 
-// Calculate the differenz of the positions
+// Calculate the difference of the positions
 var deltaX = move_to_square_rect.left - selected_square_rect.left;
 var deltaY = move_to_square_rect.top - selected_square_rect.top;
 
@@ -174,7 +174,7 @@ function promote_to_queen(square_id){
 
 async function get_bot_move(){
     const startTime = Date.now();
-    //await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 100)); 
     console.log("BOT REQUESTED MOVE");
 
     var xhr = new XMLHttpRequest();

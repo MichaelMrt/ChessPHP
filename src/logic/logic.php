@@ -8,13 +8,11 @@ require_once("chesspieces/rook.php");
 require_once("chessboard.php");
 require_once("bot.php");
 
-
-
 class Logic
 {
     protected Chessboard $chessboard_obj;
     protected mixed $chessboard;
-    protected bool $whitesturn=true; // has to be removed
+    protected bool $whitesturn=true;
     protected $gamestatus_json;
     protected string $castling_status = "none";
     protected string $gamemode;
@@ -43,19 +41,7 @@ class Logic
                     $this->gamestatus_json = json_encode($status);
                 }
 
-                if($this->castling_status=="white_castling_short"){
-                    $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,1,6,1);
-                }
-                elseif($this->castling_status=="white_castling_long"){
-                    $this->chessboard = $this->chessboard_obj->move($this->chessboard,  1,1,5,1);
-                }
-                elseif($this->castling_status=="black_castling_short"){
-                    $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,8,6,8);
-                }
-                elseif($this->castling_status=="black_castling_long"){
-                    $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,8,6,8);
-                }
-
+                $this->handle_castling();
 
                 $this->castling_status = "none";  
                 $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
@@ -77,17 +63,7 @@ class Logic
         }else{
             echo $this->gamestatus_json;
         }
-    }
-
-
-    #just for testing purpose
-    function debug_output_board(): void
-    {
-        echo "<pre>";
-        print_r($this->chessboard);
-        echo "</pre>";
-    }
- 
+    } 
 
     function check_rules($chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y, $whitesturn):bool
     {
@@ -343,6 +319,21 @@ class Logic
         }
     }
 
+    function handle_castling(){
+        if($this->castling_status=="white_castling_short"){
+            $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,1,6,1);
+        }
+        elseif($this->castling_status=="white_castling_long"){
+            $this->chessboard = $this->chessboard_obj->move($this->chessboard,  1,1,5,1);
+        }
+        elseif($this->castling_status=="black_castling_short"){
+            $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,8,6,8);
+        }
+        elseif($this->castling_status=="black_castling_long"){
+            $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,8,6,8);
+        }
+    }
+
     function check_short_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1 && $this->not_castling_through_check_white_short()){
             if($chessboard[6][1]=="" && $chessboard[7][1]=="" && $chessboard[5][1] instanceof King && $chessboard[8][1] instanceof Rook){
@@ -479,11 +470,8 @@ class Logic
         if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8){
             return true;
         }
-        }
-
-        
+        } 
     }
-
 
     function castling_legal($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
         // Cannot castle when in check
@@ -516,7 +504,6 @@ class Logic
              'castling' => $this->castling_status, 'enpassant' => 'true', 'remove_piece' => "$move_to_x$current_y"]);
         }
     }
-
 
     function reset_enpassant_possible(){
         for($x=1;$x<=8;$x++){
@@ -599,8 +586,6 @@ class Logic
                 }
             }
         }
-        
-        // var_dump($legal_moves);
         return $legal_moves;
     }
 

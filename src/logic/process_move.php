@@ -13,8 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['chess_logic']->input_move($selected_piece_x, $selected_piece_y, $move_to_x, $move_to_y);
 }
 
-
-
 function get_played_move() : string 
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

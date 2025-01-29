@@ -43,57 +43,57 @@ class Chessboard
 
     private function create_board(): mixed
     {   
-        #Creates an 8x8 array
+        # Creates an 8x8 array
         for ($x = 1; $x < 9; $x++) {
             for ($y = 1; $y < 9; $y++) {
                 $chessboard[$x][$y] = "";
             }
         }
-        #place white pawns
+        # place white pawns
         for ($x = 1; $x < 9; $x++) {
             $y = 2;
             $chessboard[$x][$y] = new Pawn("white", $x, $y);
         }
 
-        #place black pawns
+        # place black pawns
         for ($x = 1; $x < 9; $x++) {
             $y = 7;
             $chessboard[$x][$y] = new Pawn("black", $x, $y);
         }
 
-        #place white king
+        # place white king
         $chessboard[5][1] = new King("white", 5, 1);
 
-        #place black king
+        # place black king
         $chessboard[5][8] = new King("black", 5, 8);
        
-        #place white queen
+        # place white queen
         $chessboard[4][1] = new Queen("white", 4, 1);
 
-        #place black queen
+        # place black queen
         $chessboard[4][8] = new Queen("black", 4, 8);
 
-        #place white bishop
+        # place white bishops
         $chessboard[3][1] = new Bishop("white", 3, 1);
         $chessboard[6][1] = new Bishop("white", 6, 1);
 
-        #place black bishop
+        # place black bishops
         $chessboard[3][8] = new Bishop("black", 3, 8);
         $chessboard[6][8] = new Bishop("black", 6, 8);
 
-        #place white knight
+        # place white knights
         $chessboard[2][1] = new Knight("white", 2, 1);
         $chessboard[7][1] = new Knight("white", 7, 1);
 
-        #place black knight
+        # place black knights
         $chessboard[2][8] = new Knight("black", 2, 8);
         $chessboard[7][8] = new Knight("black", 7, 8);
 
-        #place white rook
+        # place white rooks
         $chessboard[1][1] = new Rook("white", 1, 1);
         $chessboard[8][1] = new Rook("white", 8, 1);
 
-        #place black rook
+        # place black rooks
         $chessboard[1][8] = new Rook("black", 1, 8);
         $chessboard[8][8] = new Rook("black", 8, 8);
 
@@ -164,21 +164,12 @@ class Chessboard
         return $this->chessboard;
     }
 
-
-    private function log_board(){
-        $this->chessboard;
-        $myfile = fopen("logs.log", "w") or die("Unable to open file!");
-        fwrite($myfile, json_encode($this->chessboard));
-        fclose($myfile);
-    }
-
     public function remove_piece(int $x, int $y):void
     {
         $this->chessboard[$x][$y] = "";
     }
 
     public function can_promote($piece, $y){
-
         if($piece instanceof Pawn){
             if($piece->get_color() == "white" && $y==8){
                 return true;
@@ -194,6 +185,5 @@ class Chessboard
         $this->chessboard[$x][$y] = new Queen($color, $x, $y);
         return $this->chessboard;
     }
-
 }
 ?>
