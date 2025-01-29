@@ -58,7 +58,10 @@ function sendMove(selected_piece_id, move_to_id){
             if (response.status === 'legal') {
                 console.log("Move is legal");
                 movePiece(selected_piece_id, move_to_id)
-                get_bot_move();
+                if(typeof response.checkmate == 'undefined'){
+                    get_bot_move();
+                }
+                
             }else {
                 console.log("Move is illegal! "+"selected_piece_id: "+selected_piece_id+" move_to_id:"+move_to_id);
             }
