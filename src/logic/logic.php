@@ -468,6 +468,11 @@ class Logic
 
 
     function castling_legal($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
+        // Cannot castle when in check
+        if($this->is_check($chessboard, "white") || $this->is_check($chessboard, "black")){
+            return false;
+        }
+
         $legal = $this->check_short_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y) ||
                  $this->check_long_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y) ||
                  $this->check_short_castle_black($chessboard,$current_x, $current_y, $move_to_x, $move_to_y) ||
