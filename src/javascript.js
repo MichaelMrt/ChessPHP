@@ -59,7 +59,7 @@ function sendMove(selected_piece_id, move_to_id){
                 console.log("Move is legal");
                 movePiece(selected_piece_id, move_to_id)
                 if(typeof response.checkmate == 'undefined' && typeof response.stalemate == 'undefined'){
-                    //get_bot_move();
+                    get_bot_move();
                 }
                 
             }else {
@@ -194,6 +194,8 @@ async function get_bot_move(){
             if (response.status === 'legal') {
                 console.log("Move is legal");
                 movePiece(response.from, response.to)
+                let square = document.getElementById(response.to)
+                process_highlighting(square);
             }else {
                 console.log("Move is illegal!");
             }
