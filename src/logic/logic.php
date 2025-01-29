@@ -66,6 +66,7 @@ class Logic
                 $this->is_check($this->chessboard, "white");
                 $this->is_check($this->chessboard, "black");
                 $this->is_checkmate($this->chessboard);
+                $this->is_stalemate($this->chessboard);
                 echo $this->gamestatus_json;
         }else{
             echo $this->gamestatus_json;
@@ -117,7 +118,7 @@ class Logic
         return false;
       }
 
-      if($this->self_check($chessboard,$current_x, $current_y, $move_to_x, $move_to_y)){
+      if($this->self_check($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)){
         $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Cannot move into check', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
         return false;
       }
@@ -323,6 +324,17 @@ class Logic
             }
         }
      return false;
+    }
+
+    function is_stalemate($chessboard){
+        $gamestatus_backup = $this->gamestatus_json;
+        $legal_moves_amount = count($this->get_legal_moves($chessboard, !$this->whitesturn)); //Gives json output!
+        $this->gamestatus_json = $gamestatus_backup;
+        if($legal_moves_amount==0){
+            $status = json_decode($this->gamestatus_json, true);
+            $status['stalemate'] = "The Game ends in a draw!";
+            $this->gamestatus_json = json_encode($status);
+        }
     }
 
     function check_short_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
