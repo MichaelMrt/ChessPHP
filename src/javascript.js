@@ -58,8 +58,8 @@ function sendMove(selected_piece_id, move_to_id){
             if (response.status === 'legal') {
                 console.log("Move is legal");
                 movePiece(selected_piece_id, move_to_id)
-                if(typeof response.checkmate == 'undefined'){
-                    get_bot_move();
+                if(typeof response.checkmate == 'undefined' && typeof response.stalemate == 'undefined'){
+                    //get_bot_move();
                 }
                 
             }else {
@@ -105,6 +105,8 @@ function sendMove(selected_piece_id, move_to_id){
 
 function movePiece(selected_piece_id, move_to_id){
 
+    let audio = new Audio("../sounds/move.mp3");
+    audio.play()
     var selected_square = document.getElementById(selected_piece_id);
     var move_to_square = document.getElementById(move_to_id);
     var chesspiece_img = selected_square.querySelector('img');
