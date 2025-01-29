@@ -248,10 +248,14 @@ class Logic
                     $this->gamestatus_json = json_encode($gamestatus_array);
                 }else{
                     if($white_checkmated){
-                        $this->gamestatus_json = json_encode(['status' => 'legal','checkmate' => 'white is checkmated - black wins']);
+                        $status = json_decode($this->gamestatus_json, true);
+                        $status['checkmate'] = "white is checkmated - black wins";
+                        $this->gamestatus_json	 = json_encode($status);
                     }
                     if($black_checkmated){
-                        $this->gamestatus_json = json_encode(['status' => 'legal','checkmate' => 'black checkmated - white wins']);
+                        $status = json_decode($this->gamestatus_json, true);
+                        $status['checkmate'] = "black is checkmated - white wins";
+                        $this->gamestatus_json	 = json_encode($status);
                     }
                     
                 }
