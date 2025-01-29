@@ -144,6 +144,11 @@ class Chessboard
     {
             # Copy the piece to the new position
             $chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
+             
+            $piece = $chessboard[$move_to_x][$move_to_y];
+            if($this->can_promote($piece, $move_to_y)){
+                $chessboard[$move_to_x][$move_to_y] = new Queen($piece->get_color(), $move_to_x, $move_to_y);
+            }
 
             # Delete old piece position
             $chessboard[$current_x][$current_y] = "";
@@ -170,8 +175,22 @@ class Chessboard
         $this->chessboard[$x][$y] = "";
     }
 
+    public function can_promote($piece, $y){
+
+        if($piece instanceof Pawn){
+            if($piece->get_color() == "white" && $y==8){
+                return true;
+            }
+            if($piece->get_color() == "black" && $y==1){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function promote($x, $y, $color){
         $this->chessboard[$x][$y] = new Queen($color, $x, $y);
+        return $this->chessboard;
     }
 
 }

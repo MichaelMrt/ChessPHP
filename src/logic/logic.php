@@ -55,8 +55,8 @@ class Logic
                 $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
 
                 $piece = $this->chessboard[$move_to_x][$move_to_y];
-                if($this->can_promote($piece)){
-                    $this->chessboard_obj->promote($move_to_x, $move_to_y, $piece->get_color());
+                if($this->chessboard_obj->can_promote($piece, $move_to_y)){
+                    $this->chessboard  = $this->chessboard_obj->promote($move_to_x, $move_to_y, $piece->get_color());
                     $status = json_decode($this->gamestatus_json, true);
                     $status['promote'] = "$move_to_x$move_to_y";
                     $this->gamestatus_json = json_encode($status);
@@ -581,15 +581,4 @@ class Logic
         return $legal_moves;
     }
 
-    public function can_promote($piece){
-        if($piece instanceof ChessPiece){
-            if($piece->get_color() == "white" && $piece->get_y()==8){
-                return true;
-            }
-            if($piece->get_color() == "black" && $piece->get_y()==1){
-                return true;
-            }
-        }
-        return false;
-    }
 }
