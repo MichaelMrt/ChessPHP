@@ -88,6 +88,12 @@ function sendMove(selected_piece_id, move_to_id){
             if(response.enpassant=='true'){
                 remove_piece(document.getElementById(response.remove_piece));
             }
+
+            // Promote a pawn
+            if(typeof response.promote !== 'undefined'){
+                promote_to_queen(response.promote);
+            }
+
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
 
         }else {
@@ -152,6 +158,19 @@ function remove_piece(square){
     square.innerHTML='';
 }
 
+function promote_to_queen(square_id){
+    var selected_square = document.getElementById(square_id);
+    if(square_id[1]==8){
+        var queen_template = document.getElementById('white-queen-template');
+    }else{
+        var queen_template = document.getElementById('black-queen-template');
+    }
+    setTimeout(function(){
+        selected_square.innerHTML = queen_template.innerHTML;
+    }, 500); 
+}
+
+
 async function get_bot_move(){
     const startTime = Date.now();
     //await new Promise(r => setTimeout(r, 500));
@@ -198,6 +217,11 @@ async function get_bot_move(){
             // En passant
             if(response.enpassant=='true'){
                 remove_piece(document.getElementById(response.remove_piece));
+            }
+
+            // Promote a pawn
+            if(typeof response.promote !== 'undefined'){
+                promote_to_queen(response.promote);
             }
 
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
