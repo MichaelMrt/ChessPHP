@@ -170,7 +170,9 @@ class Chessboard
         $this->chessboard[$x][$y] = "";
     }
 
-
+    public function promote($x, $y, $color){
+        $this->chessboard[$x][$y] = new Queen($color, $x, $y);
+    }
 
 }
 ?>

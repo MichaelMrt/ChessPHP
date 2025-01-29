@@ -49,8 +49,19 @@ class Logic
                 elseif($this->castling_status=="black_castling_long"){
                     $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,8,6,8);
                 }
+
+
                 $this->castling_status = "none";  
                 $this->chessboard = $this->chessboard_obj->move($this->chessboard, (int) $current_x, (int) $current_y,(int) $move_to_x, (int) $move_to_y);
+
+                $piece = $this->chessboard[$move_to_x][$move_to_y];
+                if($this->can_promote($piece)){
+                    $this->chessboard_obj->promote($move_to_x, $move_to_y, $piece->get_color());
+                    $status = json_decode($this->gamestatus_json, true);
+                    $status['promote'] = "$move_to_x$move_to_y";
+                    $this->gamestatus_json = json_encode($status);
+                }
+
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard, "white");
                 $this->is_check($this->chessboard, "black");
@@ -568,5 +579,17 @@ class Logic
         
         // var_dump($legal_moves);
         return $legal_moves;
+    }
+
+    public function can_promote($piece){
+        if($piece instanceof ChessPiece){
+            if($piece->get_color() == "white" && $piece->get_y()==8){
+                return true;
+            }
+            if($piece->get_color() == "black" && $piece->get_y()==1){
+                return true;
+            }
+        }
+        return false;
     }
 }
