@@ -106,7 +106,7 @@ class Logic
         return false;
       }
 
-      if($this->is_castling_move($current_x, $current_y, $move_to_x, $move_to_y)){
+      if($this->is_castling_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)){
         if($this->castling_legal($chessboard,$current_x, $current_y, $move_to_x, $move_to_y)==false){
             $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Castling illegal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y"]);    
             return false;
@@ -313,7 +313,7 @@ class Logic
         if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1 && $this->not_castling_through_check_white_short()){
             if($chessboard[6][1]=="" && $chessboard[7][1]=="" && $chessboard[5][1] instanceof King && $chessboard[8][1] instanceof Rook){
                 if($chessboard[5][1]->get_has_moved_status()==false&& $chessboard[8][1]->get_has_moved_status()==false){
-                    $chessboard = $this->chessboard_obj->test_move($chessboard,8,1,6,1);
+                    $this->chessboard_obj->test_move($chessboard,8,1,6,1);
                     $this->castling_status = "white_castling_short";
                     return true;
                 }
@@ -327,7 +327,7 @@ class Logic
         if($current_x==5 && $current_y==1 && $move_to_x==3 && $move_to_y==1 && $this->not_castling_through_check_white_long()){
             if($chessboard[2][1]=="" && $chessboard[3][1]=="" && $chessboard[4][1]=="" && $chessboard[5][1] instanceof King && $chessboard[1][1] instanceof Rook){
                 if($chessboard[5][1]->get_has_moved_status()==false && $chessboard[1][1]->get_has_moved_status()==false){
-                    $chessboard = $this->chessboard_obj->test_move($chessboard,1,1,4,1);
+                    $this->chessboard_obj->test_move($chessboard,1,1,4,1);
                     $this->castling_status = "white_castling_long";
                     return true;
                 }
@@ -341,7 +341,7 @@ class Logic
         if($current_x==5 && $current_y==8 && $move_to_x==7 && $move_to_y==8 && $this->not_castling_through_check_black_short()){
             if($chessboard[6][8]=="" && $chessboard[7][8]=="" && $chessboard[5][8] instanceof King && $chessboard[8][8] instanceof Rook){
                 if($chessboard[5][8]->get_has_moved_status()==false && $chessboard[8][8]->get_has_moved_status()==false){
-                    $chessboard = $this->chessboard_obj->test_move($chessboard,8,8,6,8);
+                    $this->chessboard_obj->test_move($chessboard,8,8,6,8);
                     $this->castling_status = "black_castling_short";
                     return true;
                 }
@@ -355,7 +355,7 @@ class Logic
         if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8 && $this->not_castling_through_check_black_long()){
             if($chessboard[2][8]=="" && $chessboard[3][8]=="" && $chessboard[4][8]=="" && $chessboard[5][8] instanceof King && $chessboard[1][8] instanceof Rook){
                 if($chessboard[5][8]->get_has_moved_status()==false && $chessboard[1][8]->get_has_moved_status()==false){
-                    $chessboard = $this->chessboard_obj->test_move($chessboard,1,8,4,8);
+                    $this->chessboard_obj->test_move($chessboard,1,8,4,8);
                     $this->castling_status = "black_castling_long";
                     return true;
                 }
@@ -427,8 +427,9 @@ class Logic
     }
 
 
-    function is_castling_move($current_x, $current_y, $move_to_x, $move_to_y){
-        # white short
+    function is_castling_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y){
+        if($chessboard[$current_x][$current_y] instanceof King){
+            # white short
         if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1){
             return true;
         }
@@ -444,6 +445,9 @@ class Logic
         if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8){
             return true;
         }
+        }
+
+        
     }
 
 
