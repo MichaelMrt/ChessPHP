@@ -41,7 +41,7 @@ class King extends ChessPiece
         # castling long as white
         if($this->color=='white' && $move_to_x==3 && $move_to_y==1){
           if(!$chessboard[2][1] instanceof ChessPiece && !$chessboard[3][1] instanceof ChessPiece && !$chessboard[4][1] instanceof ChessPiece){
-            if($chessboard[1][1] instanceof Rook && $chessboard[8][1]->has_moved==false){
+            if($chessboard[1][1] instanceof Rook && $chessboard[1][1]->has_moved==false){
               return true;
             }
           }
@@ -59,7 +59,7 @@ class King extends ChessPiece
       # castling long as black
       if($this->color=='black' && $move_to_x==3 && $move_to_y==8){
         if(!$chessboard[2][8] instanceof ChessPiece && !$chessboard[3][8] instanceof ChessPiece && !$chessboard[4][8] instanceof ChessPiece){
-          if($chessboard[1][8] instanceof Rook && $chessboard[8][8]->has_moved==false){
+          if($chessboard[8][8] instanceof Rook && $chessboard[8][8]->has_moved==false){
             return true;
           }
         }
