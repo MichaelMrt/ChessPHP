@@ -19,7 +19,7 @@ class Chessboard
         $this->print_board($this->chessboard);
     }
 
-    function print_board($chessboard) : void
+    public function print_board($chessboard) : void
     {
        echo "<div class='board'>";
         $this->render_board($chessboard);
@@ -129,7 +129,7 @@ class Chessboard
 
     }
 
-    function move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
+    public function move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
     {
             $piece = $this->chessboard[$current_x][$current_y];
             $piece->update_position($move_to_x,$move_to_y);
@@ -142,7 +142,7 @@ class Chessboard
         return $this->chessboard;
     }
 
-    function test_move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
+    public function test_move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
     {
             # Copy the piece to the new position
             $chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
