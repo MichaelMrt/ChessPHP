@@ -57,8 +57,8 @@ class Logic
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard, "white");
                 $this->is_check($this->chessboard, "black");
-                $this->is_checkmate($this->chessboard);
-                $this->is_stalemate($this->chessboard);
+                $this->handle_checkmate($this->chessboard);
+                $this->handle_stalemate($this->chessboard);
                 echo $this->gamestatus_json;
         }else{
             echo $this->gamestatus_json;
@@ -183,7 +183,7 @@ class Logic
      return $king_pos;
     }
 
-    private function is_checkmate(mixed $chessboard):bool
+    private function handle_checkmate(mixed $chessboard):bool
     {
         $move_out_of_check = false;
         $white_checkmated = false;
@@ -301,7 +301,7 @@ class Logic
      return false;
     }
 
-    private function is_stalemate($chessboard){
+    private function handle_stalemate($chessboard){
         $gamestatus_backup = $this->gamestatus_json;
         $legal_moves_amount = count($this->get_legal_moves($chessboard, !$this->whitesturn)); //Gives json output!
         $this->gamestatus_json = $gamestatus_backup;
