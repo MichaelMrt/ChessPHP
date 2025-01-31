@@ -68,18 +68,5 @@ class King extends ChessPiece
 
         return false;
     }
-
-    function castle_rightside(mixed $chessboard):mixed {
-      #$chessboard = $chessboard[8][1]->move($chessboard,6,1);
-       # Copy the piece to the new position
-       $chessboard[6][1] = $chessboard[8][1];
-       # Delete old piece position
-       $chessboard[8][1] = "";
-       # Update position vars
-       $chessboard[6][1]->x = 6;
-       $chessboard[6][1]->y = 1;
-
-       return $chessboard;
-    }
 }
 ?>
