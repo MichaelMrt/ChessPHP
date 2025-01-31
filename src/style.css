@@ -6,14 +6,17 @@ body {
 
 .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: block;
     margin: 0 20px;
 }
 
 .center {
-    max-width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+    width: 50%;
+}
+
+.side {
+    width: 25%;
+    z-index: -5;
 }
 
 .board {
