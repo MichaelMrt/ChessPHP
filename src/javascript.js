@@ -61,7 +61,10 @@ function sendMove(selected_piece_id, move_to_id){
                 play_sound(response.movetype);
                 if(typeof response.checkmate == 'undefined' && typeof response.stalemate == 'undefined'){
                     get_bot_move();
+                }else{
+                    document.getElementById('status').innerHTML = "<h3>"+response.checkmate+"</h3>";
                 }
+
                 
             }else {
                 console.log("Move is illegal! "+"selected_piece_id: "+selected_piece_id+" move_to_id:"+move_to_id);
@@ -196,6 +199,9 @@ async function get_bot_move(){
                 let square = document.getElementById(response.to)
                 process_highlighting(square);
                 play_sound(response.movetype);
+                if(typeof response.checkmate !== 'undefined' || typeof response.stalemate !== 'undefined'){
+                    document.getElementById('status').innerHTML = "<h3>"+response.checkmate+"</h3>";
+                }
             }else {
                 console.log("Move is illegal!");
             }

@@ -24,6 +24,8 @@ class Chessboard
        echo "<div class='board'>";
         $this->render_board($chessboard);
        echo "</div>";
+       echo "<div id='ajax_response'></div>";
+       echo "<div id='status'></div>";
        echo "<div id='white-queen-template' class='hidden'><img src='../images/chesspieces/white-queen.png' class='chesspiece'></div>";
        echo "<div id='black-queen-template' class='hidden'><img src='../images/chesspieces/black-queen.png' class='chesspiece'></div>";
     }   
