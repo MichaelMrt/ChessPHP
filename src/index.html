@@ -20,15 +20,13 @@
     <section class='hero'>
     <div class='hero-content'>
       <h2>Wähle deinen Spielmodus</h2>
-      <p>Du kannst gegen dich selber spielen oder gegen einen Bot antreten, 
-        welcher auf dem Minimax-Algorithmus basiert. 
-        Kannst du ihn schlagen?</p>
+      <p>Kannst du den Bot schlagen?</p>
        <br>
       <form action='chessgame.php' method='GET'>
         <!-- Gamemode selection -->
         <label for='gamemode'>Spielmodus:</label>
         <select name='gamemode' id='gamemode'>
-          <option value='solo'>Solo-Modus</option>
+          <!-- <option value='solo'>Solo-Modus</option> -->
           <option value='bot'>Gegen Minimax-Bot</option>
         </select>
         <br><br>
@@ -36,7 +34,7 @@
         <label for='color'>Farbe:</label>
         <select name='color' id='color'>
           <option value='white'>Weiß</option>
-          <option value='black'>Schwarz</option>
+     <!-- <option value='black'>Schwarz</option> -->
         </select>
         <br>
         <br>
