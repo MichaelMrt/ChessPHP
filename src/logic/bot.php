@@ -1,10 +1,10 @@
 <?php
 require_once('piece_square_tables.php');
 // evaluate chessboard position: Positive score for white, negative score for black
-class bot{
-    protected int $counter=0;
+class Bot{
+    private int $counter=0;
 
-    function evaluate_board($chessboard){
+    public function evaluate_board($chessboard){
         global $pst_white;
         global $pst_black;
         $white_score = 0;
@@ -31,10 +31,9 @@ class bot{
     }
 
 
-    function minimax($chessboard_obj, $chessboard, $depth, $previous_score,$alpha,$beta ,$isBotMove){
+    public function alpha_beta_pruning($chessboard_obj, $chessboard, $depth, $previous_score,$alpha,$beta ,$isBotMove){
         $legal_moves = $_SESSION['chess_logic']->get_legal_moves($chessboard,$isBotMove);
         $this->counter++;
-        //print(count($legal_moves))."\n";
         if(count($legal_moves)==0 || $depth==0){    
             return [null, $previous_score];
         } 
@@ -51,8 +50,7 @@ class bot{
             $move = $current_x.$current_y.$move_to_x.$move_to_y;
             $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
             $new_score = $this->evaluate_board($new_board);
-            $node_data = $this->minimax($chessboard_obj, $new_board, $depth-1, $new_score,$alpha,$beta, !$isBotMove); // evaluate node
-            //print($node_score[1].":".$move."\n");
+            $node_data = $this->alpha_beta_pruning($chessboard_obj, $new_board, $depth-1, $new_score,$alpha,$beta, !$isBotMove); // evaluate node
             $node_bestscore = $node_data[1];
 
 
