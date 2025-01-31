@@ -98,7 +98,7 @@ function sendMove(selected_piece_id, move_to_id){
             document.getElementById('ajax_response').innerHTML = xhr.responseText;
 
         }else {
-            console.error('An error occured while sending the move: ' + xhr.statusText);
+            console.error('An error occured while sending the move: ' + xhr.statusText + '\nResponseText:' + xhr.responseText);
         }
     };
     xhr.send('move_to_id=' + encodeURIComponent(move_to_id)+'&selected_piece_id='+encodeURIComponent(selected_piece_id));
