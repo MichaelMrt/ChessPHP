@@ -1,58 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="javascript.js"></script>
+    <title>Chess</title>
+</head>
+<body>
 <?php
-    require_once("controller.php");
+    require_once("logic/process_move.php");
 
-    session_start();
+    require_once("logic/logic.php");
 
-    # Values that are stored in the SESSION get moved to the $_POST array
-    # Data from the submits is stored in the POST array
-
-    # Maybe swap loading the data from SESSION into POST and making SESSION=POST in the end
-    # to just add data from POST into SESSION one by one
-
-    if(isset($_SESSION['current_x']) & isset($_SESSION['current_y']))
-    {
-        $_POST['current_x'] = $_SESSION['current_x'];
-        $_POST['current_y'] = $_SESSION['current_y'];
-    }
-
-    /* I think it isn't necessary anymore
-    if(isset($_SESSION['chessboard'])){
-        $_POST['chessboard'] = $_SESSION['chessboard'];
-    }    */
-
-    if(isset($_SESSION['whitesturn'])){
-        $_POST['whitesturn'] = $_SESSION['whitesturn'];
-    }
-
-    if(isset($_SESSION['move_number'])){
-       $_POST['move_number'] = $_SESSION['move_number']; 
+    if( isset($_GET['gamemode'])){
+        $gamemode = $_GET['gamemode'];
     }else{
-        $_POST['move_number'] = 0;
+        $gamemode = "solo";
     }
 
-    # resets the board in logic constructor
-    if(isset($_POST['reset'])){
-        $_POST = array();
-        $_SESSION = array();
-        $_POST['move_number'] = 0;
-    }
+    if( isset($_GET['color'])){
+        $color = $_GET['color'];
+    }else
+        $color = "white";
 
-    $_SESSION = $_POST;
+    // echo $gamemode ." ". $color;
+    echo "<h1>Schach-Webanwendung</h1>";
+    echo "<div class='container'>";
 
-    echo "<link rel='stylesheet' href='style.css'>";
-   # echo "<h1>Chessgame</h1>";
+    echo "<div class='side'> <h1> Kurzinfo </h1>";
+    echo "</div>";
 
-   # header
-    echo "<div><h1>ChessPHP</h1>";
-    echo "Select a chess piece by clicking on the square it occupies, then click on the destination square to move it<br>
-    or input your move down below and hit submit<br><br></div>";
-    
-    $controller = new Controller();
+    echo "<div class='center'>";
+    $logic = new Logic($gamemode); //start game
+    $_SESSION['chess_logic'] = $logic;
+    echo "</div>";
 
-    # footer
-    echo "<div>
-    <h1>footer</h1>
-    <p> Contribute on GitHub:<a href='https://github.com/MichaelMrt03/ChessPHP'>https://github.com/MichaelMrt03/ChessPHP</a></p>
-    </div>";
-    
+    echo "<div class='side'> <h1>Funktionsweise</h1>";
+    echo "Klicke auf eine Figur, um sie auszuwählen,<br> und anschließend auf das Feld, <br>
+    auf das sie bewegt werden soll, um deinen Zug auszuführen.<br>
+    Ist der Zug legal, wird er ausgeführt und der Bot zieht im Anschluss.</div>";
+
+    echo "</div>";
+
+    echo "<div id='ajax_response'></div>";
 ?>
+</body>
+</html>

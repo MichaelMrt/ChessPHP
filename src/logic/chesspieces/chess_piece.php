@@ -6,6 +6,9 @@ abstract class ChessPiece implements JsonSerializable
     protected int $x;
     protected int $y;
     protected String $icon;
+    protected String $id;
+    protected bool $has_moved = false;
+    protected int $weight;
     
     function __construct(String $color, int $x, int $y)
     {
@@ -19,64 +22,21 @@ abstract class ChessPiece implements JsonSerializable
         return  $this->color;
     }
 
-    function move(mixed $chessboard, int $move_to_x, int $move_to_y):mixed
+    public function jsonSerialize():mixed 
     {
-
-            # Coordinates from the current Piece position
-            $current_x = $this->x;
-            $current_y = $this->y;
-
-            if(is_a($chessboard[$current_x][$current_y],'King')){
-                # check for castling
-                if($this->color=='white' && $move_to_x==7 && $move_to_y==1){
-                    if(!is_a($chessboard[6][1], 'Chesspiece') && !is_a($chessboard[7][1],'Chesspiece')){
-                      if(is_a($chessboard[8][1], 'Rook')){
-                        $chessboard = $chessboard[5][1]->castle_rightside($chessboard);
-                      }
-                    }
-                }
-            }
-
-
-            # Copy the piece to the new position
-            $chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
-
-            # Delete old piece position
-            $chessboard[$current_x][$current_y] = "";
-
-            # Update position vars
-            $this->x = $move_to_x;
-            $this->y = $move_to_y;
-
-            
-        
-        return $chessboard;
-    }
-
-    # Same as move function but doesnt mess with the class var x and y
-    # used for checking positions in the future
-    function test_move(mixed $chessboard, int $move_to_x, int $move_to_y):mixed
-    {
-
-            # Coordinates from the current Piece position
-            $current_x = $this->x;
-            $current_y = $this->y;
-
-            # Copy the piece to the new position
-            $chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
-
-            # Delete old piece position
-            $chessboard[$current_x][$current_y] = "";
-        return $chessboard;
-    }
-
-    public function jsonSerialize():mixed {
         return [
             'x' => $this->x,
             'y' => $this->y,
             'color' => $this->color,
             'type' => $this->type,
         ];
+    }
+
+    public function update_position(int $pos_x, int $pos_y):void
+    {
+        $this->x = $pos_x;
+        $this->y = $pos_y;
+        $this->has_moved = true;
     }
 
     public function get_icon():String
@@ -98,7 +58,29 @@ abstract class ChessPiece implements JsonSerializable
     {
         return $this->type;
     }
+
+    public function get_weight():int
+    {
+        return $this->weight;
+    }
+
+    public function get_has_moved_status():bool
+    {
+        return $this->has_moved;
+    }
+
+    protected function check_target_square(mixed $chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
+        if($chessboard[$move_to_x][$move_to_y]==""){
+            return true;
+        }
+        if($chessboard[$current_x][$current_y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
+            return true;
+        }else{
+            return false;
+        }
+    }
     # ---abstract methods---
-    abstract function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool;
+    abstract function check_move_legal(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool;
 
 }

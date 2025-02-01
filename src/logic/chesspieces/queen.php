@@ -6,7 +6,7 @@ class Queen extends ChessPiece
 
     use RookTrait;
     use BishopTrait;
-
+    protected int $weight = 900;
     function __construct(String $color, int $x, int $y)
     {
       parent::__construct($color, $x, $y);
@@ -19,9 +19,9 @@ class Queen extends ChessPiece
       }
     }
 
-    function check_move_legal(mixed $chessboard, int $move_to_x, int $move_to_y):bool
+    function check_move_legal(mixed $chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
-      if($this->check_legal_rookmove($chessboard, $this->x, $this->y,  $move_to_x,  $move_to_y) || $this->check_legal_bishopmove($chessboard, $this->x, $this->y,  $move_to_x,  $move_to_y)){
+      if($this->check_legal_rookmove($chessboard, $current_x, $current_y,  $move_to_x,  $move_to_y) || $this->check_legal_bishopmove($chessboard, $current_x, $current_y,  $move_to_x,  $move_to_y)){
         return true;
       }
       $_SESSION['error'] = "<p class='error'>queens can't move like that</p>";
