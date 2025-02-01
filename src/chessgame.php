@@ -24,18 +24,22 @@
     }else
         $color = "white";
 
-    echo $gamemode ." ". $color;
+    // echo $gamemode ." ". $color;
+    echo "<h1>Schach-Webanwendung</h1>";
     echo "<div class='container'>";
 
-    echo "<div class='center'> <h1> Info <h1></div>";
+    echo "<div class='side'> <h1> Kurzinfo </h1>";
+    echo "</div>";
 
-    
+    echo "<div class='center'>";
     $logic = new logic($gamemode); //start game
     $_SESSION['chess_logic'] = $logic;
+    echo "</div>";
 
-    echo "<div class='center'> <h1>Moves</h1>";
-    echo "<p id='movehistory'>test</p>";
-    echo  "</div>";
+    echo "<div class='side'> <h1>Funktionsweise</h1>";
+    echo "Klicke auf eine Figur, um sie auszuwählen,<br> und anschließend auf das Feld, <br>
+    auf das sie bewegt werden soll, um deinen Zug auszuführen.<br>
+    Ist der Zug legal, wird er ausgeführt und der Bot zieht im Anschluss.</div>";
 
     echo "</div>";
 
