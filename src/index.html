@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="homepage.css">
+    <script></script>
+    <title>Chessboard</title>
+</head>
+<body>
+    <header>
+        <h1>Willkommen bei ChessPHP</h1>
+        <nav>
+            <a href='#'>Home</a>
+            <a href='#'>Regeln</a>
+        </nav>
+    </header>
+
+   <div class='container'>
+    <section class='hero'>
+    <div class='hero-content'>
+      <h2>Wähle deinen Spielmodus</h2>
+      <p>Kannst du den Bot schlagen?</p>
+       <br>
+      <form action='chessgame.php' method='GET'>
+        <!-- Gamemode selection -->
+        <label for='gamemode'>Spielmodus:</label>
+        <select name='gamemode' id='gamemode'>
+          <!-- <option value='solo'>Solo-Modus</option> -->
+          <option value='bot'>Gegen Minimax-Bot</option>
+        </select>
+        <br><br>
+        <!-- Color selection -->
+        <label for='color'>Farbe:</label>
+        <select name='color' id='color'>
+          <option value='white'>Weiß</option>
+     <!-- <option value='black'>Schwarz</option> -->
+        </select>
+        <br>
+        <br>
+        <button type='submit'>Partie beginnen</button>
+      </form>
+    </div>
+  </section>
+</body>
+</html>
