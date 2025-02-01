@@ -19,7 +19,7 @@ class Logic
     
     function __construct($gamemode)
     {   
-        $this->chessboard_obj = new chessboard();
+        $this->chessboard_obj = new Chessboard();
         $this->chessboard = $this->chessboard_obj->get_board();
         $this->gamemode = $gamemode;
     }

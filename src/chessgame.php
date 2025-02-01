@@ -32,7 +32,7 @@
     echo "</div>";
 
     echo "<div class='center'>";
-    $logic = new logic($gamemode); //start game
+    $logic = new Logic($gamemode); //start game
     $_SESSION['chess_logic'] = $logic;
     echo "</div>";
 
