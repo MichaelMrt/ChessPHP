@@ -3,10 +3,10 @@ require_once("chess_piece.php");
 
 class Pawn extends ChessPiece
 {
-  public $check_enpassant = false;
-  public $enpassant_left_possible = false;
-  public $enpassant_right_possible = false;
-  protected $weight = 100;
+  public bool $check_enpassant = false;
+  public bool $enpassant_left_possible = false;
+  public bool $enpassant_right_possible = false;
+  protected int $weight = 100;
 
   function __construct(String $color, int $x, int $y)
   {
@@ -32,7 +32,7 @@ class Pawn extends ChessPiece
   }
 
 
-  function check_moving_onesquare_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)
+  function check_moving_onesquare_forwards(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
   {
     $is_white_move = $this->color == "white" && $current_y + 1 == $move_to_y;
     $is_black_move = $this->color == "black" && $current_y - 1 == $move_to_y;
@@ -42,7 +42,7 @@ class Pawn extends ChessPiece
   }
 
 
-  function check_moving_twosquares_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)
+  function check_moving_twosquares_forwards(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
   {
     $is_white_move = $this->color == "white" && $current_y == 2 && $move_to_y == 4 && $chessboard[$current_x][$current_y + 1] == "";
     $is_black_move = $this->color == "black" && $current_y == 7 && $move_to_y == 5 && $chessboard[$current_x][$current_y - 1] == "";
@@ -52,7 +52,7 @@ class Pawn extends ChessPiece
   }
 
 
-  function check_diagonal_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y)
+  function check_diagonal_move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
   {
     $is_takes_move = $chessboard[$move_to_x][$move_to_y] instanceof ChessPiece;
     $is_black_move = $this->color == "black" && $current_y - 1 == $move_to_y;
@@ -62,34 +62,35 @@ class Pawn extends ChessPiece
   }
 
   
-  function update_position($pos_x, $pos_y)
+  function update_position(int $pos_x, int $pos_y):void
   {
     parent::update_position($pos_x, $pos_y);
     $this->check_enpassant = false;
   }
 
-  function set_enpassant_left_possible($bool)
+  function set_enpassant_left_possible(bool $bool):void
   {
     $this->enpassant_left_possible = $bool;
   }
 
-  function set_enpassant_right_possible($bool)
+  function set_enpassant_right_possible(bool $bool):void
   {
     $this->enpassant_right_possible = $bool;
   }
 
 
-  function get_enpassant_left_possible()
+  function get_enpassant_left_possible():bool
   {
     return $this->enpassant_left_possible;
   }
 
-  function get_enpassant_right_possible()
+  function get_enpassant_right_possible():bool
   {
     return $this->enpassant_right_possible;
   }
 
-  function check_enpassant($move_to_x, $move_to_y){
+  function check_enpassant(int $move_to_x, int $move_to_y):bool
+  {
     if($this->color == "white"){
       if($this->enpassant_left_possible){
         if($move_to_x == $this->x-1 && $move_to_y == $this->y+1){
@@ -117,7 +118,7 @@ class Pawn extends ChessPiece
   }
 
 
-  function target_square_empty($chessboard, $move_to_x, $move_to_y): bool
+  function target_square_empty(mixed $chessboard, int $move_to_x, int $move_to_y): bool
   {
     if ($chessboard[$move_to_x][$move_to_y] == "") {
       return true;

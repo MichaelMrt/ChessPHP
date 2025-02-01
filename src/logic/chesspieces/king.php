@@ -1,7 +1,7 @@
 <?php
 class King extends ChessPiece
 {
-  protected $weight = 60000;
+  protected int $weight = 60000;
   function __construct(String $color, int $x, int $y)
   {
       parent::__construct($color, $x, $y);

@@ -4,7 +4,8 @@ require_once('piece_square_tables.php');
 class Bot{
     private int $counter=0;
 
-    public function evaluate_board($chessboard){
+    public function evaluate_board(mixed $chessboard): int
+    {
         global $pst_white;
         global $pst_black;
         $white_score = 0;
@@ -31,7 +32,8 @@ class Bot{
     }
 
 
-    public function alpha_beta_pruning($chessboard_obj, $chessboard, $depth, $previous_score,$alpha,$beta ,$isBotMove){
+    public function alpha_beta_pruning(Chessboard $chessboard_obj, mixed $chessboard, int $depth, int $previous_score, int $alpha, int $beta ,bool $isBotMove):mixed
+    {
         $legal_moves = $_SESSION['chess_logic']->get_legal_moves($chessboard,$isBotMove);
         $this->counter++;
         if(count($legal_moves)==0 || $depth==0){    
@@ -85,7 +87,8 @@ class Bot{
             }
     }
 
-    function get_counter(){
+    function get_counter():int
+    {
         return $this->counter;
     }
 }

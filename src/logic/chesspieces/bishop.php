@@ -5,7 +5,7 @@ require_once('traits.php');
 class Bishop extends ChessPiece
 {
     use BishopTrait;
-    protected $weight = 320;
+    protected int $weight = 320;
 
     function __construct(String $color, int $x, int $y)
     {

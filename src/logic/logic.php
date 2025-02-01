@@ -13,11 +13,11 @@ class Logic
     protected Chessboard $chessboard_obj;
     protected mixed $chessboard;
     protected bool $whitesturn=true;
-    protected $gamestatus_json;
+    protected mixed $gamestatus_json;
     protected string $castling_status = "none";
     protected string $gamemode;
     
-    function __construct($gamemode)
+    function __construct(string $gamemode)
     {   
         $this->chessboard_obj = new Chessboard();
         $this->chessboard = $this->chessboard_obj->get_board();
@@ -65,7 +65,7 @@ class Logic
         }
     } 
 
-    private function check_rules($chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y, $whitesturn):bool
+    private function check_rules(mixed $chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y, bool $whitesturn):bool
     {
         $this->castling_status="None";
 
@@ -115,7 +115,7 @@ class Logic
       return true;
     }
 
-    private function is_check(mixed $chessboard, $color):bool
+    private function is_check(mixed $chessboard, string $color):bool
     {   $king_pos = $this->get_king_pos($chessboard);
 
         if($color == 'white'){
@@ -257,7 +257,8 @@ class Logic
 
     }
 
-    private function wrong_turn_order($chessboard,$current_x, $current_y, $whitesturn){
+    private function wrong_turn_order(mixed $chessboard, int $current_x, int $current_y, bool $whitesturn):bool
+    {
          # check if white moves only his pieces
          if($whitesturn && $chessboard[$current_x][$current_y]->get_color()=="black"){
             return true;
@@ -271,7 +272,8 @@ class Logic
         return false;
     }
 
-    private function still_check($chessboard,$current_x, $current_y, $move_to_x, $move_to_y, $color){
+    private function still_check(mixed $chessboard, mixed $current_x, int $current_y, int $move_to_x, int $move_to_y, string $color):bool
+    {
         # When a player is in check he has to make sure his next move stops the check
       if($this->is_check($chessboard, $color)){
         $controll_board = $this->chessboard_obj->test_move($chessboard, (int) $current_x, (int) $current_y, (int) $move_to_x, (int) $move_to_y);   
@@ -283,7 +285,8 @@ class Logic
     }
 
 
-    private function self_check($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
+    private function self_check(mixed $chessboard, int $current_x, int  $current_y, int  $move_to_x, int $move_to_y):bool
+    {
       # make sure the next move does not result in check for the same color
       # => King cannot move into check
       if($this->whitesturn){
@@ -301,7 +304,8 @@ class Logic
      return false;
     }
 
-    private function handle_stalemate($chessboard){
+    private function handle_stalemate(mixed $chessboard):void
+    {
         $gamestatus_backup = $this->gamestatus_json;
         $legal_moves_amount = count($this->get_legal_moves($chessboard, !$this->whitesturn)); //Gives json output!
         $this->gamestatus_json = $gamestatus_backup;
@@ -315,7 +319,8 @@ class Logic
         }
     }
 
-    private function handle_castling(){
+    private function handle_castling():void
+    {
         if($this->castling_status=="white_castling_short"){
             $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,1,6,1);
         }
@@ -330,7 +335,8 @@ class Logic
         }
     }
 
-    private function check_short_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
+    private function check_short_castle_white(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
         if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1 && $this->not_castling_through_check_white_short()){
             if($chessboard[6][1]=="" && $chessboard[7][1]=="" && $chessboard[5][1] instanceof King && $chessboard[8][1] instanceof Rook){
                 if($chessboard[5][1]->get_has_moved_status()==false&& $chessboard[8][1]->get_has_moved_status()==false){
@@ -344,7 +350,8 @@ class Logic
     }
 
 
-    private function check_long_castle_white($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
+    private function check_long_castle_white(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
         if($current_x==5 && $current_y==1 && $move_to_x==3 && $move_to_y==1 && $this->not_castling_through_check_white_long()){
             if($chessboard[2][1]=="" && $chessboard[3][1]=="" && $chessboard[4][1]=="" && $chessboard[5][1] instanceof King && $chessboard[1][1] instanceof Rook){
                 if($chessboard[5][1]->get_has_moved_status()==false && $chessboard[1][1]->get_has_moved_status()==false){
@@ -358,7 +365,8 @@ class Logic
     }
 
 
-    private function check_short_castle_black($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
+    private function check_short_castle_black(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
         if($current_x==5 && $current_y==8 && $move_to_x==7 && $move_to_y==8 && $this->not_castling_through_check_black_short()){
             if($chessboard[6][8]=="" && $chessboard[7][8]=="" && $chessboard[5][8] instanceof King && $chessboard[8][8] instanceof Rook){
                 if($chessboard[5][8]->get_has_moved_status()==false && $chessboard[8][8]->get_has_moved_status()==false){
@@ -372,7 +380,8 @@ class Logic
     }
 
 
-    private function check_long_castle_black($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
+    private function check_long_castle_black(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
         if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8 && $this->not_castling_through_check_black_long()){
             if($chessboard[2][8]=="" && $chessboard[3][8]=="" && $chessboard[4][8]=="" && $chessboard[5][8] instanceof King && $chessboard[1][8] instanceof Rook){
                 if($chessboard[5][8]->get_has_moved_status()==false && $chessboard[1][8]->get_has_moved_status()==false){
@@ -386,7 +395,8 @@ class Logic
     }
 
     
-    private function white_piece_can_move_to_square($target_x, $target_y){
+    private function white_piece_can_move_to_square(int $target_x, int $target_y):bool
+    {
         # first scan all pieces on the board
         for($x=1;$x<=8;$x++){
             for($y=1;$y<=8;$y++){
@@ -401,7 +411,8 @@ class Logic
     }
 
 
-    private function black_piece_can_move_to_square($target_x, $target_y){
+    private function black_piece_can_move_to_square(int $target_x, int $target_y):bool
+    {
         # first scan all pieces on the board
         for($x=1;$x<=8;$x++){
             for($y=1;$y<=8;$y++){
@@ -416,7 +427,8 @@ class Logic
     }
 
 
-    private function not_castling_through_check_white_short(){
+    private function not_castling_through_check_white_short():bool
+    {
         if($this->black_piece_can_move_to_square(6,1) || $this->black_piece_can_move_to_square(7,1)){
             return false;
         }
@@ -424,7 +436,8 @@ class Logic
     }
 
 
-    private function not_castling_through_check_white_long(){
+    private function not_castling_through_check_white_long():bool
+    {
         if($this->black_piece_can_move_to_square(4,1) || $this->black_piece_can_move_to_square(3,1) || $this->black_piece_can_move_to_square(2,1)){
             return false;
         }
@@ -432,7 +445,8 @@ class Logic
     }
 
 
-    private function not_castling_through_check_black_short(){
+    private function not_castling_through_check_black_short():bool
+    {
         if($this->white_piece_can_move_to_square(6,8) || $this->white_piece_can_move_to_square(7,8)){
             return false;
         }
@@ -440,7 +454,8 @@ class Logic
     }
 
 
-    private function not_castling_through_check_black_long(){
+    private function not_castling_through_check_black_long():bool
+    {
         if($this->white_piece_can_move_to_square(4,8) || $this->white_piece_can_move_to_square(3,8) || $this->white_piece_can_move_to_square(2,8)){
             return false;
         }
@@ -448,28 +463,31 @@ class Logic
     }
 
 
-    private function is_castling_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y){
+    private function is_castling_move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
         if($chessboard[$current_x][$current_y] instanceof King){
             # white short
-        if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1){
-            return true;
+            if($current_x==5 && $current_y==1 && $move_to_x==7 && $move_to_y==1){
+                return true;
+            }
+            # white long
+            if($current_x==5 && $current_y==1 && $move_to_x==3 && $move_to_y==1){
+                return true;
+            }
+            # black short
+            if($current_x==5 && $current_y==8 && $move_to_x==7 && $move_to_y==8){
+                return true;
+            }
+            # black long
+            if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8){
+                return true;
+            }
         }
-        # white long
-        if($current_x==5 && $current_y==1 && $move_to_x==3 && $move_to_y==1){
-            return true;
-        }
-        # black short
-        if($current_x==5 && $current_y==8 && $move_to_x==7 && $move_to_y==8){
-            return true;
-        }
-        # black long
-        if($current_x==5 && $current_y==8 && $move_to_x==3 && $move_to_y==8){
-            return true;
-        }
-        } 
+        return false;
     }
 
-    private function castling_legal($chessboard,$current_x, $current_y, $move_to_x, $move_to_y){
+    private function castling_legal(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    {
         // Cannot castle when in check
         if($this->is_check($chessboard, "white") || $this->is_check($chessboard, "black")){
             return false;
@@ -483,7 +501,8 @@ class Logic
         return $legal;
     }
 
-    private function handle_enpassant($current_x, $current_y, $move_to_x, $move_to_y){
+    private function handle_enpassant(int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
+    {
         $current_square = $this->chessboard[$current_x][$current_y];
         $move_to_square = $this->chessboard[$move_to_x][$move_to_y];
 
@@ -493,7 +512,8 @@ class Logic
     }  
     
 
-    private function play_enpassant($current_square, $current_x, $current_y, $move_to_x, $move_to_y, $move_to_square){
+    private function play_enpassant(mixed $current_square, int $current_x, int $current_y, int $move_to_x, int $move_to_y, mixed $move_to_square):void
+    {
         if($current_square instanceof Pawn && abs($current_x-$move_to_x)==1 && $move_to_square==""){
             $this->chessboard_obj->remove_piece($move_to_x, $current_y);
             $this->gamestatus_json = json_encode(['status' => 'legal', 'from' =>"$current_x$current_y", 'to' => "$move_to_x$move_to_y",
@@ -501,7 +521,8 @@ class Logic
         }
     }
 
-    private function reset_enpassant_possible(){
+    private function reset_enpassant_possible():void
+    {
         for($x=1;$x<=8;$x++){
             for($y=1;$y<=8;$y++){
                 if($this->chessboard[$x][$y] instanceof Pawn){
@@ -526,7 +547,8 @@ class Logic
     }
 
 
-    private function enable_enpassant_possible($current_square, $current_x, $current_y, $move_to_x, $move_to_y){
+    private function enable_enpassant_possible(mixed $current_square, int $current_x, int $current_y, int $move_to_x, int $move_to_y):void
+    {
         if($move_to_x-1>0){
             $left_square = $this->chessboard[$move_to_x-1][$move_to_y];
         }else{
@@ -558,7 +580,8 @@ class Logic
         return $this->chessboard_obj;
     }
 
-    public function get_legal_moves($chessboard, $isbotmove){
+    public function get_legal_moves(mixed $chessboard, bool $isbotmove):mixed
+    {
         $legal_moves = [];
         if($isbotmove){
             $color = "black";

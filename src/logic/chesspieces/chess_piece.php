@@ -8,7 +8,7 @@ abstract class ChessPiece implements JsonSerializable
     protected String $icon;
     protected String $id;
     protected bool $has_moved = false;
-    protected $weight;
+    protected int $weight;
     
     function __construct(String $color, int $x, int $y)
     {
@@ -22,7 +22,8 @@ abstract class ChessPiece implements JsonSerializable
         return  $this->color;
     }
 
-    public function jsonSerialize():mixed {
+    public function jsonSerialize():mixed 
+    {
         return [
             'x' => $this->x,
             'y' => $this->y,
@@ -31,7 +32,8 @@ abstract class ChessPiece implements JsonSerializable
         ];
     }
 
-    public function update_position($pos_x, $pos_y){
+    public function update_position(int $pos_x, int $pos_y):void
+    {
         $this->x = $pos_x;
         $this->y = $pos_y;
         $this->has_moved = true;
@@ -62,11 +64,12 @@ abstract class ChessPiece implements JsonSerializable
         return $this->weight;
     }
 
-    public function get_has_moved_status(){
+    public function get_has_moved_status():bool
+    {
         return $this->has_moved;
     }
 
-    protected function check_target_square($chessboard,int $current_x, int $current_y, $move_to_x, $move_to_y):bool
+    protected function check_target_square(mixed $chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
     {
         if($chessboard[$move_to_x][$move_to_y]==""){
             return true;

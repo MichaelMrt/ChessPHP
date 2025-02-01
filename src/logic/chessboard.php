@@ -11,7 +11,7 @@ require_once("logic.php");
 class Chessboard
 {
     public mixed $chessboard;
-    public $castling=false;
+    public bool $castling=false;
 
     function __construct()
     {   
@@ -19,7 +19,7 @@ class Chessboard
         $this->print_board($this->chessboard);
     }
 
-    public function print_board($chessboard) : void
+    public function print_board(mixed $chessboard) : void
     {
        echo "<div class='board'>";
         $this->render_board($chessboard);
@@ -30,7 +30,7 @@ class Chessboard
        echo "<div id='black-queen-template' class='hidden'><img src='../images/chesspieces/black-queen.png' class='chesspiece'></div>";
     }   
 
-    private function render_board($chessboard):void
+    private function render_board(mixed $chessboard):void
     {   
         for ($row = 8; $row > 0; $row--) {
             for ($column = 1; $column < 9; $column++) {
@@ -113,7 +113,7 @@ class Chessboard
         return $background_color;
     }
 
-    private function get_chesspiece_icon($piece):string
+    private function get_chesspiece_icon(mixed $piece):string
     {
         if($piece instanceof ChessPiece){
             $chesspiece_icon = $piece->get_icon();
@@ -171,7 +171,8 @@ class Chessboard
         $this->chessboard[$x][$y] = "";
     }
 
-    public function can_promote($piece, $y){
+    public function can_promote(mixed $piece, int $y):bool
+    {
         if($piece instanceof Pawn){
             if($piece->get_color() == "white" && $y==8){
                 return true;
@@ -183,7 +184,8 @@ class Chessboard
         return false;
     }
 
-    public function promote($x, $y, $color){
+    public function promote(int $x, int $y, string $color):mixed
+    {
         $this->chessboard[$x][$y] = new Queen($color, $x, $y);
         return $this->chessboard;
     }
