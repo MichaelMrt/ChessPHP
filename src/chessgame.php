@@ -9,8 +9,6 @@
 </head>
 <body>
 <?php
-    require_once("logic/process_move.php");
-
     require_once("logic/logic.php");
 
     if( isset($_GET['gamemode'])){
