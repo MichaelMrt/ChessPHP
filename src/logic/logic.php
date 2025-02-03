@@ -331,7 +331,7 @@ class Logic
             $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,8,6,8);
         }
         elseif($this->castling_status=="black_castling_long"){
-            $this->chessboard = $this->chessboard_obj->move($this->chessboard,  8,8,6,8);
+            $this->chessboard = $this->chessboard_obj->move($this->chessboard,  1,8,4,8);
         }
     }
 
