@@ -23,5 +23,5 @@ jobs:
       - name: Pull latest changes on remote server
         run: |
           ssh ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} '
-            cd /var/www/ChessPHP && git pull origin main
+            cd /var/www/html/ChessPHP && git pull origin main
           '
