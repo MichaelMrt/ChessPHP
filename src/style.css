@@ -86,7 +86,6 @@ body {
     width: 100%;
     bottom: 0;
     box-sizing: border-box;
-
 }
 
 .footer a {
@@ -138,5 +137,11 @@ body {
     .chesspiece{
         width: 40px;
         height: 40px;
+    }
+
+    .footer {
+        position: relative;
+        padding: 10px;
+        margin-top: 10px;
     }
 }
