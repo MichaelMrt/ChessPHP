@@ -79,13 +79,15 @@ trait BishopTrait{
         if(pow($current_x-$move_to_x,2) == pow($current_y-$move_to_y,2)){
 
             $distance = sqrt(pow($current_x-$move_to_x,2)); # distance in squares
+            $move_from_field = $chessboard[$current_x][$current_y];
+
 
             # top right - check if piece on the way
             if($current_x<$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) { 
-                    $field = $chessboard[$current_x+$i][$current_y+$i];
-                    if($field instanceof ChessPiece){ // check if there is a piece on the way
-                        if($i==$distance  && $field->get_color()!= $field->get_color()){ // target square can be taken
+                    $move_to_field = $chessboard[$current_x+$i][$current_y+$i];
+                    if($move_to_field instanceof ChessPiece){ // check if there is a piece on the way
+                        if($i==$distance  && $move_to_field->get_color()!= $move_from_field->get_color()){ // target square can be taken
                             return true;
                         }else{
                             return false;
@@ -97,9 +99,9 @@ trait BishopTrait{
             # top left
             }elseif($current_x>$move_to_x && $current_y<$move_to_y){
                 for ($i=1; $i <= $distance; $i++) {
-                    $field = $chessboard[$current_x-$i][$current_y+$i]; 
-                    if($field instanceof ChessPiece){
-                        if($i==$distance  && $field->get_color()!= $field->get_color()){
+                    $move_to_field = $chessboard[$current_x-$i][$current_y+$i]; 
+                    if($move_to_field instanceof ChessPiece){
+                        if($i==$distance  && $move_from_field->get_color()!= $move_to_field->get_color()){
                             return true;
                         }else{
                             return false;
@@ -111,9 +113,9 @@ trait BishopTrait{
             # bottom left
             }elseif($current_x>$move_to_x && $current_y>$move_to_y){
                 for ($i=1; $i <= $distance; $i++) {
-                    $field = $chessboard[$current_x-$i][$current_y-$i]; 
-                    if($field instanceof ChessPiece){
-                        if($i==$distance && $field->get_color()!= $field->get_color()){
+                    $move_to_field = $chessboard[$current_x-$i][$current_y-$i]; 
+                    if($move_to_field instanceof ChessPiece){
+                        if($i==$distance && $move_from_field->get_color()!= $move_to_field->get_color()){
                             return true;
                         }else{
                             return false;
@@ -125,9 +127,9 @@ trait BishopTrait{
             # bottom right
             }elseif($current_x<$move_to_x && $current_y>$move_to_y){
                 for ($i=1; $i <= $distance; $i++) {
-                    $field = $chessboard[$current_x+$i][$current_y-$i]; 
-                    if($field instanceof ChessPiece){
-                        if($i==$distance  && $field->get_color()!= $field->get_color()){
+                    $move_to_field = $chessboard[$current_x+$i][$current_y-$i]; 
+                    if($move_to_field instanceof ChessPiece){
+                        if($i==$distance  && $move_from_field->get_color()!= $move_to_field->get_color()){
                             return true;
                         }else{
                             return false;
