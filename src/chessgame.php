@@ -24,7 +24,7 @@
         $color = "white";
 
     // echo $gamemode ." ". $color;
-    echo "<h1>ChessPHP</h1>";
+    echo "<h1> ChessPHP </h1>";
     echo "<div class='container'>";
 
     echo "<div class='side'>"; 
@@ -38,8 +38,10 @@
 
     echo "<div class='side'> <h1>Funktionsweise</h1>";
     echo "Klicke auf eine Figur, um sie auszuwählen,<br> und anschließend auf das Feld, <br>
-    auf das sie bewegt werden soll, um deinen Zug auszuführen.<br>
-    Ist der Zug legal, wird er ausgeführt und der Bot zieht im Anschluss.</div>";
+    auf das sie bewegt werden soll, <br>
+    um deinen Zug auszuführen.<br>
+    Ist der Zug legal, <br>
+    wird er ausgeführt und der Bot zieht im Anschluss.</div>";
 
     echo "</div>";
 
@@ -47,7 +49,7 @@
 
     echo "<footer class='footer'>
     <p>
-        © 2024 | <a href='https://github.com/deinprofil' target='_blank'>
+        © 2024 | <a href='https://github.com/MichaelMrt/ChessPHP' target='_blank'>
             Contribute on GitHub: https://github.com/MichaelMrt/ChessPHP
             <span class='icon'><img src='../docs/gh-icon.png' alt='https://github.com/MichaelMrt/ChessPHP'></span>
         </a>
