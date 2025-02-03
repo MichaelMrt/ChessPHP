@@ -9,6 +9,7 @@
 </head>
 <body>
 <?php
+    session_start();
     require_once("logic/logic.php");
 
     if( isset($_GET['gamemode'])){
