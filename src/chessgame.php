@@ -24,10 +24,11 @@
         $color = "white";
 
     // echo $gamemode ." ". $color;
-    echo "<h1>Schach-Webanwendung</h1>";
+    echo "<h1>ChessPHP</h1>";
     echo "<div class='container'>";
 
-    echo "<div class='side'> <h1> Kurzinfo </h1>";
+    echo "<div class='side'>"; 
+    // echo "<h1> Kurzinfo </h1>";
     echo "</div>";
 
     echo "<div class='center'>";
@@ -43,6 +44,16 @@
     echo "</div>";
 
     echo "<div id='ajax_response'></div>";
+
+    echo "<footer class='footer'>
+    <p>
+        © 2024 | <a href='https://github.com/deinprofil' target='_blank'>
+            Contribute on GitHub: https://github.com/MichaelMrt/ChessPHP
+            <span class='icon'><img src='../docs/gh-icon.png' alt='https://github.com/MichaelMrt/ChessPHP'></span>
+        </a>
+    </p>
+</footer>
+";
 ?>
 </body>
 </html>
