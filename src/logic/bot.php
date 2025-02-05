@@ -45,12 +45,10 @@ class Bot{
         $best_move = null;
 
         for($i = 0; $i < count($legal_moves); $i++){ // Loop through all legal moves
-            $current_x = $legal_moves[$i][0];
-            $current_y = $legal_moves[$i][1];
-            $move_to_x = $legal_moves[$i][2];
-            $move_to_y = $legal_moves[$i][3];
-            $move = $current_x.$current_y.$move_to_x.$move_to_y;
-            $new_board = $chessboard_obj->test_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
+
+            $current_move = $legal_moves[$i];
+            
+            $new_board = $chessboard_obj->test_move($chessboard, $current_move); // test move
             $new_score = $this->evaluate_board($new_board);
             $node_data = $this->alpha_beta_pruning($chessboard_obj, $new_board, $depth-1, $new_score,$alpha,$beta, !$isBotMove); // evaluate node
             $node_bestscore = $node_data[1];
@@ -59,7 +57,7 @@ class Bot{
             if($isBotMove==true){ // Maximize for bot
                 if($node_bestscore > $max_value){
                     $max_value = $node_bestscore;
-                    $best_move = $move;
+                    $best_move = $current_move;
                 }
                 if($node_bestscore > $alpha){
                     $alpha = $node_bestscore;
@@ -67,7 +65,7 @@ class Bot{
             }else{ // Minimize for bot
                 if($node_bestscore < $min_value){ 
                     $min_value = $node_bestscore;
-                    $best_move = $move;
+                    $best_move = $current_move;
                 }
                 if($node_bestscore < $beta){
                     $beta = $node_bestscore;

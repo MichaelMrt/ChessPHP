@@ -14,23 +14,23 @@ class King extends ChessPiece
       }
   }
 
-  function check_move_legal(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+  function check_move_legal(mixed $chessboard, Move $move):bool
     {
-      $distance_x = sqrt(pow(($move_to_x-$current_x),2)); 
-      $distance_y = sqrt(pow(($move_to_y-$current_y),2)); 
+      $distance_x = sqrt(pow(($move->to_x-$move->from_x),2)); 
+      $distance_y = sqrt(pow(($move->to_y-$move->from_y),2)); 
 
       if($distance_x <= 1 && $distance_y <= 1){
         # check if there is a piece on the move to square and if it is opposite color
-         if($chessboard[$move_to_x][$move_to_y] instanceof ChessPiece &&  $chessboard[$current_x][$current_y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
+         if($chessboard[$move->to_x][$move->to_y] instanceof ChessPiece &&  $chessboard[$move->from_x][$move->from_y]->get_color()!=$chessboard[$move->to_x][$move->to_y]->get_color()){
           return true;
-         }elseif(!$chessboard[$move_to_x][$move_to_y] instanceof ChessPiece){
+         }elseif(!$chessboard[$move->to_x][$move->to_y] instanceof ChessPiece){
           return true;
          }
       }
 
       if($this->has_moved==false){
       # castling short as white
-        if($this->color=='white' && $move_to_x==7 && $move_to_y==1){
+        if($this->color=='white' && $move->to_x==7 && $move->to_y==1){
             if(!$chessboard[6][1] instanceof ChessPiece && !$chessboard[7][1] instanceof ChessPiece){
               if($chessboard[8][1] instanceof Rook && $chessboard[8][1]->has_moved==false){
                 return true;
@@ -39,7 +39,7 @@ class King extends ChessPiece
         }
 
         # castling long as white
-        if($this->color=='white' && $move_to_x==3 && $move_to_y==1){
+        if($this->color=='white' && $move->to_x==3 && $move->to_y==1){
           if(!$chessboard[2][1] instanceof ChessPiece && !$chessboard[3][1] instanceof ChessPiece && !$chessboard[4][1] instanceof ChessPiece){
             if($chessboard[1][1] instanceof Rook && $chessboard[1][1]->has_moved==false){
               return true;
@@ -48,7 +48,7 @@ class King extends ChessPiece
       }
 
       # castling short as black
-      if($this->color=='black' && $move_to_x==7 && $move_to_y==8){
+      if($this->color=='black' && $move->to_x==7 && $move->to_y==8){
         if(!$chessboard[6][8] instanceof ChessPiece && !$chessboard[7][8] instanceof ChessPiece){
           if($chessboard[8][8] instanceof Rook && $chessboard[8][8]->has_moved==false){
             return true;
@@ -57,7 +57,7 @@ class King extends ChessPiece
       }
 
       # castling long as black
-      if($this->color=='black' && $move_to_x==3 && $move_to_y==8){
+      if($this->color=='black' && $move->to_x==3 && $move->to_y==8){
         if(!$chessboard[2][8] instanceof ChessPiece && !$chessboard[3][8] instanceof ChessPiece && !$chessboard[4][8] instanceof ChessPiece){
           if($chessboard[8][8] instanceof Rook && $chessboard[8][8]->has_moved==false){
             return true;
