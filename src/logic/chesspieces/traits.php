@@ -13,25 +13,18 @@ trait RookTrait
             # check if moving to the right
             if ($move->from_x < $move->to_x) {
                 for ($i = 1; $i <= $distance_x; $i++) {
-                    # check if there is a piece on the way
-                   if($distance_x==$i && $chessboard[$move->from_x + $i][$move->from_y] instanceof ChessPiece && $chessboard[$move->from_x+$i][$move->from_y]->get_color()!=$chessboard[$move->from_x][$move->from_y]->get_color()) {
+                    $move_to_field = $chessboard[$move->from_x + $i][$move->from_y];
+                    if($this->check_file_move($move_to_field, $i, $distance_x)){
                         return true;
-                    }elseif(!$chessboard[$move->from_x + $i][$move->from_y] instanceof ChessPiece){
-                       
-                    }else{
-                        return false;
                     }
                 }
+                return false;
                 # check if its moving to the left
             } elseif ($move->to_x < $move->from_x) {
                 for ($i = 1; $i <= $distance_x; $i++) {
-                    # check if there is a piece on the way
-                    if($distance_x==$i && $chessboard[$move->from_x - $i][$move->from_y] instanceof ChessPiece && $chessboard[$move->from_x-$i][$move->from_y]->get_color()!=$chessboard[$move->from_x][$move->from_y]->get_color()) {
+                    $move_to_field = $chessboard[$move->from_x - $i][$move->from_y];
+                    if($this->check_file_move($move_to_field, $i, $distance_x)){
                         return true;
-                    }elseif(!$chessboard[$move->from_x - $i][$move->from_y] instanceof ChessPiece){
-
-                    }else{
-                        return false;
                     }
                 }
             }
@@ -42,32 +35,35 @@ trait RookTrait
         if ($move->from_x == $move->to_x && $move->from_y != $move->to_y) {
             # check if moving up
             if($move->from_y<$move->to_y){
-                
                 for ($i=1; $i<= $distance_y; $i++) { 
-                    # check if there is a piece on the way
-                    if($distance_y==$i && $chessboard[$move->from_x][$move->from_y+$i] instanceof ChessPiece && $chessboard[$move->from_x][$move->from_y+$i]->get_color()!=$chessboard[$move->from_x][$move->from_y]->get_color()) {
+                    $move_to_field = $chessboard[$move->from_x][$move->from_y+$i];
+                    if($this->check_file_move($move_to_field, $i, $distance_y)){
                         return true;
-                    }elseif(!$chessboard[$move->from_x][$move->from_y+$i] instanceof ChessPiece){
-
-                    }else{
-                        return false;
                     }
                 }
                 # check if moving down
             }elseif ($move->to_y<$move->from_y) {
-                for ($i=1; $i<= $distance_y; $i++) { 
-                    # check if there is a piece on the way
-                    if($distance_y==$i && $chessboard[$move->from_x][$move->from_y-$i] instanceof ChessPiece && $chessboard[$move->from_x][$move->from_y-$i]->get_color()!=$chessboard[$move->from_x][$move->from_y]->get_color()) {
+                for ($i=1; $i<= $distance_y; $i++) {
+                    $move_to_field = $chessboard[$move->from_x][$move->from_y-$i]; # check if there is a piece on the way 
+                    if($this->check_file_move($move_to_field, $i, $distance_y)){
                         return true;
-                    }elseif(!$chessboard[$move->from_x][$move->from_y-$i] instanceof ChessPiece){
-
-                    }else{
-                        return false;
                     }
                 }
             }
             return true;
         }
+        return false;
+    }
+
+    private function check_file_move($move_to_field, $index, $distance){
+        if(!$move_to_field instanceof ChessPiece) // No piece on the way
+            {
+                return true;
+            }
+        if($distance==$index && $move_to_field instanceof ChessPiece) // Piece on last square is allowed
+            {
+                return true;
+            }
         return false;
     }
 }

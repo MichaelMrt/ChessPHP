@@ -69,10 +69,18 @@ class Logic
     private function check_rules(mixed $chessboard,Move $move, bool $whitesturn):bool
     {
         $this->castling_status="None";
-
-        if($chessboard[$move->from_x][$move->from_y]==""){
+        $move_from_field = $chessboard[$move->from_x][$move->from_y];
+        if($move_from_field==""){
             throw new Exception("No piece on this square");
         }
+
+        $move_to_field = $chessboard[$move->to_x][$move->to_y];
+        if($move_to_field instanceof ChessPiece){
+            if($move_from_field->get_color()==$move_to_field->get_color()){
+                $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Cannot capture own piece', 'from' =>"$move->from_x$move->from_y", 'to' => "$move->to_x$move->to_y"]);    
+                return false;
+            }
+        }        
 
         if($chessboard[$move->to_x][$move->to_y] instanceof King){
             $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Cannot capture King!', 'from' =>"$move->from_x$move->from_y", 'to' => "$move->to_x$move->to_y"]);    
@@ -84,8 +92,8 @@ class Logic
             return false;
         }
 
-        $piece = $chessboard[$move->from_x][$move->from_y];
-        if($piece->check_move_legal($chessboard,$move)==false){
+        
+        if($move_from_field->check_move_legal($chessboard,$move)==false){
           $this->gamestatus_json = json_encode(['status' => 'illegal', 'message' => 'Piece cannot move like that', 'from' =>"$move->from_x$move->from_y", 'to' => "$move->to_x$move->to_y"]);    
           return false;
         }
