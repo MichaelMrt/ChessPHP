@@ -20,8 +20,8 @@ class King extends ChessPiece
       $distance_y = sqrt(pow(($move->to_y-$move->from_y),2)); 
 
       if($distance_x <= 1 && $distance_y <= 1){
-        # check if there is a piece on the move to square and if it is opposite color
-         if($chessboard[$move->to_x][$move->to_y] instanceof ChessPiece &&  $chessboard[$move->from_x][$move->from_y]->get_color()!=$chessboard[$move->to_x][$move->to_y]->get_color()){
+        # check if there is a piece on the move to square 
+         if($chessboard[$move->to_x][$move->to_y] instanceof ChessPiece){
           return true;
          }elseif(!$chessboard[$move->to_x][$move->to_y] instanceof ChessPiece){
           return true;
