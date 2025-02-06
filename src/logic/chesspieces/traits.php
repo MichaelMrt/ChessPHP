@@ -16,7 +16,9 @@ trait RookTrait
                     $move_to_field = $chessboard[$move->from_x + $i][$move->from_y];
                     if($this->check_file_move($move_to_field, $i, $distance_x)){
                         return true;
-                    }
+                    }else{
+                        return false;
+                    }   
                 }
                 return false;
                 # check if its moving to the left
@@ -25,10 +27,11 @@ trait RookTrait
                     $move_to_field = $chessboard[$move->from_x - $i][$move->from_y];
                     if($this->check_file_move($move_to_field, $i, $distance_x)){
                         return true;
-                    }
+                    }else{
+                        return false;
+                    } 
                 }
             }
-            return true;
         }
 
         #check if its vertically
@@ -39,7 +42,9 @@ trait RookTrait
                     $move_to_field = $chessboard[$move->from_x][$move->from_y+$i];
                     if($this->check_file_move($move_to_field, $i, $distance_y)){
                         return true;
-                    }
+                    }else{
+                        return false;
+                    }   
                 }
                 # check if moving down
             }elseif ($move->to_y<$move->from_y) {
@@ -47,7 +52,9 @@ trait RookTrait
                     $move_to_field = $chessboard[$move->from_x][$move->from_y-$i]; # check if there is a piece on the way 
                     if($this->check_file_move($move_to_field, $i, $distance_y)){
                         return true;
-                    }
+                    }else{
+                        return false;
+                    } 
                 }
             }
             return true;
