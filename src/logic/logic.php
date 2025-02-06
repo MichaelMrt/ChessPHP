@@ -57,7 +57,8 @@ class Logic
                 $this->whitesturn = !$this->whitesturn; # swap turns
                 $this->is_check($this->chessboard, "white");
                 $this->is_check($this->chessboard, "black");
-                $this->handle_checkmate($this->chessboard);
+                $this->handle_checkmate($this->chessboard, 'white');
+                $this->handle_checkmate($this->chessboard, 'black');
                 $this->handle_stalemate($this->chessboard);
                 echo $this->gamestatus_json;
         }else{
@@ -184,77 +185,44 @@ class Logic
      return $king_pos;
     }
 
-    private function handle_checkmate(mixed $chessboard):bool
+    # Check if the game is over for the given color
+    private function handle_checkmate(mixed $chessboard, String $color):bool
     {
-        $move_out_of_check = false;
-        $white_checkmated = false;
-        $black_checkmated = false;
-            
-                # check if black has a move             
-                # first scan all pieces on the board
-        for($x=1;$x<=8;$x++){
-            for($y=1;$y<=8;$y++){
-                        # only white moves need to be scanned when white is in check
-                if($this->is_check($chessboard, "white")){
-                    if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()=="white"){
-                        # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
-                            for($move_x=1;$move_x<=8;$move_x++){
-                                   for($move_y=1;$move_y<=8;$move_y++){
-                                        $test_move = new Move($x,$y,$move_x,$move_y);
-                                        if($this->chessboard[$x][$y]->check_move_legal($chessboard, $test_move)){
-                                            $test_move = new Move($x,$y,$move_x,$move_y);
-                                            $future_board = $this->chessboard_obj->test_move($chessboard, $test_move); 
-                                            if(!$this->is_check($future_board, "white")){ 
-                                                # no move out of check
-                                                $move_out_of_check = true;
-                                            } 
-                                       }
-                                   }
-                               }
-                               $white_checkmated = !$move_out_of_check;
-                           }
-                        } 
-
-
-                         # only black moves need to be scanned when black is in check
-                        if($this->is_check($chessboard, "black")){
-                            if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()=="black"){
-                                # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
-                                for($move_x=1;$move_x<=8;$move_x++){
-                                   for($move_y=1;$move_y<=8;$move_y++){
-                                        $test_move = new Move($x, $y, $move_x, $move_y);
-                                        if($this->chessboard[$x][$y]->check_move_legal($chessboard, $test_move)){
-                                            $test_move = new Move($x,$y,$move_x,$move_y);
-                                            $future_board = $this->chessboard_obj->test_move($chessboard, $test_move); 
-                                            if(!$this->is_check($future_board, "black")){ 
-                                                # no move out of check
-                                                $move_out_of_check = true;
-                                            } 
-                                       }
-                                   }
-                               }
-                               $black_checkmated = !$move_out_of_check;
-                           }
-                        }  
-                    }                    
-                }
-               
-                if($move_out_of_check==true){
-                    $gamestatus_array = json_decode($this->gamestatus_json, true);
-                    $gamestatus_array['info'] = "There is a legal move";
-                    $this->gamestatus_json = json_encode($gamestatus_array);
-                }else{
-                    if($white_checkmated){
-                        $status = json_decode($this->gamestatus_json, true);
-                        $status['checkmate'] = "white is checkmated - black wins";
-                        $this->gamestatus_json	 = json_encode($status);
-                    }
-                    if($black_checkmated){
-                        $status = json_decode($this->gamestatus_json, true);
-                        $status['checkmate'] = "black is checkmated - white wins";
-                        $this->gamestatus_json	 = json_encode($status);
-                    }
+        $move_out_of_check = true;
+        if($this->is_check($chessboard, $color)){    
+            $move_out_of_check = false;         
+            # first scan all pieces on the board
+            for($x=1;$x<=8;$x++){
+                for($y=1;$y<=8;$y++){
                     
+                        if($chessboard[$x][$y] instanceof ChessPiece && $chessboard[$x][$y]->get_color()==$color){
+                            # when finding a piece try to move it to every square on the board, if it is legal and stops check pass
+                            for($move_x=1;$move_x<=8;$move_x++){
+                                for($move_y=1;$move_y<=8;$move_y++){
+                                    $test_move = new Move($x,$y,$move_x,$move_y);
+                                    if($chessboard[$x][$y]->check_move_legal($chessboard, $test_move)){
+                                        $future_board = $this->chessboard_obj->test_move($chessboard, $test_move); 
+                                        if(!$this->is_check($future_board, $color)){ # if the move stops the check
+                                            $move_out_of_check = true;
+                                            break;
+                                        } 
+                                    }
+                                }
+                            }
+                        }
+                    
+                }                    
+            }
+        } 
+               
+        if($move_out_of_check==true){
+            $gamestatus_array = json_decode($this->gamestatus_json, true);
+            $gamestatus_array['info'] = "There is a legal move";
+            $this->gamestatus_json = json_encode($gamestatus_array);
+        }else{
+            $gamestatus_array = json_decode($this->gamestatus_json, true);
+            $gamestatus_array['checkmate'] = "Checkmate! $color lost!";
+            $this->gamestatus_json = json_encode($gamestatus_array);
         }
             
            
