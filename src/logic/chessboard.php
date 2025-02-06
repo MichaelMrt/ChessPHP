@@ -131,32 +131,32 @@ class Chessboard
 
     }
 
-    public function move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
+    public function move(Move $move):mixed
     {
-            $piece = $this->chessboard[$current_x][$current_y];
-            $piece->update_position($move_to_x,$move_to_y);
+            $piece = $this->chessboard[$move->from_x][$move->from_y];
+            $piece->update_position($move->to_x,$move->to_y);
             # Copy the piece to the new position
-            $this->chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
+            $this->chessboard[$move->to_x][$move->to_y] = $piece;
 
             # Delete old piece position
-            $this->chessboard[$current_x][$current_y] = "";
+            $this->chessboard[$move->from_x][$move->from_y] = "";
 
         return $this->chessboard;
     }
 
-    public function test_move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):mixed
+    public function test_move(mixed $chessboard, Move $move):mixed
     {
             # Copy the piece to the new position
-            $chessboard[$move_to_x][$move_to_y] = $chessboard[$current_x][$current_y];
+            $chessboard[$move->to_x][$move->to_y] = $chessboard[$move->from_x][$move->from_y];
              
-            $piece = $chessboard[$move_to_x][$move_to_y];
-            if($this->can_promote($piece, $move_to_y)){
-                $chessboard[$move_to_x][$move_to_y] = new Queen($piece->get_color(), $move_to_x, $move_to_y);
+            $piece = $chessboard[$move->to_x][$move->to_y];
+            if($this->can_promote($piece, $move->to_y)){
+                $chessboard[$move->to_x][$move->to_y] = new Queen($piece->get_color(), $move->to_x, $move->to_y);
             }
 
             # Delete old piece position
-            $chessboard[$current_x][$current_y] = "";
-            $chessboard[$current_x][$current_y] = "";
+            $chessboard[$move->from_x][$move->from_y] = "";
+            $chessboard[$move->from_x][$move->from_y] = "";
         return $chessboard;
     }
 
@@ -184,8 +184,10 @@ class Chessboard
         return false;
     }
 
-    public function promote(int $x, int $y, string $color):mixed
+    public function promote(Move $move, string $color):mixed
     {
+        $x = $move->to_x;
+        $y = $move->to_y;
         $this->chessboard[$x][$y] = new Queen($color, $x, $y);
         return $this->chessboard;
     }

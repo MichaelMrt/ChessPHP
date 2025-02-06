@@ -69,18 +69,18 @@ abstract class ChessPiece implements JsonSerializable
         return $this->has_moved;
     }
 
-    protected function check_target_square(mixed $chessboard,int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    protected function check_target_square(mixed $chessboard, Move $move):bool
     {
-        if($chessboard[$move_to_x][$move_to_y]==""){
+        if($chessboard[$move->to_x][$move->to_y]==""){
             return true;
         }
-        if($chessboard[$current_x][$current_y]->get_color()!=$chessboard[$move_to_x][$move_to_y]->get_color()){
+        if($chessboard[$move->from_x][$move->from_y]->get_color()!=$chessboard[$move->to_x][$move->to_y]->get_color()){
             return true;
         }else{
             return false;
         }
     }
     # ---abstract methods---
-    abstract function check_move_legal(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool;
+    abstract function check_move_legal(mixed $chessboard, Move $move):bool;
 
 }

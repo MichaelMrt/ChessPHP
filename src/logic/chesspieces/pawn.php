@@ -21,43 +21,43 @@ class Pawn extends ChessPiece
   }
 
   
-  function check_move_legal(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y): bool
+  function check_move_legal(mixed $chessboard, Move $move): bool
   {
 
-    return ($this->check_moving_onesquare_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
-      $this->check_moving_twosquares_forwards($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
-      $this->check_diagonal_move($chessboard, $current_x, $current_y, $move_to_x, $move_to_y) or
-      $this->check_enpassant($move_to_x, $move_to_y)) and
-      $this->check_target_square($chessboard, $current_x, $current_y, $move_to_x, $move_to_y);
+    return ($this->check_moving_onesquare_forwards($chessboard, $move) or
+      $this->check_moving_twosquares_forwards($chessboard, $move) or
+      $this->check_diagonal_move($chessboard, $move) or
+      $this->check_enpassant($move)) and
+      $this->check_target_square($chessboard, $move);
   }
 
 
-  function check_moving_onesquare_forwards(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+  function check_moving_onesquare_forwards(mixed $chessboard, Move $move):bool
   {
-    $is_white_move = $this->color == "white" && $current_y + 1 == $move_to_y;
-    $is_black_move = $this->color == "black" && $current_y - 1 == $move_to_y;
-    $same_file = $current_x == $move_to_x;
-    $target_square_empty = $this->target_square_empty($chessboard, $move_to_x, $move_to_y);
+    $is_white_move = $this->color == "white" && $move->from_y + 1 == $move->to_y;
+    $is_black_move = $this->color == "black" && $move->from_y - 1 == $move->to_y;
+    $same_file = $move->from_x == $move->to_x;
+    $target_square_empty = $this->target_square_empty($chessboard, $move);
     return ($is_white_move || $is_black_move) && $same_file && $target_square_empty;
   }
 
 
-  function check_moving_twosquares_forwards(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+  function check_moving_twosquares_forwards(mixed $chessboard, Move $move):bool
   {
-    $is_white_move = $this->color == "white" && $current_y == 2 && $move_to_y == 4 && $chessboard[$current_x][$current_y + 1] == "";
-    $is_black_move = $this->color == "black" && $current_y == 7 && $move_to_y == 5 && $chessboard[$current_x][$current_y - 1] == "";
-    $same_file = $current_x == $move_to_x;
-    $target_square_empty = $this->target_square_empty($chessboard, $move_to_x, $move_to_y);
+    $is_white_move = $this->color == "white" && $move->from_y == 2 && $move->to_y == 4 && $chessboard[$move->from_x][$move->from_y + 1] == "";
+    $is_black_move = $this->color == "black" && $move->from_y == 7 && $move->to_y == 5 && $chessboard[$move->from_x][$move->from_y - 1] == "";
+    $same_file = $move->from_x == $move->to_x;
+    $target_square_empty = $this->target_square_empty($chessboard, $move);
     return ($is_white_move || $is_black_move) && $same_file && $target_square_empty;
   }
 
 
-  function check_diagonal_move(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+  function check_diagonal_move(mixed $chessboard, Move $move):bool
   {
-    $is_takes_move = $chessboard[$move_to_x][$move_to_y] instanceof ChessPiece;
-    $is_black_move = $this->color == "black" && $current_y - 1 == $move_to_y;
-    $is_white_move = $this->color == "white" && $current_y + 1 == $move_to_y;
-    $is_diagonal_move = abs($current_x - $move_to_x) == 1;
+    $is_takes_move = $chessboard[$move->to_x][$move->to_y] instanceof ChessPiece;
+    $is_black_move = $this->color == "black" && $move->from_y - 1 == $move->to_y;
+    $is_white_move = $this->color == "white" && $move->from_y + 1 == $move->to_y;
+    $is_diagonal_move = abs($move->from_x - $move->to_x) == 1;
     return $is_takes_move && $is_diagonal_move && ($is_black_move || $is_white_move);
   }
 
@@ -89,27 +89,27 @@ class Pawn extends ChessPiece
     return $this->enpassant_right_possible;
   }
 
-  function check_enpassant(int $move_to_x, int $move_to_y):bool
+  function check_enpassant(Move $move):bool
   {
     if($this->color == "white"){
       if($this->enpassant_left_possible){
-        if($move_to_x == $this->x-1 && $move_to_y == $this->y+1){
+        if($move->to_x== $this->x-1 && $move->to_y == $this->y+1){
           return true;
         }
       }
       if($this->enpassant_right_possible){
-        if($move_to_x == $this->x+1 && $move_to_y == $this->y+1){
+        if($move->to_x== $this->x+1 && $move->to_y == $this->y+1){
           return true;
         }
       }
    }else{
       if($this->enpassant_left_possible){
-        if($move_to_x == $this->x-1 && $move_to_y == $this->y-1){
+        if($move->to_x== $this->x-1 && $move->to_y == $this->y-1){
           return true;
         }
       }
       if($this->enpassant_right_possible){
-        if($move_to_x == $this->x+1 && $move_to_y == $this->y-1){
+        if($move->to_x== $this->x+1 && $move->to_y == $this->y-1){
           return true;
         }
       }
@@ -118,9 +118,9 @@ class Pawn extends ChessPiece
   }
 
 
-  function target_square_empty(mixed $chessboard, int $move_to_x, int $move_to_y): bool
+  function target_square_empty(mixed $chessboard, Move $move): bool
   {
-    if ($chessboard[$move_to_x][$move_to_y] == "") {
+    if ($chessboard[$move->to_x][$move->to_y] == "") {
       return true;
     }else{
       return false;

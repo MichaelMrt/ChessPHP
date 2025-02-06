@@ -1,34 +1,34 @@
 <?php
 trait RookTrait
 {
-    public function check_legal_rookmove(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y): bool
+    public function check_legal_rookmove(mixed $chessboard, Move $move): bool
     {
         # distance in squares
-        $distance_x = sqrt(pow(($move_to_x-$current_x),2)); 
-        $distance_y = sqrt(pow(($move_to_y-$current_y),2)); 
+        $distance_x = sqrt(pow(($move->to_x-$move->from_x),2)); 
+        $distance_y = sqrt(pow(($move->to_y-$move->from_y),2)); 
 
        # check if its horizontally
-        if ($current_y == $move_to_y && $current_x != $move_to_x) {
+        if ($move->from_y == $move->to_y && $move->from_x != $move->to_x) {
 
             # check if moving to the right
-            if ($current_x < $move_to_x) {
+            if ($move->from_x < $move->to_x) {
                 for ($i = 1; $i <= $distance_x; $i++) {
                     # check if there is a piece on the way
-                   if($distance_x==$i && $chessboard[$current_x + $i][$current_y] instanceof ChessPiece && $chessboard[$current_x+$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                   if($distance_x==$i && $chessboard[$move->from_x + $i][$move->from_y] instanceof ChessPiece && $chessboard[$move->from_x+$i][$move->from_y]->get_color()!=$chessboard[$move->from_x][$move->from_y]->get_color()) {
                         return true;
-                    }elseif(!$chessboard[$current_x + $i][$current_y] instanceof ChessPiece){
+                    }elseif(!$chessboard[$move->from_x + $i][$move->from_y] instanceof ChessPiece){
                        
                     }else{
                         return false;
                     }
                 }
                 # check if its moving to the left
-            } elseif ($move_to_x < $current_x) {
+            } elseif ($move->to_x < $move->from_x) {
                 for ($i = 1; $i <= $distance_x; $i++) {
                     # check if there is a piece on the way
-                    if($distance_x==$i && $chessboard[$current_x - $i][$current_y] instanceof ChessPiece && $chessboard[$current_x-$i][$current_y]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                    if($distance_x==$i && $chessboard[$move->from_x - $i][$move->from_y] instanceof ChessPiece && $chessboard[$move->from_x-$i][$move->from_y]->get_color()!=$chessboard[$move->from_x][$move->from_y]->get_color()) {
                         return true;
-                    }elseif(!$chessboard[$current_x - $i][$current_y] instanceof ChessPiece){
+                    }elseif(!$chessboard[$move->from_x - $i][$move->from_y] instanceof ChessPiece){
 
                     }else{
                         return false;
@@ -39,27 +39,27 @@ trait RookTrait
         }
 
         #check if its vertically
-        if ($current_x == $move_to_x && $current_y != $move_to_y) {
+        if ($move->from_x == $move->to_x && $move->from_y != $move->to_y) {
             # check if moving up
-            if($current_y<$move_to_y){
+            if($move->from_y<$move->to_y){
                 
                 for ($i=1; $i<= $distance_y; $i++) { 
                     # check if there is a piece on the way
-                    if($distance_y==$i && $chessboard[$current_x][$current_y+$i] instanceof ChessPiece && $chessboard[$current_x][$current_y+$i]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                    if($distance_y==$i && $chessboard[$move->from_x][$move->from_y+$i] instanceof ChessPiece && $chessboard[$move->from_x][$move->from_y+$i]->get_color()!=$chessboard[$move->from_x][$move->from_y]->get_color()) {
                         return true;
-                    }elseif(!$chessboard[$current_x][$current_y+$i] instanceof ChessPiece){
+                    }elseif(!$chessboard[$move->from_x][$move->from_y+$i] instanceof ChessPiece){
 
                     }else{
                         return false;
                     }
                 }
                 # check if moving down
-            }elseif ($move_to_y<$current_y) {
+            }elseif ($move->to_y<$move->from_y) {
                 for ($i=1; $i<= $distance_y; $i++) { 
                     # check if there is a piece on the way
-                    if($distance_y==$i && $chessboard[$current_x][$current_y-$i] instanceof ChessPiece && $chessboard[$current_x][$current_y-$i]->get_color()!=$chessboard[$current_x][$current_y]->get_color()) {
+                    if($distance_y==$i && $chessboard[$move->from_x][$move->from_y-$i] instanceof ChessPiece && $chessboard[$move->from_x][$move->from_y-$i]->get_color()!=$chessboard[$move->from_x][$move->from_y]->get_color()) {
                         return true;
-                    }elseif(!$chessboard[$current_x][$current_y-$i] instanceof ChessPiece){
+                    }elseif(!$chessboard[$move->from_x][$move->from_y-$i] instanceof ChessPiece){
 
                     }else{
                         return false;
@@ -73,19 +73,19 @@ trait RookTrait
 }
 
 trait BishopTrait{
-    public function check_legal_bishopmove(mixed $chessboard, int $current_x, int $current_y, int $move_to_x, int $move_to_y):bool
+    public function check_legal_bishopmove(mixed $chessboard, Move $move):bool
     {
         # check if its diagonal move
-        if(pow($current_x-$move_to_x,2) == pow($current_y-$move_to_y,2)){
+        if(pow($move->from_x-$move->to_x,2) == pow($move->from_y-$move->to_y,2)){
 
-            $distance = sqrt(pow($current_x-$move_to_x,2)); # distance in squares
-            $move_from_field = $chessboard[$current_x][$current_y];
+            $distance = sqrt(pow($move->from_x-$move->to_x,2)); # distance in squares
+            $move_from_field = $chessboard[$move->from_x][$move->from_y];
 
 
             # top right - check if piece on the way
-            if($current_x<$move_to_x && $current_y<$move_to_y){
+            if($move->from_x<$move->to_x && $move->from_y<$move->to_y){
                 for ($i=1; $i <= $distance; $i++) { 
-                    $move_to_field = $chessboard[$current_x+$i][$current_y+$i];
+                    $move_to_field = $chessboard[$move->from_x+$i][$move->from_y+$i];
                     if($move_to_field instanceof ChessPiece){ // check if there is a piece on the way
                         if($i==$distance  && $move_to_field->get_color()!= $move_from_field->get_color()){ // target square can be taken
                             return true;
@@ -97,9 +97,9 @@ trait BishopTrait{
                     }
                 }
             # top left
-            }elseif($current_x>$move_to_x && $current_y<$move_to_y){
+            }elseif($move->from_x>$move->to_x && $move->from_y<$move->to_y){
                 for ($i=1; $i <= $distance; $i++) {
-                    $move_to_field = $chessboard[$current_x-$i][$current_y+$i]; 
+                    $move_to_field = $chessboard[$move->from_x-$i][$move->from_y+$i]; 
                     if($move_to_field instanceof ChessPiece){
                         if($i==$distance  && $move_from_field->get_color()!= $move_to_field->get_color()){
                             return true;
@@ -111,9 +111,9 @@ trait BishopTrait{
                     }
                 }
             # bottom left
-            }elseif($current_x>$move_to_x && $current_y>$move_to_y){
+            }elseif($move->from_x>$move->to_x && $move->from_y>$move->to_y){
                 for ($i=1; $i <= $distance; $i++) {
-                    $move_to_field = $chessboard[$current_x-$i][$current_y-$i]; 
+                    $move_to_field = $chessboard[$move->from_x-$i][$move->from_y-$i]; 
                     if($move_to_field instanceof ChessPiece){
                         if($i==$distance && $move_from_field->get_color()!= $move_to_field->get_color()){
                             return true;
@@ -125,9 +125,9 @@ trait BishopTrait{
                     }
                 }
             # bottom right
-            }elseif($current_x<$move_to_x && $current_y>$move_to_y){
+            }elseif($move->from_x<$move->to_x && $move->from_y>$move->to_y){
                 for ($i=1; $i <= $distance; $i++) {
-                    $move_to_field = $chessboard[$current_x+$i][$current_y-$i]; 
+                    $move_to_field = $chessboard[$move->from_x+$i][$move->from_y-$i]; 
                     if($move_to_field instanceof ChessPiece){
                         if($i==$distance  && $move_from_field->get_color()!= $move_to_field->get_color()){
                             return true;
