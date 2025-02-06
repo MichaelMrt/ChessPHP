@@ -12,21 +12,13 @@ trait RookTrait
 
             # check if moving to the right
             if ($move->from_x < $move->to_x) {
-                for ($i = 1; $i <= $distance_x; $i++) {
-                    $move_to_field = $chessboard[$move->from_x + $i][$move->from_y];
-                    if(check_file_move($move_to_field, $i, $distance_x)){
-                        return true;
-                    }
-                    return false;
+                if(check_direction($chessboard, $move, $distance_x, "positiv", "x")){
+                    return true;
                 }
-                # check if its moving to the left
-            } elseif ($move->to_x < $move->from_x) {
-                for ($i = 1; $i <= $distance_x; $i++) {
-                    $move_to_field = $chessboard[$move->from_x - $i][$move->from_y];
-                    if(check_file_move($move_to_field, $i, $distance_x)){
-                        return true;
-                    }
-                    return false;
+                
+            } elseif ($move->to_x < $move->from_x) { # check if it a move to the left
+                if(check_direction($chessboard, $move, $distance_x, "negativ", "x")){
+                    return true;
                 }
             }
         }
@@ -35,27 +27,20 @@ trait RookTrait
         if ($move->from_x == $move->to_x && $move->from_y != $move->to_y) {
             # check if moving up
             if($move->from_y<$move->to_y){
-                for ($i=1; $i<= $distance_y; $i++) { 
-                    $move_to_field = $chessboard[$move->from_x][$move->from_y+$i];
-                    if(check_file_move($move_to_field, $i, $distance_x)){
-                        return true;
-                    }
-                    return false;
+                if(check_direction($chessboard, $move, $distance_y, "positiv", "y")){
+                    return true;
                 }
                 # check if moving down
             }elseif ($move->to_y<$move->from_y) {
-                for ($i=1; $i<= $distance_y; $i++) {
-                    $move_to_field = $chessboard[$move->from_x][$move->from_y-$i]; # check if there is a piece on the way 
-                    if(check_file_move($move_to_field, $i, $distance_x)){
-                        return true;
-                    }
-                    return false;
+                if(check_direction($chessboard, $move, $distance_y, "negativ", "y")){
+                    return true;
                 }
             }
-            return true;
+            return false;
         }
         return false;
     }
+
 
 
 }
@@ -67,54 +52,58 @@ trait BishopTrait{
         if(pow($move->from_x-$move->to_x,2) == pow($move->from_y-$move->to_y,2)){
 
             $distance = sqrt(pow($move->from_x-$move->to_x,2)); # distance in squares
-            $move_from_field = $chessboard[$move->from_x][$move->from_y];
-
 
             # top right - check if piece on the way
             if($move->from_x<$move->to_x && $move->from_y<$move->to_y){
                 for ($i=1; $i <= $distance; $i++) { 
                     $move_to_field = $chessboard[$move->from_x+$i][$move->from_y+$i];
-                    if(check_file_move($move_to_field, $i, $distance)){
+                    if(no_piece_in_way($move_to_field, $i, $distance)){
                         return true;
+                    }else{
+                        return false;
                     }
-                    return false;
                 }
+                
             # top left
             }elseif($move->from_x>$move->to_x && $move->from_y<$move->to_y){
                 for ($i=1; $i <= $distance; $i++) {
                     $move_to_field = $chessboard[$move->from_x-$i][$move->from_y+$i]; 
-                    if(check_file_move($move_to_field, $i, $distance)){
+                    if(no_piece_in_way($move_to_field, $i, $distance)){
                         return true;
+                    }else{
+                        return false;
                     }
-                    return false;
                 }
             # bottom left
             }elseif($move->from_x>$move->to_x && $move->from_y>$move->to_y){
                 for ($i=1; $i <= $distance; $i++) {
                     $move_to_field = $chessboard[$move->from_x-$i][$move->from_y-$i]; 
-                    if(check_file_move($move_to_field, $i, $distance)){
+                    if(no_piece_in_way($move_to_field, $i, $distance)){
                         return true;
+                    }else{
+                        return false;
                     }
-                    return false;
                 }
+                return false;
             # bottom right
             }elseif($move->from_x<$move->to_x && $move->from_y>$move->to_y){
                 for ($i=1; $i <= $distance; $i++) {
                     $move_to_field = $chessboard[$move->from_x+$i][$move->from_y-$i]; 
-                    if(check_file_move($move_to_field, $i, $distance)){
+                    if(no_piece_in_way($move_to_field, $i, $distance)){
                         return true;
+                    }else{
+                        return false;
                     }
-                    return false;
                 }
             }
-            return false;
         }
     return false; # not a diagonal move
     }
 
 }
 
- function check_file_move($move_to_field, $index, $distance){
+function no_piece_in_way(mixed $move_to_field, int $index, int $distance):bool
+{
     if($move_to_field instanceof ChessPiece){ // check if there is a piece on the way
         if($index==$distance){ // target square can be taken
             return true;
@@ -124,5 +113,28 @@ trait BishopTrait{
     }elseif($index==$distance){ // no piece on the way
         return true;
     } 
-    return false;
+    return true;
+}
+
+function check_direction($chessboard, Move $move, int $distance, String $sign, String $direction): bool
+{
+    for ($i = 1; $i <= $distance; $i++) {
+        if($sign == "negativ"){
+            $i = -$i;
+        }
+
+        if($direction == "x"){
+            $move_to_field = $chessboard[$move->from_x + $i][$move->from_y];
+        }elseif($direction == "y"){
+            $move_to_field = $chessboard[$move->from_x][$move->from_y + $i];
+        }
+        
+        if(no_piece_in_way($move_to_field, $i, $distance)){
+            
+        }else{
+            return false;
+        }
+        
+        return true;
+    }
 }
