@@ -35,15 +35,11 @@ class Knight extends ChessPiece
              $move->to_y==$move->from_y-2 && $move->to_x==$move->from_x+1||
              $move->to_y==$move->from_y-2 && $move->to_x==$move->from_x-1){
           if($chessboard[$move->to_x][$move->to_y] instanceof ChessPiece){
-              if($chessboard[$move->from_x][$move->from_y]->get_color()!=$chessboard[$move->to_x][$move->to_y]->get_color()){
                 return true;
-              }
           }else{
             return true;
           }
         }
-
-        $_SESSION['error'] = "<p class='error'>knights can't move like that</p>";
 
         return false;
     }

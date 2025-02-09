@@ -27,8 +27,7 @@ class Pawn extends ChessPiece
     return ($this->check_moving_onesquare_forwards($chessboard, $move) or
       $this->check_moving_twosquares_forwards($chessboard, $move) or
       $this->check_diagonal_move($chessboard, $move) or
-      $this->check_enpassant($move)) and
-      $this->check_target_square($chessboard, $move);
+      $this->check_enpassant($move));
   }
 
 
