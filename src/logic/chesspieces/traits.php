@@ -4,8 +4,8 @@ trait RookTrait
     public function check_legal_rookmove(mixed $chessboard, Move $move): bool
     {   
         # distance in squares
-        $distance_x = sqrt(pow(($move->to_x-$move->from_x),2)); 
-        $distance_y = sqrt(pow(($move->to_y-$move->from_y),2)); 
+        $distance_x = (int) sqrt(pow(($move->to_x-$move->from_x),2)); 
+        $distance_y = (int) sqrt(pow(($move->to_y-$move->from_y),2)); 
 
        # check if its horizontally
         if ($move->from_y == $move->to_y && $move->from_x != $move->to_x) {
@@ -54,7 +54,7 @@ trait BishopTrait{
         # check if its diagonal move
         if(pow($move->from_x-$move->to_x,2) == pow($move->from_y-$move->to_y,2)){
 
-            $distance = sqrt(pow($move->from_x-$move->to_x,2)); # distance in squares
+            $distance = (int) sqrt(pow($move->from_x-$move->to_x,2)); # distance in squares
             # top right 
             if($move->from_x<$move->to_x && $move->from_y<$move->to_y){
                 if(check_direction($chessboard, $move, $distance, "++")){
@@ -76,7 +76,6 @@ trait BishopTrait{
                 }else{
                     return false;
                 }
-                return false;
             # bottom right
             }elseif($move->from_x<$move->to_x && $move->from_y>$move->to_y){
                 if(check_direction($chessboard, $move, $distance, "+-")){
@@ -102,7 +101,7 @@ function piece_in_way(mixed $move_to_field, int $index, int $distance):bool
     return false;
 }
 
-function check_direction($chessboard, Move $move, int $distance, String $direction): bool
+function check_direction(mixed $chessboard, Move $move, int $distance, String $direction): bool
 {
     for ($i=1; $i <= $distance; $i++) { 
         $move_to_field = get_move_to_field($chessboard, $move, $direction, $i);
@@ -114,24 +113,24 @@ function check_direction($chessboard, Move $move, int $distance, String $directi
     return true;
 }
 
-function get_move_to_field(mixed $chessboard, Move $move, String $direction, $i):mixed
+function get_move_to_field(mixed $chessboard, Move $move, String $direction, int $index):mixed
 {
     if($direction == "+x"){
-        $move_to_field = $chessboard[$move->from_x + $i][$move->from_y];
+        $move_to_field = $chessboard[$move->from_x + $index][$move->from_y];
     }elseif($direction == "+y"){
-        $move_to_field = $chessboard[$move->from_x][$move->from_y + $i];
+        $move_to_field = $chessboard[$move->from_x][$move->from_y + $index];
     }elseif($direction == "-x"){
-        $move_to_field = $chessboard[$move->from_x - $i][$move->from_y];
+        $move_to_field = $chessboard[$move->from_x - $index][$move->from_y];
     }elseif($direction == "-y"){
-        $move_to_field = $chessboard[$move->from_x][$move->from_y - $i];
+        $move_to_field = $chessboard[$move->from_x][$move->from_y - $index];
     }elseif($direction == "++"){
-        $move_to_field = $chessboard[$move->from_x + $i][$move->from_y + $i];
+        $move_to_field = $chessboard[$move->from_x + $index][$move->from_y + $index];
     }elseif($direction == "--"){
-        $move_to_field = $chessboard[$move->from_x - $i][$move->from_y - $i];
+        $move_to_field = $chessboard[$move->from_x - $index][$move->from_y - $index];
     }elseif($direction == "+-"){
-        $move_to_field = $chessboard[$move->from_x + $i][$move->from_y - $i];
+        $move_to_field = $chessboard[$move->from_x + $index][$move->from_y - $index];
     }elseif($direction == "-+"){
-        $move_to_field = $chessboard[$move->from_x - $i][$move->from_y + $i];
+        $move_to_field = $chessboard[$move->from_x - $index][$move->from_y + $index];
     }else{
         throw new Exception("Invalid direction");
     }

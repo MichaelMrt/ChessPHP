@@ -21,15 +21,12 @@ class King extends ChessPiece
 
       if($distance_x <= 1 && $distance_y <= 1){
         # check if there is a piece on the move to square 
-         if($chessboard[$move->to_x][$move->to_y] instanceof ChessPiece){
-          return true;
-         }elseif(!$chessboard[$move->to_x][$move->to_y] instanceof ChessPiece){
-          return true;
-         }
+         return true;
       }
 
+      # castling moves
       if($this->has_moved==false){
-      # castling short as white
+        # castling short as white
         if($this->color=='white' && $move->to_x==7 && $move->to_y==1){
             if(!$chessboard[6][1] instanceof ChessPiece && !$chessboard[7][1] instanceof ChessPiece){
               if($chessboard[8][1] instanceof Rook && $chessboard[8][1]->has_moved==false){
